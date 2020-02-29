@@ -78,7 +78,8 @@
       (throw (Exception. "Dimensions of matrices are not the same")))))
 
 (defn matrix-multiply
-  "Multiplies two matrices of MxN and NxP dimensions"
+  "Multiplies two matrices of MxN and NxP dimensions
+   Calculates the dot product"
   [a b]
   (if (= (second (dimension a)) (first (dimension b)))
     (let [b-transpose (transpose b)]
