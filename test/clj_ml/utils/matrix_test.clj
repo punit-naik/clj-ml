@@ -85,6 +85,6 @@
   (testing "Checking if the `clj-ml.utils.matrix/reciprocal` function calculates the reciprocal of a 2D matrix properly"
     (is (= (reciprocal valid-2d-matrix) valid-2d-matrix-reciprocal))))
 
-(deftest reciprocal-matrix-test
+(deftest exponential-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/exponential` function calculates the exponential of a 2D matrix properly"
     (is (= (exponential valid-2d-matrix) valid-2d-matrix-exponential))))
