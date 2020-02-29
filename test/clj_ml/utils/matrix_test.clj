@@ -7,6 +7,8 @@
 (defonce ^:private sample-identity-matrix [[1 0 0] [0 1 0] [0 0 1]])
 (defonce ^:private sample-identity-matrix-negative-values [[-1 0 0] [0 -1 0] [0 0 -1]])
 (defonce ^:private valid-2d-matrix [[1 2 3] [4 5 6]])
+(defonce ^:private valid-2d-matrix-reciprocal '((1.0 0.5 0.3333333333333333) (0.25 0.2 0.1666666666666667)))
+(defonce ^:private valid-2d-matrix-exponential '((2.718281828459045 7.38905609893065 20.085536923187668) (54.598150033144236 148.4131591025766 403.4287934927351)))
 (defonce ^:private valid-2d-matrix-2 [[1 2 3] [4 5 6] [7 8 9]])
 (defonce ^:private valid-2d-matrix-added-to-identity-matrix [[2 2 3] [4 6 6] [7 8 10]])
 (defonce ^:private valid-2d-matrix-subtracted-from-identity-matrix [[-0 -2 -3] [-4 -4 -6] [-7 -8 -8]])
@@ -78,3 +80,11 @@
 (deftest absolute-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/absolute` function calculates the absolute of a 2D matrix properly"
     (is (= (absolute sample-identity-matrix-negative-values) (perform-arithmetic-op sample-identity-matrix 1.0 *)))))
+
+(deftest reciprocal-matrix-test
+  (testing "Checking if the `clj-ml.utils.matrix/reciprocal` function calculates the reciprocal of a 2D matrix properly"
+    (is (= (reciprocal valid-2d-matrix) valid-2d-matrix-reciprocal))))
+
+(deftest reciprocal-matrix-test
+  (testing "Checking if the `clj-ml.utils.matrix/exponential` function calculates the exponential of a 2D matrix properly"
+    (is (= (exponential valid-2d-matrix) valid-2d-matrix-exponential))))
