@@ -1,7 +1,7 @@
-(ns clj-ml.utils-test
+(ns clj-ml.utils.io-test
   (:require [clojure.test :refer [deftest testing is use-fixtures]]
-            [clj-ml.utils :refer [find-field-names read-file-lines 
-                                  row->map xsv-reader]]
+            [clj-ml.utils.io :refer [find-field-names read-file-lines 
+                                     row->map xsv-reader]]
             [clojure.java.io :refer [make-parents delete-file]])
   (:import [java.util UUID]
            [clojure.lang Cons LazySeq]))
