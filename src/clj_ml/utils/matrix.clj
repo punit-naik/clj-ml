@@ -59,7 +59,7 @@
 
 (defn create-identity-matrix
   "Same as `clj-ml.utils.matrix/create-matrix`
-   But this one creates an identity matrix"
+   But this one creates a 2-D identity matrix"
   [m]
   (map (fn [i] (map (fn [j] (if (= i j) 1 0)) (range m))) (range m)))
 
@@ -69,7 +69,7 @@
   [(count m) (count (first m))])
 
 (defn identity-matrix?
-  "Checks if the matrix `m` is an identity matrix or not"
+  "Checks if the matrix `m` is a 2-D identity matrix or not"
   [m]
   (let [[p q] (dimension m)]
     (and (matrix? m)
