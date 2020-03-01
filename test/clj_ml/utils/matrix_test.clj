@@ -22,7 +22,7 @@
 (defonce ^:private invalid-2d-matrix [[1 2 3] [4 6]])
 (defonce ^:private mat-mul-error-str "The number of columns of the first matrixare not equal to the number of rows of the second matrix")
 (defonce ^:private covar-mat-in [[1 1 1] [1 2 1] [1 3 2] [1 4 3]])
-(defonce ^:private covar-mat-out '({(0 1) 0.0} {(0 2) 0.0} {(1 2) 1.1666666666666667}))
+(defonce ^:private covar-mat-out '((0.0 0.0 0.0) (0.0 1.6666666666666667 1.1666666666666667) (0.0 0.0 0.9166666666666666)))
 
 (deftest is-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/matrix?` function"

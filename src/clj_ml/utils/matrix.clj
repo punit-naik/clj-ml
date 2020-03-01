@@ -150,14 +150,21 @@
     (mean-coll averaged-rows)))
 
 (defn covariance
-  "Calculates the covariance matrix of a 2-D matrix"
+  "Calculates the covariance matrix (upper traingular) of a 2-D matrix"
   [m]
   (let [n (count m)
         t (map (fn [i v] {:row i :value v}) (range n) (transpose m))]
     (loop [tm t
            result (lazy-seq [])]
       (if (empty? tm)
-        result
+        (let [intermediate-result (reduce merge result)]
+          (reduce (fn [acc v]
+                    (concat acc [(map #(get intermediate-result % 0.0) v)]))
+                  (lazy-seq [])
+                  (map (fn [i]
+                         (map (fn [j] [i j])
+                              (range (count t))))
+                       (range (count t)))))
         (let [{:keys [row value]} (first tm)
               i-mean (mean-coll value)]
           (recur (rest tm)
@@ -171,4 +178,4 @@
                                                    (map #(* (- %1 i-mean) (- %2 j-mean))
                                                         value j))
                                                  (dec n))))))
-                           (range (inc row) (count t))))))))))
+                           (range row (count t))))))))))
