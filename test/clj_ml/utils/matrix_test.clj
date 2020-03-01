@@ -21,6 +21,8 @@
 (defonce ^:private valid-2d-matrix-transposed [[1 4] [2 5] [3 6]])
 (defonce ^:private invalid-2d-matrix [[1 2 3] [4 6]])
 (defonce ^:private mat-mul-error-str "The number of columns of the first matrixare not equal to the number of rows of the second matrix")
+(defonce ^:private covar-mat-in [[1 1 1] [1 2 1] [1 3 2] [1 4 3]])
+(defonce ^:private covar-mat-out '({(0 1) 0.0} {(0 2) 0.0} {(1 2) 1.1666666666666667}))
 
 (deftest is-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/matrix?` function"
@@ -88,3 +90,7 @@
 (deftest exponential-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/exponential` function calculates the exponential of a 2D matrix properly"
     (is (= (exponential valid-2d-matrix) valid-2d-matrix-exponential))))
+
+(deftest covariance-matrix-test
+  (testing "Checking if the `clj-ml.utils.matrix/covariance` function calculates the covariance matrix of a 2D matrix properly"
+    (is (= (covariance covar-mat-in) covar-mat-out))))

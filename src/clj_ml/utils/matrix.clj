@@ -138,8 +138,37 @@
        (perform-arithmetic-op 1 +)
        (perform-arithmetic-op m *))))
 
+(defn mean-coll
+  "Calculates the mean of a collection `c`"
+  [c]
+  (double (/ (reduce + c) (count c))))
+
 (defn mean
   "Calculates the mean of a 2-D matrix"
   [m]
   (let [averaged-rows (map (fn [row] (double (/ (reduce + row) (count row)))) m)]
-    (double (/ (reduce + averaged-rows) (count averaged-rows)))))
+    (mean-coll averaged-rows)))
+
+(defn covariance
+  "Calculates the covariance matrix of a 2-D matrix"
+  [m]
+  (let [n (count m)
+        t (map (fn [i v] {:row i :value v}) (range n) (transpose m))]
+    (loop [tm t
+           result (lazy-seq [])]
+      (if (empty? tm)
+        result
+        (let [{:keys [row value]} (first tm)
+              i-mean (mean-coll value)]
+          (recur (rest tm)
+                 (concat result
+                         (map
+                           (fn [x]
+                             (let [j (:value (get-val t [x]))
+                                   j-mean (mean-coll j)]
+                               (assoc {} (sort [row x])
+                                      (double (/ (reduce +
+                                                   (map #(* (- %1 i-mean) (- %2 j-mean))
+                                                        value j))
+                                                 (dec n))))))
+                           (range (inc row) (count t))))))))))
