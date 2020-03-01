@@ -1,4 +1,3 @@
-
 (ns clj-ml.utils.matrix
   (:import [java.util Random]))
 
