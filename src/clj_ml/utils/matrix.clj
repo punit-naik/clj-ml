@@ -2,17 +2,33 @@
 (ns clj-ml.utils.matrix
   (:import [java.util Random]))
 
-(defn matrix?
-  "Returns true if a data structure is a 2-D matrix, else false"
+(defn- equal-dimensions?
+  "Checks if the nested matrices of a matrix have euqal dimensions or not"
   [m]
-  (and
-   (coll? m)
-   (not (nil?
-     (reduce
-       (fn [acc r]
-         (if (nil? acc)
-           acc
-           (when (= (count acc) (count r)) r))) m)))))
+  (if (every? coll? m)
+    (not (nil?
+           (reduce
+             (fn [acc r]
+               (if (nil? acc)
+                 acc
+                 (when (= (count acc) (count r)) r))) m)))
+    true))
+
+(defn matrix?
+  "Returns true if a data structure is a valid N-D matrix, else false"
+  [m]
+  (when (coll? m)
+    (loop [mat m
+           nested? false
+           result false]
+      (if (or (and nested? (false? result)) (empty? mat))
+        result
+        (let [f (first mat)]
+          (if-not (coll? f)
+            (if nested? result (pos-int? (count mat)))
+            (recur (first mat) true
+                   (and (equal-dimensions? mat)
+                        (every? true? (map equal-dimensions? mat))))))))))
 
 (defn get-val
   "Get's a specific value from the martix `m` based on the path provided in `index-path`"
@@ -23,16 +39,23 @@
       result
       (recur (rest ip) (nth result (first ip))))))
 
+(defmacro random-fn
+  "Executes the function `f` repeatedly `n` times"
+  [n f]
+  `(repeatedly ~n (fn [] ~f)))
+
 (defn create-matrix
-  "Creates a 2-D matrix of dimenstion MxN with random float values in it.
+  "Creates an N-D matrix of `dimenstions` specified in order with random float values in it.
    Optional seed (Integer Value) for the random matrix generator can be specified as well."
-  ([m] (create-matrix m m))
-  ([m n]
-   (let [r (Random. 1000)]
-     (repeatedly m (fn [] (repeatedly n (fn [] (.nextFloat r)))))))
-  ([m n seed]
-   (let [r (Random. seed)]
-     (repeatedly m (fn [] (repeatedly n (fn [] (.nextFloat r))))))))
+  [{:keys [dimensions seed] :or {seed 10}}]
+  (loop [d dimensions
+         result (lazy-seq [])]
+    (if (empty? d)
+      result
+      (recur (butlast d)
+             (if (seq result)
+               (random-fn (last d) result)
+               (concat result (random-fn (last d) (rand seed))))))))
 
 (defn create-identity-matrix
   "Same as `clj-ml.utils.matrix/create-matrix`

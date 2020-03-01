@@ -31,18 +31,18 @@
 
 (deftest create-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/create-matrix` function creates a valid 2D matrix"
-    (let [m (create-matrix 2 3)]
+    (let [m (create-matrix {:dimensions [2 3]})]
       (is (seq m))
       (is (matrix? m))
       (is (= (dimension m) [2 3])))
     (testing " (square)"
-     (let [m (create-matrix 3)]
+     (let [m (create-matrix {:dimensions [3 3]})]
        (is (seq m))
        (is (matrix? m))
        (is (= (dimension m) [3 3]))))))
 
 (deftest create-identity-matrix-test
-  (testing "Checking if the `clj-ml.utils.matrix/create-matrix` function creates a valid 2D identity matrix"
+  (testing "Checking if the `clj-ml.utils.matrix/create-identity-matrix` function creates a valid 2D identity matrix"
     (let [m (create-identity-matrix 3)]
       (is (seq m))
       (is (identity-matrix? m))
