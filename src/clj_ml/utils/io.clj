@@ -50,3 +50,29 @@
        (recur (rest rows) false
               (cond->> result
                        (not first?) (row->map rows delimiter field-names)))))))
+
+(defn write-xsv
+  "Takes a file (path, name and extension) and 
+   csv-data (vector of vectors with all values) and
+   writes csv file."
+  [file xsv-data]
+  (with-open [writer (io/writer file)]
+    (doseq [[i xd] (map #(conj [] %1 %2) (range (count xsv-data)) xsv-data)]
+      (.write writer (cond->> xd (> i 0) (str "\n"))))))
+
+(defn maps->xsv-data
+  "Takes a collection of maps and returns csv-data 
+   (vector of vectors with all values)."
+  [delimiter maps]
+  (let [columns (-> maps first keys)
+        headers (clj-str/join delimiter (map name columns))
+        rows (map (fn [m] (clj-str/join delimiter (vals m))) maps)]
+    (into [headers] rows)))
+
+(defn write-xsv-from-maps
+  "Takes a file (path, name and extension) and a collection of maps
+   transforms data (vector of vectors with all values) 
+   writes csv file.
+   Optionall provide a delimiter, defaults to `,`"
+  ([file maps] (write-xsv-from-maps file maps ","))
+  ([file maps delimiter] (->> maps (maps->xsv-data delimiter) (write-xsv file))))
