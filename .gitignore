@@ -10,3 +10,5 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
+# For dolphin file manager in Kubuntu
+.directory
