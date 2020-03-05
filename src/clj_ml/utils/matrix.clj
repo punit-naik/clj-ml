@@ -150,7 +150,7 @@
     (mean-coll averaged-rows)))
 
 (defn covariance
-  "Calculates the covariance matrix (upper traingular) of a 2-D matrix"
+  "Calculates the covariance matrix of a 2-D matrix"
   [m]
   (let [n (count m)
         t (map (fn [i v] {:row i :value v}) (range n) (transpose m))]
