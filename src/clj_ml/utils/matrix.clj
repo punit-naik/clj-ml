@@ -1,5 +1,4 @@
-(ns clj-ml.utils.matrix
-  (:import [java.util Random]))
+(ns clj-ml.utils.matrix)
 
 (defn- equal-dimensions?
   "Checks if the nested matrices of a matrix have euqal dimensions or not"
