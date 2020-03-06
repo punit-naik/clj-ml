@@ -1,8 +1,7 @@
 (ns clj-ml.utils.matrix-test
-  (:require [clojure.test :refer [deftest testing is use-fixtures]]
-            [clj-ml.utils.matrix :refer :all]
-            [clojure.string :as clj-str])
-  (:import [clojure.lang LazySeq]))
+  (:require [clojure.test :refer [deftest testing is]]
+            [clj-ml.utils.matrix :as mu]
+            [clojure.string :as clj-str]))
 
 (defonce ^:private sample-identity-matrix [[1 0 0] [0 1 0] [0 0 1]])
 (defonce ^:private sample-identity-matrix-negative-values [[-1 0 0] [0 -1 0] [0 0 -1]])
@@ -23,74 +22,101 @@
 (defonce ^:private mat-mul-error-str "The number of columns of the first matrixare not equal to the number of rows of the second matrix")
 (defonce ^:private covar-mat-in [[1 1 1] [1 2 1] [1 3 2] [1 4 3]])
 (defonce ^:private covar-mat-out '((0.0 0.0 0.0) (0.0 1.6666666666666667 1.1666666666666667) (0.0 0.0 0.9166666666666666)))
+(defonce ^:private upper-triangular-matrix-data-1 [[3 -2 5] [6 -4 7] [5 -4 6]])
+(defonce ^:private upper-triangular-matrix-data-1-result '([3 -2 5] (0.0 -0.6666666666666665 -2.333333333333334) (0.0 0.0 -3.0)))
+(defonce ^:private upper-triangular-matrix-data-2 [[1 3 1 4] [3 9 5 15] [0 2 1 1] [0 4 2 3]])
+(defonce ^:private upper-triangular-matrix-data-2-result '([1 3 1 4] [0 2 1 1] (0.0 0.0 2.0 3.0) (0.0 0.0 0.0 1.0)))
 
 (deftest is-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/matrix?` function"
     (testing "correctly identifies a valid matrix"
-      (is (matrix? valid-2d-matrix)))
+      (is (mu/matrix? valid-2d-matrix)))
     (testing "correctly identifies an invalid matrix"
-      (is (false? (matrix? invalid-2d-matrix))))))
+      (is (false? (mu/matrix? invalid-2d-matrix))))))
 
 (deftest create-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/create-matrix` function creates a valid 2D matrix"
-    (let [m (create-matrix {:dimensions [2 3]})]
+    (let [m (mu/create-matrix {:dimensions [2 3]})]
       (is (seq m))
-      (is (matrix? m))
-      (is (= (dimension m) [2 3])))
+      (is (mu/matrix? m))
+      (is (= (mu/dimension m) [2 3])))
     (testing " (square)"
-     (let [m (create-matrix {:dimensions [3 3]})]
+     (let [m (mu/create-matrix {:dimensions [3 3]})]
        (is (seq m))
-       (is (matrix? m))
-       (is (= (dimension m) [3 3]))))))
+       (is (mu/matrix? m))
+       (is (= (mu/dimension m) [3 3]))))))
 
 (deftest create-identity-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/create-identity-matrix` function creates a valid 2D identity matrix"
-    (let [m (create-identity-matrix 3)]
+    (let [m (mu/create-identity-matrix 3)]
       (is (seq m))
-      (is (identity-matrix? m))
-      (is (= (dimension m) [3 3]))
+      (is (mu/identity-matrix? m))
+      (is (= (mu/dimension m) [3 3]))
       (is (= m sample-identity-matrix)))))
 
 (deftest transpose-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/transpose` function transposes a 2D matrix properly"
-    (is (= (transpose valid-2d-matrix) valid-2d-matrix-transposed))))
+    (is (= (mu/transpose valid-2d-matrix) valid-2d-matrix-transposed))))
 
 (deftest perform-arithmetic-op-test
   (testing "Checking if the `clj-ml.utils.matrix/perform-arithmetic-op` function performs arithmetic operations on the matrix properly"
     (testing "when performing operations with a scalar"
-      (is (= (perform-arithmetic-op valid-2d-matrix 2 *) valid-2d-matrix-each-elem-multipled-by-2))
-      (is (= (perform-arithmetic-op valid-2d-matrix 2 -) valid-2d-matrix-each-elem-subtracted-by-2))
-      (is (= (perform-arithmetic-op valid-2d-matrix 2 +) valid-2d-matrix-each-elem-added-by-2))
-      (is (= (perform-arithmetic-op valid-2d-matrix 2 /) valid-2d-matrix-each-elem-divied-by-2)))
+      (is (= (mu/perform-arithmetic-op valid-2d-matrix 2 *) valid-2d-matrix-each-elem-multipled-by-2))
+      (is (= (mu/perform-arithmetic-op valid-2d-matrix 2 -) valid-2d-matrix-each-elem-subtracted-by-2))
+      (is (= (mu/perform-arithmetic-op valid-2d-matrix 2 +) valid-2d-matrix-each-elem-added-by-2))
+      (is (= (mu/perform-arithmetic-op valid-2d-matrix 2 /) valid-2d-matrix-each-elem-divied-by-2)))
     (testing "when performing operations with another matrix"
-      (is (= (perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 +) valid-2d-matrix-added-to-identity-matrix))
-      (is (= (perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 -) valid-2d-matrix-subtracted-from-identity-matrix))
-      (is (= (perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 *) valid-2d-matrix-multiplied-by-identity-matrix))
-      (is (= (perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 /) valid-2d-matrix-divied-by-identity-matrix)))))
+      (is (= (mu/perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 +) valid-2d-matrix-added-to-identity-matrix))
+      (is (= (mu/perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 -) valid-2d-matrix-subtracted-from-identity-matrix))
+      (is (= (mu/perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 *) valid-2d-matrix-multiplied-by-identity-matrix))
+      (is (= (mu/perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 /) valid-2d-matrix-divied-by-identity-matrix)))))
 
 (deftest matrix-multiply-test
   (testing "If the function `clj-ml.utils.matrix/matrix-multiply` calculates the dot product of two matrices properly"
-    (is (= (matrix-multiply valid-2d-matrix-2 sample-identity-matrix) valid-2d-matrix-2))
-    (try (matrix-multiply valid-2d-matrix-2 valid-2d-matrix)
+    (is (= (mu/matrix-multiply valid-2d-matrix-2 sample-identity-matrix) valid-2d-matrix-2))
+    (try (mu/matrix-multiply valid-2d-matrix-2 valid-2d-matrix)
       (catch Exception e
         (is (= (clj-str/replace (.getMessage e) #"\n|\s\s+" "") mat-mul-error-str))))))
 
 (deftest mean-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/mean` function calculates the mean of a 2D matrix properly"
-    (is (= (format "%.2f"(mean sample-identity-matrix)) "0.33"))))
+    (is (= (format "%.2f"(mu/mean sample-identity-matrix)) "0.33"))))
 
 (deftest absolute-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/absolute` function calculates the absolute of a 2D matrix properly"
-    (is (= (absolute sample-identity-matrix-negative-values) (perform-arithmetic-op sample-identity-matrix 1.0 *)))))
+    (is (= (mu/absolute sample-identity-matrix-negative-values) (mu/perform-arithmetic-op sample-identity-matrix 1.0 *)))))
 
 (deftest reciprocal-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/reciprocal` function calculates the reciprocal of a 2D matrix properly"
-    (is (= (reciprocal valid-2d-matrix) valid-2d-matrix-reciprocal))))
+    (is (= (mu/reciprocal valid-2d-matrix) valid-2d-matrix-reciprocal))))
 
 (deftest exponential-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/exponential` function calculates the exponential of a 2D matrix properly"
-    (is (= (exponential valid-2d-matrix) valid-2d-matrix-exponential))))
+    (is (= (mu/exponential valid-2d-matrix) valid-2d-matrix-exponential))))
 
 (deftest covariance-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/covariance` function calculates the covariance matrix of a 2D matrix properly"
-    (is (= (covariance covar-mat-in) covar-mat-out))))
+    (is (= (mu/covariance covar-mat-in) covar-mat-out))))
+
+(deftest upper-triangular-matrix?-test
+  (testing "If the function `clj-ml.utils.matrix/upper-triangular-matrix`? properly identifies an upper triangular matrix or not"
+    (is (mu/upper-triangular-matrix? sample-identity-matrix))
+    (is (mu/upper-triangular-matrix? [[0 0] [0 0]]))
+    (is (not (mu/upper-triangular-matrix? valid-2d-matrix-2)))))
+
+(deftest row-adjust-test
+  (testing "If the function `clj-ml.utils.matrix/row-adjust` properly adjusts the row or not"
+    (is (= (mu/row-adjust [1 3 1 4] [3 9 5 15] 2) '(0.0 0.0 2.0 3.0)))
+    (is (= (mu/row-adjust [0 2 1 1] [0 4 2 3] 2) '(0.0 0.0 0.0 1.0)))))
+
+(deftest upper-triangular-matrix-test
+  (testing "If the function `clj-ml.utils.matrix/upper-triangular-matrix` properly generates an upper triangular matrix or not"
+    (is (= (:upper-triangular (mu/upper-triangular-matrix sample-identity-matrix)) sample-identity-matrix))
+    (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-1)) upper-triangular-matrix-data-1-result))
+    (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-2)) upper-triangular-matrix-data-2-result))))
+
+(deftest determinant-test
+  (testing "If the function `clj-ml.utils.matrix/determinant` properly generates an upper triangular matrix or not"
+    (is (= (mu/determinant sample-identity-matrix) 1))
+    (is (= (mu/determinant upper-triangular-matrix-data-1) -6))
+    (is (= (mu/determinant upper-triangular-matrix-data-2) -4))))

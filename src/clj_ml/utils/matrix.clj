@@ -1,4 +1,5 @@
-(ns clj-ml.utils.matrix)
+(ns clj-ml.utils.matrix
+  (:require [clj-ml.utils.generic :as gu]))
 
 (defn- equal-dimensions?
   "Checks if the nested matrices of a matrix have euqal dimensions or not"
@@ -178,3 +179,99 @@
                                                         value j))
                                                  (dec n))))))
                            (range row (count t))))))))))
+
+(defn upper-triangular-matrix?
+  [m]
+  (every? true?
+          (map
+           (fn [i row]
+             (if (zero? i)
+               true
+               (every? zero? (take i row))))
+           (range (count m)) m)))
+
+(defn row-adjust
+  "using `row-1` to adjust row elements of `row-2` so that their first `n` values are equal to zeros"
+  [row-1 row-2 n]
+  (if-not (every? zero? (take n row-2))
+    (loop [m (range n)
+           r-2 row-2
+           prev-r-2 row-2]
+      (if (< (gu/first-n-zeros r-2) (gu/first-n-zeros prev-r-2))
+        prev-r-2
+        (if (or (>= (gu/first-n-zeros r-2) n)
+                (empty? m))
+          r-2
+          (let [mth-row-1 (double (nth row-1 (first m)))
+                mth-r-2 (double (nth r-2 (first m)))
+                mth-row-1-multiplier (double (/ mth-r-2 mth-row-1))]
+            (recur (rest m)
+                   (if-not (zero? mth-r-2)
+                     (as-> [row-1] $
+                       (perform-arithmetic-op $ (Math/abs mth-row-1-multiplier) *)
+                       (perform-arithmetic-op [r-2] $ (if (not= (/ mth-row-1 mth-row-1) (/ mth-r-2 mth-r-2)) + -))
+                       (first $))
+                     r-2)
+                   r-2)))))
+    row-2))
+
+(defn upper-triangular-matrix
+  "Converts any square matrix into an upper-triangular matrix
+   where all the matrix elements below the diagonal elements are zero"
+  [matrix]
+  (let [sorted-matrix-map (gu/sort-by-first matrix)
+        sorted-matrix (-> sorted-matrix-map (dissoc :swap-count) vals)]
+    (loop [m sorted-matrix
+           prev-m sorted-matrix
+           n (range 1 (count m))
+           num-swaps (:swap-count sorted-matrix-map)
+           comparing-rows (range (first n))]
+      (let [nth-row  (nth m (or (first n) 0))
+            first-row (nth m (or ((if (pos-int? (gu/first-n-zeros nth-row)) last first) comparing-rows) 0))
+            stuck-at-the-same-output? (and (not= sorted-matrix m prev-m) (= prev-m m) (seq n))
+            mod-m (cond-> m
+                          ;; Swapping row at `(first n)` inside `m` with the first row
+                          stuck-at-the-same-output? (gu/replace-nth ((if (pos-int? (gu/first-n-zeros nth-row)) last first) comparing-rows) nth-row)
+                          stuck-at-the-same-output? (gu/replace-nth (first n) first-row))
+            num-swaps (cond-> num-swaps stuck-at-the-same-output? inc)]
+        (if (or (upper-triangular-matrix? mod-m)
+                (empty? n))
+          {:upper-triangular mod-m :num-swaps num-swaps}
+          (let [adjusted-row-nth (row-adjust (nth mod-m ((if (pos-int? (gu/first-n-zeros (nth mod-m (first n)))) last first) comparing-rows))
+                                             (nth mod-m (first n)) (first n))
+                first-n-zeros-count (gu/first-n-zeros adjusted-row-nth)
+                first-n-zeros-count-fixed (cond-> first-n-zeros-count
+                                            (= first-n-zeros-count (count mod-m)) dec)
+                mod-m-first-n-zeros-count-row (nth mod-m first-n-zeros-count-fixed)
+                belongs-to-lower? (> first-n-zeros-count (first n))
+                new-n (filter #(not= % first-n-zeros-count-fixed) n)]
+            (recur (cond-> (gu/replace-nth mod-m first-n-zeros-count-fixed adjusted-row-nth)
+                           (and (> (count mod-m) 3)
+                                (> (count n) 1)
+                                (> first-n-zeros-count-fixed (first n))) (gu/replace-nth (first n) mod-m-first-n-zeros-count-row))
+                   mod-m
+                   new-n
+                   (cond-> num-swaps belongs-to-lower? inc)
+                   (if (= n new-n) (rest comparing-rows) (range (or (first new-n) 0))))))))))
+
+(defn determinant
+  "Caluclates the determinant of a square matrix by first calculating it's uper triangular matrix
+   and then multiplying it's diagonal elements together while taking into account the number of row swaps made in the process"
+  [m]
+  (let [{:keys [upper-triangular num-swaps]} (upper-triangular-matrix m)]
+    (-> (reduce
+         (fn [{:keys [i] :as acc} v]
+           (-> (update acc :result #(* % (nth v (first i))))
+               (update :i rest)))
+         {:i (range (count upper-triangular)) :result 1} upper-triangular)
+        :result (* (if (> num-swaps 0) -1.0 1.0)) Math/round)))
+
+(comment
+  (row-adjust [1 3 1 4] [3 9 5 15] 2)
+  (row-adjust [0 2 1 1] [0 4 2 3] 2)
+  (upper-triangular-matrix [[1 0 0] [0 1 0] [0 0 1]])
+  (upper-triangular-matrix [[3 -2 5] [6 -4 7] [5 -4 6]])
+  (upper-triangular-matrix [[1 3 1 4] [3 9 5 15] [0 2 1 1] [0 4 2 3]])
+  (determinant [[3 -2 5] [6 -4 7] [5 -4 6]])
+  (determinant [[1 0 0] [0 1 0] [0 0 1]])
+  (determinant [[1 3 1 4] [3 9 5 15] [0 2 1 1] [0 4 2 3]]))
