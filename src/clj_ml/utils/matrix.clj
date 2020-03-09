@@ -224,6 +224,29 @@
                    r-2)))))
     row-2))
 
+(defn recursive-row-adjust
+  [matrix row-index-to-be-processed]
+  (loop [row-idxs (range row-index-to-be-processed);(range (first (dimension matrix)))
+         result nil]
+    (if (or (and (seq result)
+                 (or (>= (gu/first-n-zeros result)
+                         row-index-to-be-processed)
+                     (>= (gu/first-n-zeros (get-val matrix [row-index-to-be-processed]))
+                         row-index-to-be-processed)))
+            (empty? row-idxs))
+      result
+      (recur (rest row-idxs)
+             (if (or (= (first row-idxs) row-index-to-be-processed)
+                     (and (zero? (get-val matrix [(first row-idxs) (dec row-index-to-be-processed)]))
+                          (zero? (get-val matrix [(first row-idxs)
+                                                  (gu/first-n-zeros
+                                                    (get-val matrix [row-index-to-be-processed]))]))))
+               result
+               (row-adjust (get-val matrix [(first row-idxs)])
+                           (or result
+                               (get-val matrix [row-index-to-be-processed]))
+                           row-index-to-be-processed))))))
+
 (defn upper-triangular-matrix
   "Converts any square matrix into an upper-triangular matrix
    where all the matrix elements below the diagonal elements are zero"
