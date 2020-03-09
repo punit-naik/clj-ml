@@ -1,4 +1,6 @@
-(ns clj-ml.utils.generic)
+(ns clj-ml.utils.generic
+  (:require [clojure.set :refer [intersection]]
+            [clojure.string :refer [split]]))
 
 (defn index-matrix-rows
   "This function indexes `matrix`'s rows and returns a map where key is the row number and value is the row itself"
@@ -52,3 +54,35 @@
    (take n coll)
    (list replacement)
    (drop (inc n) coll)))
+
+(defn rationalise
+  "Rationalises a number into a fraction, same as `clojure.core/rationalize`
+   But this will always return the numerator as is, without the decimal
+   Hence the denominator will be in multiples of 10"
+  [n]
+  (let [d (as-> (str n) $
+                (split $ #"\.")
+                (second $) (count $)
+                (take $ (repeat 10))
+                (apply * $))]
+    (vector (Math/round (* n d)) d)))
+
+(defn factors
+  "Finds all the factors of a number"
+  ([num]
+   (loop [n (range 1 (inc num))
+          result #{}]
+     (if (empty? n)
+       result (recur (rest n) (cond-> result (zero? (mod num (first n))) (conj (first n)))))))
+  ([num decimal?]
+   (if decimal?
+     (let [[up down] (rationalise num)]
+       (intersection (factors up)
+                     (factors down)))
+     (factors num))))
+
+(comment
+  (rationalise 2.54)
+  (factors 254)
+  (factors 100)
+  (factors 2.54 true))
