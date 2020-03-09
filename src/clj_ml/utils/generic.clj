@@ -1,6 +1,5 @@
 (ns clj-ml.utils.generic
-  (:require [clojure.set :refer [intersection]]
-            [clojure.string :refer [split]]))
+  (:require [clojure.string :refer [split]]))
 
 (defn index-matrix-rows
   "This function indexes `matrix`'s rows and returns a map where key is the row number and value is the row itself"
