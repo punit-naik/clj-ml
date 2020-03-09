@@ -15,12 +15,6 @@
     (is (= (gu/first-n-zeros (nth sample-identity-matrix 1)) 1))
     (is (= (gu/first-n-zeros (nth sample-identity-matrix 2)) 2))))
 
-(deftest sort-by-first-test
-  (testing "If the function `clj-ml.utils.matrix/sort-by-first` correctly sorts the squre matrix or not"
-    (is (= (-> (gu/sort-by-first (conj sample-identity-matrix [0.5 1 3]))
-               (dissoc :swap-count) vals)
-           [[0.5 1 3] [0 1 0] [0 0 1] [1 0 0]]))))
-
 (deftest replace-nth-test
   (testing "If the function `clj-ml.utils.matrix/replace-nth` properly replaces the matrix row or not"
     (is (= (gu/replace-nth sample-identity-matrix 2 [0 0 -1])
