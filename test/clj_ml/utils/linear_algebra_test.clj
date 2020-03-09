@@ -27,8 +27,8 @@
 
 (deftest isa-solution?-test
   (testing "if the function `clj-ml.utils.linear-algebra/isa-solution?` checks if a number is a solution of the euqation or not"
-    (is (lau/isa-solution? [1 0 5] 2.23606797749979))
-    (is (lau/isa-solution? [1 0 5] -2.23606797749979))
+    (is (lau/isa-solution? [1 0 -5] 2.23606797749979))
+    (is (lau/isa-solution? [1 0 -5] -2.23606797749979))
     (is (lau/isa-solution? [1 0 -3 -2] -1))
     (is (lau/isa-solution? [1 1 -11 -5 30] -3))))
 
