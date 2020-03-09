@@ -251,40 +251,23 @@
   "Converts any square matrix into an upper-triangular matrix
    where all the matrix elements below the diagonal elements are zero"
   [matrix]
-  (let [sorted-matrix-map (gu/sort-by-first matrix)
-        sorted-matrix (-> sorted-matrix-map (dissoc :swap-count) vals)]
-    (loop [m sorted-matrix
-           prev-m sorted-matrix
-           n (range 1 (count m))
-           num-swaps (:swap-count sorted-matrix-map)
-           comparing-rows (range (first n))]
-      (let [nth-row  (nth m (or (first n) 0))
-            first-row (nth m (or ((if (pos-int? (gu/first-n-zeros nth-row)) last first) comparing-rows) 0))
-            stuck-at-the-same-output? (and (not= sorted-matrix m prev-m) (= prev-m m) (seq n))
-            mod-m (cond-> m
-                          ;; Swapping row at `(first n)` inside `m` with the first row
-                          stuck-at-the-same-output? (gu/replace-nth ((if (pos-int? (gu/first-n-zeros nth-row)) last first) comparing-rows) nth-row)
-                          stuck-at-the-same-output? (gu/replace-nth (first n) first-row))
-            num-swaps (cond-> num-swaps stuck-at-the-same-output? inc)]
-        (if (or (upper-triangular-matrix? mod-m)
-                (empty? n))
-          {:upper-triangular mod-m :num-swaps num-swaps}
-          (let [adjusted-row-nth (row-adjust (nth mod-m ((if (pos-int? (gu/first-n-zeros (nth mod-m (first n)))) last first) comparing-rows))
-                                             (nth mod-m (first n)) (first n))
-                first-n-zeros-count (gu/first-n-zeros adjusted-row-nth)
-                first-n-zeros-count-fixed (cond-> first-n-zeros-count
-                                            (= first-n-zeros-count (count mod-m)) dec)
-                mod-m-first-n-zeros-count-row (nth mod-m first-n-zeros-count-fixed)
-                belongs-to-lower? (> first-n-zeros-count (first n))
-                new-n (filter #(not= % first-n-zeros-count-fixed) n)]
-            (recur (cond-> (gu/replace-nth mod-m first-n-zeros-count-fixed adjusted-row-nth)
-                           (and (> (count mod-m) 3)
-                                (> (count n) 1)
-                                (> first-n-zeros-count-fixed (first n))) (gu/replace-nth (first n) mod-m-first-n-zeros-count-row))
-                   mod-m
-                   new-n
-                   (cond-> num-swaps belongs-to-lower? inc)
-                   (if (= n new-n) (rest comparing-rows) (range (or (first new-n) 0))))))))))
+  (let [[num-rows _] (dimension matrix)]
+    (loop [m matrix
+           nr (range 1 num-rows)
+           swap-count 0]
+      (if (empty? nr)
+        {:upper-triangular m :num-swaps swap-count}
+        (let [adjusted-row (recursive-row-adjust m (first nr))
+              first-n-zeros-adjusted-row (gu/first-n-zeros adjusted-row)
+              m-adjusted (gu/replace-nth m (first nr) adjusted-row)
+              should-be-swapped? (> first-n-zeros-adjusted-row (first nr))
+              m-swapped (cond-> m-adjusted
+                          should-be-swapped? (swap-rows (first nr) first-n-zeros-adjusted-row))]
+          (recur m-swapped
+                 (cond-> nr
+                   (not should-be-swapped?) rest)
+                 (cond-> swap-count
+                   should-be-swapped? inc)))))))
 
 (defn determinant
   "Caluclates the determinant of a square matrix by first calculating it's uper triangular matrix
