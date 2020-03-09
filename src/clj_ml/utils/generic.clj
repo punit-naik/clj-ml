@@ -42,23 +42,3 @@
                 (take $ (repeat 10))
                 (apply * $))]
     (vector (Math/round (* n d)) d)))
-
-(defn factors
-  "Finds all the factors of a number"
-  ([num]
-   (loop [n (range 1 (inc num))
-          result #{}]
-     (if (empty? n)
-       result (recur (rest n) (cond-> result (zero? (mod num (first n))) (conj (first n)))))))
-  ([num decimal?]
-   (if decimal?
-     (let [[up down] (rationalise num)]
-       (intersection (factors up)
-                     (factors down)))
-     (factors num))))
-
-(comment
-  (rationalise 2.54)
-  (factors 254)
-  (factors 100)
-  (factors 2.54 true))
