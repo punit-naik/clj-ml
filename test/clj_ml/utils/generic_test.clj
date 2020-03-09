@@ -19,3 +19,9 @@
   (testing "If the function `clj-ml.utils.matrix/replace-nth` properly replaces the matrix row or not"
     (is (= (gu/replace-nth sample-identity-matrix 2 [0 0 -1])
            (assoc sample-identity-matrix 2 [0 0 -1])))))
+
+(deftest rationalise-test
+  (testing "the `clj-ml.utils.matrix/rationalise` function"
+    (is (= (gu/rationalise 2.54) [254 100]))
+    (is (= (gu/rationalise 2.53) [253 100]))
+    (is (= (gu/rationalise 2.52) [252 100]))))
