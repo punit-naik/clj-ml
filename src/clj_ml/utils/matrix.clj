@@ -203,7 +203,7 @@
   "using `row-1` to adjust row elements of `row-2` so that their first `n` values are equal to zeros"
   [row-1 row-2 n]
   (if-not (every? zero? (take n row-2))
-    (loop [m (range n)
+    (loop [m (range (gu/first-n-zeros row-1) n)
            r-2 row-2
            prev-r-2 row-2]
       (if (< (gu/first-n-zeros r-2) (gu/first-n-zeros prev-r-2))
@@ -213,12 +213,12 @@
           r-2
           (let [mth-row-1 (double (nth row-1 (first m)))
                 mth-r-2 (double (nth r-2 (first m)))
-                mth-row-1-multiplier (double (/ mth-r-2 mth-row-1))]
+                mth-row-1-multiplier (Math/abs (double (/ mth-r-2 mth-row-1)))]
             (recur (rest m)
-                   (if-not (zero? mth-r-2)
+                   (if-not (and (zero? mth-r-2) (zero? mth-row-1))
                      (as-> [row-1] $
                        (perform-arithmetic-op $ (Math/abs mth-row-1-multiplier) *)
-                       (perform-arithmetic-op [r-2] $ (if (not= (/ mth-row-1 mth-row-1) (/ mth-r-2 mth-r-2)) + -))
+                       (perform-arithmetic-op [r-2] $ (if (not= (/ mth-row-1 (Math/abs mth-row-1)) (/ mth-r-2 (Math/abs mth-r-2))) + -))
                        (first $))
                      r-2)
                    r-2)))))
