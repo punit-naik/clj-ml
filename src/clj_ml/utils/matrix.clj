@@ -280,13 +280,3 @@
                (update :i rest)))
          {:i (range (count upper-triangular)) :result 1} upper-triangular)
         :result (* (if (> num-swaps 0) -1.0 1.0)) Math/round)))
-
-(comment
-  (row-adjust [1 3 1 4] [3 9 5 15] 2)
-  (row-adjust [0 2 1 1] [0 4 2 3] 2)
-  (upper-triangular-matrix [[1 0 0] [0 1 0] [0 0 1]])
-  (upper-triangular-matrix [[3 -2 5] [6 -4 7] [5 -4 6]])
-  (upper-triangular-matrix [[1 3 1 4] [3 9 5 15] [0 2 1 1] [0 4 2 3]])
-  (determinant [[3 -2 5] [6 -4 7] [5 -4 6]])
-  (determinant [[1 0 0] [0 1 0] [0 0 1]])
-  (determinant [[1 3 1 4] [3 9 5 15] [0 2 1 1] [0 4 2 3]]))
