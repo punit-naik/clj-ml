@@ -36,9 +36,11 @@
    But this will always return the numerator as is, without the decimal
    Hence the denominator will be in multiples of 10"
   [n]
-  (let [d (as-> (str n) $
-                (split $ #"\.")
-                (second $) (count $)
-                (take $ (repeat 10))
-                (apply * $))]
-    (vector (Math/round (* n d)) d)))
+  (if (decimal? n)
+    (let [d (as-> (str n) $
+              (split $ #"\.")
+              (second $) (count $)
+              (take $ (repeat 10))
+              (apply * $))]
+      (vector (Math/round (* n d)) d))
+    [n 1]))
