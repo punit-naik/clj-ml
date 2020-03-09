@@ -138,6 +138,15 @@
        (perform-arithmetic-op 1 +)
        (perform-arithmetic-op m *))))
 
+(defn swap-rows
+  "Swaps the rows at the `i`th and `j`th indexes"
+  [m i j]
+  (let [ith-row (get-val m [i])
+        jth-row (get-val m [j])]
+    (-> m
+        (gu/replace-nth i jth-row)
+        (gu/replace-nth j ith-row))))
+
 (defn mean-coll
   "Calculates the mean of a collection `c`"
   [c]
