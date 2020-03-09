@@ -36,7 +36,7 @@
    But this will always return the numerator as is, without the decimal
    Hence the denominator will be in multiples of 10"
   [n]
-  (if (decimal? n)
+  (if (not (integer? n))
     (let [d (as-> (str n) $
               (split $ #"\.")
               (second $) (count $)
