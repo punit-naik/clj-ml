@@ -2,7 +2,7 @@
   (:require [clj-ml.utils.generic :as gu]
             [clojure.set :refer [intersection]]))
 
-(defn solve-quadratic-eq
+(defn solve-quadratic-equation
   "Given the a,b and c terms of the quadratic euqation ax^2+bx+c=0
    This returns a pair of solutions for x"
   [{:keys [a b c]}]
@@ -16,16 +16,75 @@
 (defn factors
   "Finds all the factors of a number"
   ([num]
-   (loop [n (range 1 (inc num))
+   (loop [n (range 1 (inc (Math/abs num)))
           result #{}]
      (if (empty? n)
        result
        (recur (rest n)
               (cond-> result
-                (zero? (mod num (first n))) (conj (first n)))))))
+                (zero? (mod (Math/abs num) (first n))) (conj (first n)))))))
   ([num decimal?]
    (if decimal?
-     (let [[up down] (gu/rationalise num)]
-       (intersection (factors up)
-                     (factors down)))
+     (let [[up down] (gu/rationalise (Math/abs num))]
+       (cond-> (factors up)
+         (not= down 1) (intersection (factors down))))
      (factors num))))
+
+(defn isa-solution?
+  "Given the a to z terms of the quadratic euqation ax^n+....+z=0 as a collection
+   And the root, this function checks if the same root is a solution for thr euqation or not
+   And returns the new reduced equation for finding the remaining roots"
+  [coefficients root]
+  (let [result (reduce (fn [{:keys [sum] :as acc} v]
+                         (let [s (+ (if (zero? sum) v (* root sum)) (if (zero? sum) sum v))]
+                           (-> acc
+                               (assoc :sum s)
+                               (update :coeffs conj s))))
+                       {:sum 0 :coeffs []} coefficients)]
+    (when (and (zero? (Math/round (* (:sum result) 1.0)))
+               (seq (:coeffs result)))
+      (:coeffs (update result :coeffs butlast)))))
+
+(defn find-all-possible-solutions
+  "Given the a to z terms of the quadratic euqation ax ^n+....+z=0 as a collection
+   This function finds all the possible roots of this equation"
+  [coefficients]
+  (condp = (count coefficients)
+    2 [(/ (* (second coefficients) -1)
+          (first coefficients))]
+    3 (solve-quadratic-equation {:a (nth coefficients 0)
+                                 :b (nth coefficients 1)
+                                 :c (nth coefficients 2)})
+    (let [first-coefficient (first coefficients)
+          last-coefficient (last coefficients)
+          first-coeff-factors (sort (factors first-coefficient true))
+          last-coeff-factors (sort (factors last-coefficient true))]
+      (->> (map (fn [i]
+                  (map (fn [j]
+                         (if (> (Math/abs last-coefficient)
+                                (Math/abs first-coefficient))
+                           [(/ j i) (/ (* j -1) i)]
+                           [(/ i j) (/ (* i -1) j)]))
+                       last-coeff-factors))
+                first-coeff-factors)
+           flatten distinct sort))))
+
+(defn solve-equation
+  "Given the a to z terms of the quadratic euqation ax^n+....+z=0
+   This returns all the roots for the equation"
+  [coefficients]
+  (loop [coeffs coefficients
+         all-possible (find-all-possible-solutions coeffs)
+         solutions []]
+    (if (or (= (count solutions)
+               (dec (count coefficients)))
+            (empty? all-possible))
+      solutions
+      (let [testing-root (first all-possible)
+            next-eq (isa-solution? coeffs testing-root)]
+        (recur (if next-eq next-eq coeffs)
+               (if next-eq
+                 (find-all-possible-solutions next-eq)
+                 (rest all-possible))
+               (cond-> solutions
+                 next-eq (conj testing-root)))))))
