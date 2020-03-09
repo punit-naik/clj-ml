@@ -4,6 +4,8 @@
             [clojure.string :as clj-str]))
 
 (defonce ^:private sample-identity-matrix [[1 0 0] [0 1 0] [0 0 1]])
+(defonce ^:private sample-identity-matrix-swapped-1 '([0 1 0] [1 0 0] [0 0 1]))
+(defonce ^:private sample-identity-matrix-swapped-2 '([0 0 1] [0 1 0] [1 0 0]))
 (defonce ^:private sample-identity-matrix-negative-values [[-1 0 0] [0 -1 0] [0 0 -1]])
 (defonce ^:private valid-2d-matrix [[1 2 3] [4 5 6]])
 (defonce ^:private valid-2d-matrix-reciprocal '((1.0 0.5 0.3333333333333333) (0.25 0.2 0.1666666666666667)))
@@ -26,6 +28,8 @@
 (defonce ^:private upper-triangular-matrix-data-1-result '([3 -2 5] (0.0 -0.6666666666666665 -2.333333333333334) (0.0 0.0 -3.0)))
 (defonce ^:private upper-triangular-matrix-data-2 [[1 3 1 4] [3 9 5 15] [0 2 1 1] [0 4 2 3]])
 (defonce ^:private upper-triangular-matrix-data-2-result '([1 3 1 4] [0 2 1 1] (0.0 0.0 2.0 3.0) (0.0 0.0 0.0 1.0)))
+(defonce ^:private upper-triangular-matrix-data-3 [[3 0 0 3 0] [-3 0 -2 0 0] [0 -1 0 0 -3] [0 0 0 3 3] [0 -1 2 0 1]])
+(defonce ^:private upper-triangular-matrix-data-3-result '([3 0 0 3 0] [0 -1 0 0 -3] (0.0 0.0 -2.0 3.0 0.0) [0 0 0 3 3] (0.0 0.0 0.0 0.0 1.0)))
 
 (deftest is-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/matrix?` function"
@@ -113,10 +117,17 @@
   (testing "If the function `clj-ml.utils.matrix/upper-triangular-matrix` properly generates an upper triangular matrix or not"
     (is (= (:upper-triangular (mu/upper-triangular-matrix sample-identity-matrix)) sample-identity-matrix))
     (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-1)) upper-triangular-matrix-data-1-result))
-    (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-2)) upper-triangular-matrix-data-2-result))))
+    (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-2)) upper-triangular-matrix-data-2-result))
+    (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-3)) upper-triangular-matrix-data-3-result))))
 
 (deftest determinant-test
   (testing "If the function `clj-ml.utils.matrix/determinant` properly generates an upper triangular matrix or not"
     (is (= (mu/determinant sample-identity-matrix) 1))
     (is (= (mu/determinant upper-triangular-matrix-data-1) -6))
-    (is (= (mu/determinant upper-triangular-matrix-data-2) -4))))
+    (is (= (mu/determinant upper-triangular-matrix-data-2) -4))
+    (is (= (mu/determinant upper-triangular-matrix-data-3) -18))))
+
+(deftest swap-rows-test
+  (testing "If the function `clj-ml.utils.matrix/swap-rows` correctly swaps the rows of a matrix or not"
+    (is (= (mu/swap-rows sample-identity-matrix 0 1) sample-identity-matrix-swapped-1))
+    (is (= (mu/swap-rows sample-identity-matrix 0 2) sample-identity-matrix-swapped-2))))
