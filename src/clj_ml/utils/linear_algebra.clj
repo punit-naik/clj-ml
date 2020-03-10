@@ -79,7 +79,7 @@
     (if (or (= (count solutions)
                (dec (count coefficients)))
             (empty? all-possible))
-      (distinct (map #(* %1 1.0) solutions))
+      (map #(* %1 1.0) solutions)
       (let [testing-root (first all-possible)
             next-eq (isa-solution? coeffs testing-root)]
         (recur (if next-eq next-eq coeffs)
