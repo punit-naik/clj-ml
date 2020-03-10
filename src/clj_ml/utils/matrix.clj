@@ -1,5 +1,6 @@
 (ns clj-ml.utils.matrix
-  (:require [clj-ml.utils.generic :as gu]))
+  (:require [clj-ml.utils.generic :as gu]
+            [clj-ml.utils.linear-algebra :as lau]))
 
 (defn- equal-dimensions?
   "Checks if the nested matrices of a matrix have euqal dimensions or not"
@@ -280,3 +281,37 @@
                (update :i rest)))
          {:i (range (count upper-triangular)) :result 1} upper-triangular)
         :result (* (if (> num-swaps 0) -1.0 1.0)) Math/round)))
+
+(defn cross-product
+  "Finds the cross product of two (indexed) rows of a matrix"
+  [row-1-indexed row-2-indexed]
+  (reduce #(merge-with + %1 %2)
+          (map (fn [x]
+                 (reduce merge
+                         (map
+                          (fn [y] {(sort (flatten [(first x) (first y)])) (* (second x) (second y))})
+                          row-2-indexed)))
+               row-1-indexed)))
+
+(defn eigen-values
+  "Gets the eigen values of a matrix"
+  [matrix]
+  (let [diagonal-elements-minus-lambda (loop [utm (:upper-triangular (upper-triangular-matrix matrix))
+                                              i (range (count utm))
+                                              result []]
+                                         (if (empty? i)
+                                           result
+                                           (recur (rest utm)
+                                                  (rest i)
+                                                  (conj result
+                                                        [-1 (get-val (first utm) [(first i)])]))))
+        eq (vals
+             (loop [deml (rest diagonal-elements-minus-lambda)
+                    ff (first diagonal-elements-minus-lambda)]
+               (if (empty? deml)
+                 ff
+                 (recur (rest deml)
+                        (cross-product (cond-> ff
+                                         (not (map? ff)) gu/index-matrix-rows)
+                                       (gu/index-matrix-rows (first deml)))))))]
+    (lau/solve-equation eq)))

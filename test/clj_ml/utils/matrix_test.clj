@@ -30,6 +30,11 @@
 (defonce ^:private upper-triangular-matrix-data-2-result '([1 3 1 4] [0 2 1 1] (0.0 0.0 2.0 3.0) (0.0 0.0 0.0 1.0)))
 (defonce ^:private upper-triangular-matrix-data-3 [[3 0 0 3 0] [-3 0 -2 0 0] [0 -1 0 0 -3] [0 0 0 3 3] [0 -1 2 0 1]])
 (defonce ^:private upper-triangular-matrix-data-3-result '([3 0 0 3 0] [0 -1 0 0 -3] (0.0 0.0 -2.0 3.0 0.0) [0 0 0 3 3] (0.0 0.0 0.0 0.0 1.0)))
+(defonce ^:private cross-product-data-1 {0 -1 1 1})
+(defonce ^:private cross-product-data-2 {'(0 0) 1, '(0 1) -2, '(1 1) 1})
+(defonce ^:private cross-product-data-3 {'(0 0 0) -1, '(0 0 1) 3, '(0 1 1) -3, '(1 1 1) 1})
+(defonce ^:private eigen-value-data-1 [[2 1 0] [1 2 1] [0 1 2]])
+(defonce ^:private eigen-value-result-1 '(2.0 1.5000000000000095 1.3333333333333244))
 
 (deftest is-matrix-test
   (testing "Checking if the `clj-ml.utils.matrix/matrix?` function"
@@ -131,3 +136,13 @@
   (testing "If the function `clj-ml.utils.matrix/swap-rows` correctly swaps the rows of a matrix or not"
     (is (= (mu/swap-rows sample-identity-matrix 0 1) sample-identity-matrix-swapped-1))
     (is (= (mu/swap-rows sample-identity-matrix 0 2) sample-identity-matrix-swapped-2))))
+
+(deftest cross-product-test
+  (testing "If the function `clj-ml.utils.matrix/cross-product` correctly calculates the cross product of the rows of a matrix or not"
+    (is (= (mu/cross-product cross-product-data-1 cross-product-data-1) cross-product-data-2))
+    (is (= (mu/cross-product cross-product-data-2 cross-product-data-1) cross-product-data-3))))
+
+(deftest eigen-values-test
+  (testing "If the function `clj-ml.utils.matrix/eigen-values `correctly calculates the eigen values of a matrix or not"
+    (is (= (mu/eigen-values sample-identity-matrix) '(1.0)))
+    (is (= (mu/eigen-values eigen-value-data-1) eigen-value-result-1))))
