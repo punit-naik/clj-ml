@@ -34,6 +34,6 @@
 
 (deftest solve-equation-test
   (testing "if the function `clj-ml.utils.linear-algebra/solve-equation` correctly finds all the roots of the euqation or not"
-    (is (= (lau/solve-equation [1 0 -5]) [2.23606797749979 -2.23606797749979]))
-    (is (= (lau/solve-equation [1 1 -11 -5 30]) [-3 2 2.23606797749979 -2.23606797749979]))
-    (is (= (lau/solve-equation [1 0 -3 -2]) [-1 2.0 -1.0]))))
+    (is (= (lau/solve-equation [1 0 -5]) '(-2.23606797749979 2.23606797749979)))
+    (is (= (lau/solve-equation [1 1 -11 -5 30]) '(2.0 -3.0 -2.23606797749979 2.23606797749979)))
+    (is (= (lau/solve-equation [1 0 -3 -2]) '(2.0 -1.0)))))
