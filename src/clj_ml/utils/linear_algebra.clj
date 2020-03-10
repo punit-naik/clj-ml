@@ -74,17 +74,17 @@
    This returns all the roots for the equation"
   [coefficients]
   (loop [coeffs coefficients
-         all-possible (find-all-possible-solutions coeffs)
+         all-possible (reverse (find-all-possible-solutions coeffs))
          solutions []]
     (if (or (= (count solutions)
                (dec (count coefficients)))
             (empty? all-possible))
-      solutions
+      (distinct (map #(* %1 1.0) solutions))
       (let [testing-root (first all-possible)
             next-eq (isa-solution? coeffs testing-root)]
         (recur (if next-eq next-eq coeffs)
                (if next-eq
-                 (find-all-possible-solutions next-eq)
+                 (reverse (find-all-possible-solutions next-eq))
                  (rest all-possible))
                (cond-> solutions
                  next-eq (conj testing-root)))))))
