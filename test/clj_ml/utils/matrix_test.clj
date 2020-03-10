@@ -144,5 +144,5 @@
 
 (deftest eigen-values-test
   (testing "If the function `clj-ml.utils.matrix/eigen-values `correctly calculates the eigen values of a matrix or not"
-    (is (= (mu/eigen-values sample-identity-matrix) '(1.0)))
+    (is (= (mu/eigen-values sample-identity-matrix) '(1.0 1.0 1.0)))
     (is (= (mu/eigen-values eigen-value-data-1) eigen-value-result-1))))
