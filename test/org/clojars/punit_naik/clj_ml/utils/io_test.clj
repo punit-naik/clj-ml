@@ -1,8 +1,8 @@
-(ns clj-ml.utils.io-test
+(ns org.clojars.punit-naik.clj-ml.utils.io-test
   (:require [clojure.test :refer [deftest testing is use-fixtures]]
-            [clj-ml.utils.io :refer [find-field-names read-file-lines 
-                                     row->map xsv-reader
-                                     maps->xsv-data write-xsv-from-maps]]
+            [org.clojars.punit-naik.clj-ml.utils.io :refer [find-field-names read-file-lines
+                                                            row->map xsv-reader
+                                                            maps->xsv-data write-xsv-from-maps]]
             [clojure.java.io :refer [make-parents delete-file]]
             [clojure.string :as clj-str])
   (:import [java.util UUID]

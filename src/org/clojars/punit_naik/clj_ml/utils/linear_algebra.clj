@@ -1,5 +1,5 @@
-(ns clj-ml.utils.linear-algebra
-  (:require [clj-ml.utils.generic :as gu]
+(ns org.clojars.punit-naik.clj-ml.utils.linear-algebra
+  (:require [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
             [clojure.set :refer [intersection]]))
 
 (defn solve-quadratic-equation

@@ -1,6 +1,6 @@
-(ns clj-ml.utils.matrix
-  (:require [clj-ml.utils.generic :as gu]
-            [clj-ml.utils.linear-algebra :as lau]))
+(ns org.clojars.punit-naik.clj-ml.utils.matrix
+  (:require [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
+            [org.clojars.punit-naik.clj-ml.utils.linear-algebra :as lau]))
 
 (defn- equal-dimensions?
   "Checks if the nested matrices of a matrix have euqal dimensions or not"
@@ -58,7 +58,7 @@
                (concat result (random-fn (last d) (rand seed))))))))
 
 (defn create-identity-matrix
-  "Same as `clj-ml.utils.matrix/create-matrix`
+  "Same as `org.clojars.punit-naik.clj-ml.utils.matrix/create-matrix`
    But this one creates a 2-D identity matrix"
   [m]
   (map (fn [i] (map (fn [j] (if (= i j) 1 0)) (range m))) (range m)))

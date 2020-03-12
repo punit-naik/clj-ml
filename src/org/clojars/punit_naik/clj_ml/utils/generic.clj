@@ -1,4 +1,4 @@
-(ns clj-ml.utils.generic
+(ns org.clojars.punit-naik.clj-ml.utils.generic
   (:require [clojure.string :refer [split]]))
 
 (defn index-matrix-rows

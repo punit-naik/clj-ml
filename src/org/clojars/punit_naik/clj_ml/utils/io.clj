@@ -1,4 +1,4 @@
-(ns clj-ml.utils.io
+(ns org.clojars.punit-naik.clj-ml.utils.io
   (:require [clojure.java.io :as io]
             [clojure.string  :as clj-str])
   (:import [java.io BufferedReader]))
