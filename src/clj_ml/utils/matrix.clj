@@ -277,10 +277,9 @@
   (let [{:keys [upper-triangular num-swaps]} (upper-triangular-matrix m)]
     (-> (reduce
          (fn [{:keys [i] :as acc} v]
-           (-> (update acc :result #(* % (nth v (first i))))
-               (update :i rest)))
+           (update (update acc :result #(* % (nth v (first i)))) :i rest))
          {:i (range (count upper-triangular)) :result 1} upper-triangular)
-        :result (* (if (> num-swaps 0) -1.0 1.0)) Math/round)))
+        :result (* (if (pos? num-swaps) -1.0 1.0)) Math/round)))
 
 (defn cross-product
   "Finds the cross product of two (indexed) rows of a matrix"

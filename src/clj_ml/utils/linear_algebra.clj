@@ -82,7 +82,7 @@
       (map #(* %1 1.0) solutions)
       (let [testing-root (first all-possible)
             next-eq (isa-solution? coeffs testing-root)]
-        (recur (if next-eq next-eq coeffs)
+        (recur (or next-eq coeffs)
                (if next-eq
                  (reverse (find-all-possible-solutions next-eq))
                  (rest all-possible))

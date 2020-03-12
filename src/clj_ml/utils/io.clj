@@ -57,8 +57,8 @@
    writes csv file."
   [file xsv-data]
   (with-open [writer (io/writer file)]
-    (doseq [[i xd] (map #(conj [] %1 %2) (range (count xsv-data)) xsv-data)]
-      (.write writer (cond->> xd (> i 0) (str "\n"))))))
+    (doseq [[i xd] (map vector (range (count xsv-data)) xsv-data)]
+      (.write writer (cond->> xd (pos? i) (str "\n"))))))
 
 (defn maps->xsv-data
   "Takes a collection of maps and returns csv-data 
