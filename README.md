@@ -4,7 +4,27 @@ Collection of ML and it's corresponsing utilities in Clojure
 
 ## Usage
 
-FIXME
+**NOTE**: [Java](https://openjdk.java.net/) and [Leiningen](https://github.com/technomancy/leiningen) must be pre-installed!
+
+### Test
+
+```
+lein test
+```
+
+### Build
+
+```
+lein with-profiles +uberjar uberjar
+```
+
+## Docs
+
+[`clj-ml` API Docs](https://punit-naik.github.io/clj-ml)
+
+### Code Coverage
+
+[`clj-ml` Code Coverage](https://punit-naik.github.io/clj-ml/coverage/)
 
 ## License
 

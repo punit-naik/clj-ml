@@ -1,0 +1,242 @@
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="../../coverage.css"/>  <title> clj_ml/utils/io.clj </title>
+ </head>
+ <body>
+<span class="covered" title="1 out of 1 forms covered">
+                001&nbsp;&nbsp;(ns&nbsp;clj-ml.utils.io
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clojure.java.io&nbsp;:as&nbsp;io]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.string&nbsp;&nbsp;:as&nbsp;clj-str])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:import&nbsp;[java.io&nbsp;BufferedReader]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                006&nbsp;&nbsp;(defn&nbsp;find-field-names
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;the&nbsp;names&nbsp;of&nbsp;the&nbsp;fields&nbsp;of&nbsp;an&nbsp;XSV&nbsp;file&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                008&nbsp;&nbsp;&nbsp;&nbsp;[file-path&nbsp;delimiter]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                009&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;#(-&gt;&nbsp;%&nbsp;clj-str&#x2F;lower-case&nbsp;keyword)
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;(io&#x2F;reader&nbsp;file-path)&nbsp;BufferedReader.&nbsp;line-seq
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first&nbsp;clj-str&#x2F;trim-newline&nbsp;(clj-str&#x2F;split&nbsp;delimiter))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                012&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                013&nbsp;&nbsp;(defn&nbsp;read-file-lines
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;&quot;Reads&nbsp;a&nbsp;file&nbsp;from&nbsp;the&nbsp;`file-path`&nbsp;and&nbsp;returns&nbsp;a&nbsp;lazy&nbsp;sequence&nbsp;of&nbsp;strings&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;[file-path]
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;(io&#x2F;reader&nbsp;file-path)&nbsp;BufferedReader.&nbsp;line-seq))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                017&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                018&nbsp;&nbsp;(defn&nbsp;row-&gt;map
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&quot;Takes&nbsp;`rows`&nbsp;as&nbsp;a&nbsp;collection,&nbsp;fetches&nbsp;it&#x27;s&nbsp;first&nbsp;row,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Splits&nbsp;it&nbsp;on&nbsp;`delimiter`,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Coverts&nbsp;the&nbsp;resulting&nbsp;row&nbsp;into&nbsp;a&nbsp;map&nbsp;by&nbsp;using&nbsp;keys&nbsp;from&nbsp;`field-names`,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And&nbsp;then&nbsp;finally&nbsp;appends&nbsp;it&nbsp;to&nbsp;the&nbsp;`result`&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;[rows&nbsp;delimiter&nbsp;field-names&nbsp;result]
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;(as-&gt;&nbsp;rows&nbsp;$$
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;$$)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(clj-str&#x2F;split&nbsp;$$&nbsp;delimiter)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(zipmap&nbsp;field-names&nbsp;$$)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vector&nbsp;$$)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(concat&nbsp;result&nbsp;$$)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                030&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                031&nbsp;&nbsp;(defn&nbsp;xsv-reader
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                032&nbsp;&nbsp;&nbsp;&nbsp;&quot;Reads&nbsp;an&nbsp;XSV&nbsp;file&nbsp;and&nbsp;generates&nbsp;a&nbsp;collection&nbsp;of&nbsp;maps&nbsp;where&nbsp;each&nbsp;map&nbsp;in&nbsp;the&nbsp;colection
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;represent&nbsp;a&nbsp;row&nbsp;with&nbsp;the&nbsp;keys&nbsp;as&nbsp;the&nbsp;column&nbsp;names&nbsp;and&nbsp;it&#x27;s&nbsp;values&nbsp;as&nbsp;the&nbsp;row&#x27;s&nbsp;values
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOTE:&nbsp;X&nbsp;represents&nbsp;a&nbsp;delimiter
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`file-path`&nbsp;is&nbsp;the&nbsp;XSV&nbsp;file&#x27;s&nbsp;path
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`delimiter`&nbsp;is&nbsp;the&nbsp;delimiter&nbsp;value&nbsp;used&nbsp;in&nbsp;the&nbsp;XSV&nbsp;file,&nbsp;the&nbsp;default&nbsp;value&nbsp;of&nbsp;it&nbsp;is&nbsp;`,`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`field-names`&nbsp;is&nbsp;the&nbsp;collection&nbsp;of&nbsp;column&nbsp;names&nbsp;of&nbsp;the&nbsp;XSV&nbsp;file
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;it&nbsp;is&nbsp;not&nbsp;supplied,&nbsp;the&nbsp;function&nbsp;will&nbsp;read&nbsp;it&nbsp;from&nbsp;the&nbsp;first&nbsp;row&nbsp;of&nbsp;the&nbsp;file&quot;
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;([file-path]&nbsp;(xsv-reader&nbsp;file-path&nbsp;true))
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;([file-path&nbsp;has-field-names?]&nbsp;(xsv-reader&nbsp;file-path&nbsp;has-field-names?&nbsp;#&quot;,&quot;))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;([file-path&nbsp;has-field-names?&nbsp;delimiter]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(xsv-reader&nbsp;file-path&nbsp;has-field-names?&nbsp;delimiter
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(find-field-names&nbsp;file-path&nbsp;delimiter)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;([file-path&nbsp;has-field-names?&nbsp;delimiter&nbsp;field-names]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[rows&nbsp;(read-file-lines&nbsp;file-path)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first?&nbsp;has-field-names?
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;(lazy-seq&nbsp;[])]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;rows)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;rows)&nbsp;false
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&gt;&nbsp;result
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;first?)&nbsp;(row-&gt;map&nbsp;rows&nbsp;delimiter&nbsp;field-names)))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                053&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                054&nbsp;&nbsp;(defn&nbsp;write-xsv
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                055&nbsp;&nbsp;&nbsp;&nbsp;&quot;Takes&nbsp;a&nbsp;file&nbsp;(path,&nbsp;name&nbsp;and&nbsp;extension)&nbsp;and&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;csv-data&nbsp;(vector&nbsp;of&nbsp;vectors&nbsp;with&nbsp;all&nbsp;values)&nbsp;and
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writes&nbsp;csv&nbsp;file.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                058&nbsp;&nbsp;&nbsp;&nbsp;[file&nbsp;xsv-data]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                059&nbsp;&nbsp;&nbsp;&nbsp;(with-open&nbsp;[writer&nbsp;(io&#x2F;writer&nbsp;file)]
+                </span><br/>
+<span class="partial" title="35 out of 40 forms covered">
+                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(doseq&nbsp;[[i&nbsp;xd]&nbsp;(map&nbsp;vector&nbsp;(range&nbsp;(count&nbsp;xsv-data))&nbsp;xsv-data)]
+                </span><br/>
+<span class="partial" title="12 out of 24 forms covered">
+                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(.write&nbsp;writer&nbsp;(cond-&gt;&gt;&nbsp;xd&nbsp;(pos?&nbsp;i)&nbsp;(str&nbsp;&quot;\n&quot;))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                062&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                063&nbsp;&nbsp;(defn&nbsp;maps-&gt;xsv-data
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                064&nbsp;&nbsp;&nbsp;&nbsp;&quot;Takes&nbsp;a&nbsp;collection&nbsp;of&nbsp;maps&nbsp;and&nbsp;returns&nbsp;csv-data&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vector&nbsp;of&nbsp;vectors&nbsp;with&nbsp;all&nbsp;values).&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                066&nbsp;&nbsp;&nbsp;&nbsp;[delimiter&nbsp;maps]
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                067&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[columns&nbsp;(-&gt;&nbsp;maps&nbsp;first&nbsp;keys)
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers&nbsp;(clj-str&#x2F;join&nbsp;delimiter&nbsp;(map&nbsp;name&nbsp;columns))
+                </span><br/>
+<span class="covered" title="10 out of 10 forms covered">
+                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows&nbsp;(map&nbsp;(fn&nbsp;[m]&nbsp;(clj-str&#x2F;join&nbsp;delimiter&nbsp;(vals&nbsp;m)))&nbsp;maps)]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[headers]&nbsp;rows)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                071&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                072&nbsp;&nbsp;(defn&nbsp;write-xsv-from-maps
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                073&nbsp;&nbsp;&nbsp;&nbsp;&quot;Takes&nbsp;a&nbsp;file&nbsp;(path,&nbsp;name&nbsp;and&nbsp;extension)&nbsp;and&nbsp;a&nbsp;collection&nbsp;of&nbsp;maps
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transforms&nbsp;data&nbsp;(vector&nbsp;of&nbsp;vectors&nbsp;with&nbsp;all&nbsp;values)&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writes&nbsp;csv&nbsp;file.
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optionall&nbsp;provide&nbsp;a&nbsp;delimiter,&nbsp;defaults&nbsp;to&nbsp;`,`&quot;
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                077&nbsp;&nbsp;&nbsp;&nbsp;([file&nbsp;maps]&nbsp;(write-xsv-from-maps&nbsp;file&nbsp;maps&nbsp;&quot;,&quot;))
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                078&nbsp;&nbsp;&nbsp;&nbsp;([file&nbsp;maps&nbsp;delimiter]&nbsp;(-&gt;&gt;&nbsp;maps&nbsp;(maps-&gt;xsv-data&nbsp;delimiter)&nbsp;(write-xsv&nbsp;file))))
+                </span><br/>
+ </body>
+</html>

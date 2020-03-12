@@ -1,0 +1,146 @@
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="../../coverage.css"/>  <title> clj_ml/utils/generic.clj </title>
+ </head>
+ <body>
+<span class="covered" title="1 out of 1 forms covered">
+                001&nbsp;&nbsp;(ns&nbsp;clj-ml.utils.generic
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clojure.string&nbsp;:refer&nbsp;[split]]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                003&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                004&nbsp;&nbsp;(defn&nbsp;index-matrix-rows
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;&nbsp;&nbsp;&quot;This&nbsp;function&nbsp;indexes&nbsp;`matrix`&#x27;s&nbsp;rows&nbsp;and&nbsp;returns&nbsp;a&nbsp;map&nbsp;where&nbsp;key&nbsp;is&nbsp;the&nbsp;row&nbsp;number&nbsp;and&nbsp;value&nbsp;is&nbsp;the&nbsp;row&nbsp;itself&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                006&nbsp;&nbsp;&nbsp;&nbsp;[matrix]
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;(dissoc
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[{:keys&nbsp;[size]&nbsp;:as&nbsp;acc}&nbsp;v]
+                </span><br/>
+<span class="covered" title="11 out of 11 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;acc&nbsp;(first&nbsp;size)&nbsp;v&nbsp;:size&nbsp;(rest&nbsp;size)))
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:size&nbsp;(range&nbsp;(count&nbsp;matrix))}&nbsp;matrix)&nbsp;:size))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                012&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                013&nbsp;&nbsp;(defn&nbsp;first-n-zeros
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;collection,&nbsp;this&nbsp;function&nbsp;finds&nbsp;the&nbsp;number&nbsp;of&nbsp;zero&nbsp;elements&nbsp;of&nbsp;the&nbsp;collection&nbsp;from&nbsp;the&nbsp;start&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;[coll]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[c&nbsp;coll
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count&nbsp;0
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last-elem-zero?&nbsp;nil]
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(false?&nbsp;last-elem-zero?)
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;c))
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[lez?&nbsp;(zero?&nbsp;(first&nbsp;c))]
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;c)&nbsp;(cond-&gt;&nbsp;count&nbsp;lez?&nbsp;inc)&nbsp;lez?)))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                024&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                025&nbsp;&nbsp;(defn&nbsp;replace-nth
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&quot;Replaces&nbsp;`n`th&nbsp;item&nbsp;from&nbsp;`coll`&nbsp;with&nbsp;`replacement`&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;[coll&nbsp;n&nbsp;replacement]
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;(concat
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(take&nbsp;n&nbsp;coll)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list&nbsp;replacement)
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(drop&nbsp;(inc&nbsp;n)&nbsp;coll)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                032&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                033&nbsp;&nbsp;(defn&nbsp;rationalise
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&quot;Rationalises&nbsp;a&nbsp;number&nbsp;into&nbsp;a&nbsp;fraction,&nbsp;same&nbsp;as&nbsp;`clojure.core&#x2F;rationalize`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;But&nbsp;this&nbsp;will&nbsp;always&nbsp;return&nbsp;the&nbsp;numerator&nbsp;as&nbsp;is,&nbsp;without&nbsp;the&nbsp;decimal
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hence&nbsp;the&nbsp;denominator&nbsp;will&nbsp;be&nbsp;in&nbsp;multiples&nbsp;of&nbsp;10&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;[n]
+                </span><br/>
+<span class="covered" title="11 out of 11 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(not&nbsp;(integer?&nbsp;n))
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(zero?&nbsp;(-&nbsp;n&nbsp;(int&nbsp;n)))))
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[d&nbsp;(as-&gt;&nbsp;(str&nbsp;n)&nbsp;$
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(split&nbsp;$&nbsp;#&quot;\.&quot;)
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(second&nbsp;$)&nbsp;(count&nbsp;$)
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(take&nbsp;$&nbsp;(repeat&nbsp;10))
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(apply&nbsp;*&nbsp;$))]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vector&nbsp;(Math&#x2F;round&nbsp;(*&nbsp;n&nbsp;d))&nbsp;d))
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[n&nbsp;1]))
+                </span><br/>
+ </body>
+</html>
