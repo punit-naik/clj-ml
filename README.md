@@ -1,6 +1,6 @@
 # clj-ml
 
-[![Clojars Project](https://img.shields.io/clojars/v/org.clojars.punit-naik/org.clojars.punit-naik.clj-ml.svg)](https://clojars.org/org.clojars.punit-naik/clj-ml)
+[![Clojars Project](https://img.shields.io/clojars/v/org.clojars.punit-naik/clj-ml.svg)](https://clojars.org/org.clojars.punit-naik/clj-ml)
 
 Collection of ML and it's corresponsing utilities in Clojure
 
