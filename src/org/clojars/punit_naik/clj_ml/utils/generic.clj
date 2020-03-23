@@ -44,3 +44,19 @@
               (apply * $))]
       (vector (Math/round (* n d)) d))
     [n 1]))
+
+(defn shingles
+  "Generate shingles out of a string `s` (could also work with other types of collections)
+   The shingle size is specified by `n`
+   If `s` is a very small string (of count less than or equal to 5),
+   just a list of it's individual chars is returned"
+  [s n]
+  (if (or (<= (count s) 5)
+          (not (re-matches #".*\s+.*" s)))
+    (map str s)
+    (loop [idx-coll (range (- (count s) (dec n)))
+           result []]
+      (if (empty? idx-coll)
+        result
+        (recur (rest idx-coll)
+               (conj result (reduce str (take n (drop (first idx-coll) s)))))))))

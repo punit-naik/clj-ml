@@ -25,3 +25,14 @@
     (is (= (gu/rationalise 2.54) [254 100]))
     (is (= (gu/rationalise 2.53) [253 100]))
     (is (= (gu/rationalise 2.52) [252 100]))))
+
+(deftest shingles-test
+  (testing "the `org.clojars.punit-naik.clj-ml.utils.matrix/shingles `function"
+    (is (= (gu/shingles "punit" 2) ["p" "u" "n" "i" "t"]))
+    (is (= (gu/shingles "punit" 3) ["p" "u" "n" "i" "t"]))
+    (is (= (gu/shingles "punit n" 2) ["pu" "un" "ni" "it" "t " " n"]))
+    (is (= (gu/shingles "punit n" 3) ["pun" "uni" "nit" "it " "t n"]))
+    (is (= (gu/shingles "punit n" 6) ["punit " "unit n"]))
+    (is (= (gu/shingles "punit n" 7) ["punit n"]))
+    (is (= (gu/shingles "punit n" 8) []))
+    (is (= (gu/shingles "punit n" 9) []))))
