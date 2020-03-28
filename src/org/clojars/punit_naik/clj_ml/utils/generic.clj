@@ -51,8 +51,7 @@
    If `s` is a very small string (of count less than or equal to 5),
    just a list of it's individual chars is returned"
   [s n]
-  (if (or (<= (count s) 5)
-          (not (re-matches #".*\s+.*" s)))
+  (if (= n 1)
     (map str s)
     (loop [idx-coll (range (- (count s) (dec n)))
            result []]
