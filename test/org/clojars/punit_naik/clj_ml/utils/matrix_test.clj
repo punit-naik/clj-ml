@@ -108,11 +108,11 @@
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/covariance` function calculates the covariance matrix of a 2D matrix properly"
     (is (= (mu/covariance covar-mat-in) covar-mat-out))))
 
-(deftest upper-triangular-matrix?-test
-  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/upper-triangular-matrix`? properly identifies an upper triangular matrix or not"
-    (is (mu/upper-triangular-matrix? sample-identity-matrix))
-    (is (mu/upper-triangular-matrix? [[0 0] [0 0]]))
-    (is (not (mu/upper-triangular-matrix? valid-2d-matrix-2)))))
+(deftest triangular-matrix?-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/triangular-matrix?` properly identifies an upper triangular matrix or not"
+    (is (mu/triangular-matrix? sample-identity-matrix))
+    (is (mu/triangular-matrix? [[0 0] [0 0]]))
+    (is (not (mu/triangular-matrix? valid-2d-matrix-2)))))
 
 (deftest row-adjust-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/row-adjust` properly adjusts the row or not"
