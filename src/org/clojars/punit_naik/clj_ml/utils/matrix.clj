@@ -300,25 +300,75 @@
                           row-2-indexed)))
                row-1-indexed)))
 
+(defn concat-matrix-rows
+  "Concatenates matrix rows with the first `(num-cols - 1)` values of the same row
+   This helps in finding the characteristic equation of the matrix"
+  [matrix num-cols]
+  (map #(concat % (take (dec num-cols) %)) matrix))
+
+(defn characteristic-equation-parts
+  "Finds the positive or the negative parts of the characteristic euqation
+   Both the positive and negative pats will be added to form the final eqution"
+  ([concatenated-matrix-minus-lambda-i num-rows]
+   (characteristic-equation-parts concatenated-matrix-minus-lambda-i num-rows true))
+  ([concatenated-matrix-minus-lambda-i num-rows positive-part?]
+   (let [end-col-idx (dec (second (dimension concatenated-matrix-minus-lambda-i)))
+         i-range (if positive-part?
+                   (range num-rows)
+                   (range end-col-idx (- end-col-idx num-rows) -1))]
+     (loop [i i-range
+            result []]
+       (if (empty? i)
+         result
+         (let [product (loop [paths (map vector
+                                         (range num-rows)
+                                         (range (first i)
+                                                ((if positive-part? + -) (first i) num-rows)
+                                                (if positive-part? 1 -1)))
+                              result {}]
+                         (if (empty? paths)
+                           result
+                           (recur (rest paths)
+                                  (let [ij (get-val concatenated-matrix-minus-lambda-i (first paths))
+                                        ij-mod (if (coll? ij) (gu/index-matrix-rows ij) ij)]
+                                    (if (and (coll? result)
+                                             (empty? result))
+                                      ij-mod
+                                      (if (coll? result)
+                                        (if (coll? ij-mod)
+                                          (cross-product result ij-mod)
+                                          (into {} (map (fn [[k v]] [k (* v ij-mod)]) result)))
+                                        (if (coll? ij-mod)
+                                          (into {} (map (fn [[k v]] [k (* v result)]) ij-mod))
+                                          (* ij-mod result))))))))]
+           (recur (rest i)
+                  (if (and (coll? result)
+                           (empty? result))
+                    (vals product)
+                    (if (coll? result)
+                      (if (coll? product)
+                        (let [bigger-coll (if (>= (count product) (count result)) (vals product) result)
+                              smaller-coll (if (< (count product) (count result)) (vals product) result)
+                              smaller-coll-padded (concat (take (- (count bigger-coll) (count smaller-coll)) (repeat 0)) smaller-coll)]
+                          (map + bigger-coll smaller-coll-padded))
+                        (update (vec result) (dec (count result)) + product))
+                      (if (coll? product)
+                        (update (vec (vals product)) (dec (count product)) + result)
+                        (+ result product)))))))))))
+
 (defn eigen-values
-  "Gets the eigen values of a matrix"
+  "Gets the eigen values of a matrix from it's characteristic equation"
   [matrix]
-  (let [diagonal-elements-minus-lambda (loop [utm (:upper-triangular (upper-triangular-matrix matrix))
-                                              i (range (count utm))
-                                              result []]
-                                         (if (empty? i)
-                                           result
-                                           (recur (rest utm)
-                                                  (rest i)
-                                                  (conj result
-                                                        [-1 (get-val (first utm) [(first i)])]))))
-        eq (vals
-             (loop [deml (rest diagonal-elements-minus-lambda)
-                    ff (first diagonal-elements-minus-lambda)]
-               (if (empty? deml)
-                 ff
-                 (recur (rest deml)
-                        (cross-product (cond-> ff
-                                         (not (map? ff)) gu/index-matrix-rows)
-                                       (gu/index-matrix-rows (first deml)))))))]
-    (lau/solve-equation eq)))
+  (let [[m n] (dimension matrix)
+        matrix-minus-lambda-i (map #(update (vec %1) %2 (fn [e] [-1 e])) matrix (range m))
+        concatenated-matrix-minus-lambda-i (concat-matrix-rows matrix-minus-lambda-i n)
+        first-part-product (characteristic-equation-parts concatenated-matrix-minus-lambda-i m)
+        second-part-product (characteristic-equation-parts concatenated-matrix-minus-lambda-i m false)
+        bigger-coll (if (>= (count first-part-product) (count second-part-product)) first-part-product second-part-product)
+        smaller-coll (if (< (count first-part-product) (count second-part-product)) first-part-product second-part-product)
+        smaller-coll-padded (concat (take (- (count bigger-coll) (count smaller-coll)) (repeat 0)) smaller-coll)
+        smaller-coll-padded-negative (map #(* % -1) smaller-coll-padded)
+        eq (map + bigger-coll smaller-coll-padded-negative)]
+    (sort
+     (concat (lau/solve-equation (remove zero? eq))
+             (filter zero? (last (partition-by identity eq)))))))
