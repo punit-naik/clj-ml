@@ -190,15 +190,22 @@
                                                  (dec n))))))
                            (range row (count t))))))))))
 
-(defn upper-triangular-matrix?
+(defn triangular-matrix?
   [m]
-  (every? true?
-          (map
-           (fn [i row]
-             (if (zero? i)
-               true
-               (every? zero? (take i row))))
-           (range (count m)) m)))
+  (or (every? true?
+              (map
+               (fn [i row]
+                 (if (zero? i)
+                   true
+                   (every? zero? (take i row))))
+               (range (count m)) m))
+      (every? true?
+              (map
+               (fn [i row]
+                 (if (= i (dec (count m)))
+                   true
+                   (every? zero? (take-last (- (dec (count m)) i) row))))
+               (range (count m)) m))))
 
 (defn row-adjust
   "using `row-1` to adjust row elements of `row-2` so that their first `n` values are equal to zeros"
