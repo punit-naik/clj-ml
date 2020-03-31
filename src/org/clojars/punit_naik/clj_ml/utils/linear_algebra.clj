@@ -32,7 +32,7 @@
 
 (defn isa-solution?
   "Given the a to z terms of the quadratic euqation ax^n+....+z=0 as a collection
-   And the root, this function checks if the same root is a solution for thr euqation or not
+   And the root, this function checks if the same root is a solution for the euqation or not
    And returns the new reduced equation for finding the remaining roots"
   [coefficients root]
   (let [result (reduce (fn [{:keys [sum] :as acc} v]
