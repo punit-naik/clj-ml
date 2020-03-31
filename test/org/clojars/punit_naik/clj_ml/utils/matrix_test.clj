@@ -31,6 +31,7 @@
 (defonce ^:private upper-triangular-matrix-data-3 [[3 0 0 3 0] [-3 0 -2 0 0] [0 -1 0 0 -3] [0 0 0 3 3] [0 -1 2 0 1]])
 (defonce ^:private upper-triangular-matrix-data-3-result '([3 0 0 3 0] [0 -1 0 0 -3] (0.0 0.0 -2.0 3.0 0.0) [0 0 0 3 3] (0.0 0.0 0.0 0.0 1.0)))
 (defonce ^:private upper-triangular-matrix-data-4 [[13 2 -18] [14 1 -18] [10 2 -15]])
+(defonce ^:private upper-triangular-matrix-data-4-result '([13 2 -18] (0.0 -1.1538461538461537 1.3846153846153832) (0.0 0.0 -0.6000000000000001)))
 (defonce ^:private cross-product-data-1 {0 -1 1 1})
 (defonce ^:private cross-product-data-2 {'(0 0) 1, '(0 1) -2, '(1 1) 1})
 (defonce ^:private cross-product-data-3 {'(0 0 0) -1, '(0 0 1) 3, '(0 1 1) -3, '(1 1 1) 1})
@@ -125,7 +126,7 @@
     (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-1)) upper-triangular-matrix-data-1-result))
     (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-2)) upper-triangular-matrix-data-2-result))
     (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-3)) upper-triangular-matrix-data-3-result))
-    (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-4)) upper-triangular-matrix-data-3-result))))
+    (is (= (:upper-triangular (mu/upper-triangular-matrix upper-triangular-matrix-data-4)) upper-triangular-matrix-data-4-result))))
 
 (deftest determinant-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/determinant` properly generates an upper triangular matrix or not"
