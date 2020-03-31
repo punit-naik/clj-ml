@@ -163,32 +163,29 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 053&nbsp;&nbsp;&nbsp;&nbsp;[s&nbsp;n]
                 </span><br/>
-<span class="covered" title="12 out of 12 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(&lt;=&nbsp;(count&nbsp;s)&nbsp;5)
-                </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(re-matches&nbsp;#&quot;.*\s+.*&quot;&nbsp;s)))
+                054&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;n&nbsp;1)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;str&nbsp;s)
+                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;str&nbsp;s)
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[idx-coll&nbsp;(range&nbsp;(-&nbsp;(count&nbsp;s)&nbsp;(dec&nbsp;n)))
+                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[idx-coll&nbsp;(range&nbsp;(-&nbsp;(count&nbsp;s)&nbsp;(dec&nbsp;n)))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;[]]
+                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;[]]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;idx-coll)
+                058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;idx-coll)
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;idx-coll)
+                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;idx-coll)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(conj&nbsp;result&nbsp;(reduce&nbsp;str&nbsp;(take&nbsp;n&nbsp;(drop&nbsp;(first&nbsp;idx-coll)&nbsp;s)))))))))
+                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(conj&nbsp;result&nbsp;(reduce&nbsp;str&nbsp;(take&nbsp;n&nbsp;(drop&nbsp;(first&nbsp;idx-coll)&nbsp;s)))))))))
                 </span><br/>
  </body>
 </html>

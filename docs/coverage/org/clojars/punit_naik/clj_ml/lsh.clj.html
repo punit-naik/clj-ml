@@ -5,10 +5,301 @@
  </head>
  <body>
 <span class="covered" title="1 out of 1 forms covered">
-                001&nbsp;&nbsp;(ns&nbsp;org.clojars.punit-naik.clj-ml.lsh)
+                001&nbsp;&nbsp;(ns&nbsp;org.clojars.punit-naik.clj-ml.lsh
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clojure.set&nbsp;:refer&nbsp;[union&nbsp;subset?]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.string&nbsp;:refer&nbsp;[join]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[org.clojars.punit-naik.clj-ml.utils.generic&nbsp;:refer&nbsp;[shingles]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[org.clojars.punit-naik.clj-ml.utils.string&nbsp;:refer&nbsp;[levenshtein-distance]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[æsahættr&nbsp;:refer&nbsp;[murmur3-128&nbsp;hash-&gt;long&nbsp;hash-string]]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                002&nbsp;&nbsp;
+                007&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                008&nbsp;&nbsp;(defn&nbsp;hash-n-times
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                009&nbsp;&nbsp;&nbsp;&nbsp;&quot;Hashes&nbsp;a&nbsp;shingles&nbsp;list&nbsp;`n`&nbsp;times&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;[sh-list&nbsp;n]
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[hashes&nbsp;(map&nbsp;murmur3-128&nbsp;(range&nbsp;n))]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
+                </span><br/>
+<span class="not-covered" title="0 out of 11 forms covered">
+                013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[s]&nbsp;(map&nbsp;(fn&nbsp;[h]&nbsp;(hash-&gt;long&nbsp;(hash-string&nbsp;h&nbsp;s)))&nbsp;hashes))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sh-list)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                015&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                016&nbsp;&nbsp;(defn&nbsp;min-hash
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;&quot;Takes&nbsp;the&nbsp;lists&nbsp;of&nbsp;hashed&nbsp;values&nbsp;(where&nbsp;all&nbsp;of&nbsp;them&nbsp;have&nbsp;the&nbsp;same&nbsp;size)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;finds&nbsp;the&nbsp;minimum&nbsp;hash&nbsp;value&nbsp;at&nbsp;the&nbsp;position&nbsp;‘i’&nbsp;from&nbsp;every&nbsp;list
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thereby&nbsp;generating&nbsp;a&nbsp;single&nbsp;list&nbsp;of&nbsp;hash&nbsp;values&nbsp;which&nbsp;is&nbsp;the&nbsp;minhash&nbsp;signature&nbsp;of&nbsp;that&nbsp;string&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;[hash-values]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;#(map&nbsp;min&nbsp;%1&nbsp;%2)&nbsp;hash-values))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                022&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                023&nbsp;&nbsp;(defn&nbsp;band-hash
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;&quot;Takes&nbsp;the&nbsp;minhash&nbsp;signature&nbsp;of&nbsp;a&nbsp;string&nbsp;and&nbsp;partitions&nbsp;it&nbsp;according&nbsp;to&nbsp;`band-size`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Then&nbsp;we&nbsp;hash&nbsp;each&nbsp;\&quot;band\&quot;&nbsp;(partition)&nbsp;as&nbsp;similar&nbsp;strings&nbsp;will&nbsp;tend&nbsp;have&nbsp;at&nbsp;least&nbsp;one&nbsp;matching&nbsp;hashed&nbsp;band&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;[band-size&nbsp;minhash-list]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[banded-minhash-list&nbsp;(partition-all&nbsp;band-size&nbsp;minhash-list)]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
+                </span><br/>
+<span class="not-covered" title="0 out of 10 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[m&nbsp;h]&nbsp;(hash-&gt;long&nbsp;(hash-string&nbsp;h&nbsp;(join&nbsp;&quot;-&quot;&nbsp;m))))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;banded-minhash-list
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;murmur3-128&nbsp;(range&nbsp;(count&nbsp;banded-minhash-list))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                032&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                033&nbsp;&nbsp;(defn&nbsp;find-candidate-subsets
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;list&nbsp;of&nbsp;tuples&nbsp;of&nbsp;(&lt;str&gt;,&lt;hash&gt;),&nbsp;tries&nbsp;to&nbsp;generate&nbsp;a&nbsp;a&nbsp;list&nbsp;of&nbsp;similar&nbsp;candidates&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;[str-hash-pair-list]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;(fn&nbsp;[])&nbsp;{}&nbsp;str-hash-pair-list))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                037&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                038&nbsp;&nbsp;(defn&nbsp;compare-records
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;&quot;Compares&nbsp;a&nbsp;list&nbsp;of&nbsp;records&#x2F;string&nbsp;with&nbsp;each&nbsp;other&nbsp;using&nbsp;`org.clojars.punit-naik.clj-ml.utils.string&#x2F;levenshtein-distance`&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;[records]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[[s1-idx&nbsp;s1]&nbsp;(first&nbsp;records)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2-rest&nbsp;(rest&nbsp;records)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;#{}]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;s2-rest)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(first&nbsp;s2-rest)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(rest&nbsp;s2-rest)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;result
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[[s2-idx&nbsp;s2]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:original-index&nbsp;s1-idx
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:original-data&nbsp;s1
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:possible-duplicate-index&nbsp;s2-idx
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:possible-duplicate-data&nbsp;s2
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:match-percentage&nbsp;(levenshtein-distance&nbsp;s1&nbsp;s2)})&nbsp;s2-rest))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                056&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                057&nbsp;&nbsp;(defn&nbsp;merge-candidates
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                058&nbsp;&nbsp;&nbsp;&nbsp;[candidate-list]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                059&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[c&nbsp;(first&nbsp;candidate-list)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cr&nbsp;(rest&nbsp;candidate-list)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;#{}]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;cr)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                063&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(first&nbsp;cr)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(rest&nbsp;cr)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;result&nbsp;(filter&nbsp;#(subset?&nbsp;c&nbsp;%)&nbsp;cr))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                067&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                068&nbsp;&nbsp;(defn&nbsp;merge-candidates-recursive
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                069&nbsp;&nbsp;&nbsp;&nbsp;[candidate-list]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                070&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[current-result&nbsp;candidate-list
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;merged-result&nbsp;(merge-candidates&nbsp;current-result)]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(empty?&nbsp;merged-result)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(=&nbsp;(count&nbsp;merged-result)&nbsp;(count&nbsp;current-result)))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current-result
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;merged-result&nbsp;(merge-candidates&nbsp;merged-result)))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                076&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                077&nbsp;&nbsp;(defn&nbsp;find-possible-duplicates
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                078&nbsp;&nbsp;&nbsp;&nbsp;&quot;Takes&nbsp;a&nbsp;collection&nbsp;of&nbsp;strings&nbsp;(`data`)&nbsp;and&nbsp;finds&nbsp;out&nbsp;the&nbsp;similar&nbsp;strings&nbsp;from&nbsp;the&nbsp;collection&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                079&nbsp;&nbsp;&nbsp;&nbsp;[shingle-size&nbsp;hash-count&nbsp;band-size&nbsp;match-threshold&nbsp;data]
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                080&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;(pmap&nbsp;#(-&gt;&nbsp;%
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(shingles&nbsp;shingle-size)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hash-n-times&nbsp;hash-count)
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min-hash)&nbsp;data)
+                </span><br/>
+<span class="not-covered" title="0 out of 18 forms covered">
+                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapcat&nbsp;#(map&nbsp;(fn&nbsp;[bh]&nbsp;[(:index&nbsp;%1)&nbsp;(:data&nbsp;%1)&nbsp;bh])&nbsp;(band-hash&nbsp;band-size&nbsp;%2))
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed&nbsp;(fn&nbsp;[idx&nbsp;d]&nbsp;{:index&nbsp;idx&nbsp;:data&nbsp;d})&nbsp;data))
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(group-by&nbsp;last)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;Not&nbsp;really&nbsp;interested&nbsp;in&nbsp;the&nbsp;key&nbsp;as&nbsp;it&nbsp;is&nbsp;present&nbsp;in&nbsp;the&nbsp;grouped&nbsp;data
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vals
+                </span><br/>
+<span class="not-covered" title="0 out of 10 forms covered">
+                089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pmap&nbsp;#(set&nbsp;(map&nbsp;butlast&nbsp;%)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;Merging&nbsp;candidates&nbsp;as&nbsp;there&nbsp;might&nbsp;be&nbsp;multiple&nbsp;hash&nbsp;values&nbsp;that&nbsp;match&nbsp;for&nbsp;different&nbsp;strings
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                091&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;merge-candidates-recursive
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                092&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;Generating&nbsp;candidates&nbsp;list
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                093&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pmap&nbsp;compare-records)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                094&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(apply&nbsp;concat)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                095&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(filter&nbsp;#(&gt;=&nbsp;(:match-percentage&nbsp;%)&nbsp;match-threshold))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                096&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                097&nbsp;&nbsp;(comment
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                098&nbsp;&nbsp;&nbsp;&nbsp;(find-possible-duplicates&nbsp;1&nbsp;5&nbsp;2&nbsp;90&nbsp;[&quot;punit&quot;&nbsp;&quot;punitn&quot;&nbsp;&quot;punir&quot;&nbsp;&quot;test123&quot;&nbsp;&quot;punit4&quot;&nbsp;&quot;test12&quot;&nbsp;&quot;test11&quot;])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                099&nbsp;&nbsp;&nbsp;&nbsp;)
                 </span><br/>
  </body>
 </html>

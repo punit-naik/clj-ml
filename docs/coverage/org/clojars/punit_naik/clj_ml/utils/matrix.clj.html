@@ -581,376 +581,550 @@
                 192&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                193&nbsp;&nbsp;(defn&nbsp;upper-triangular-matrix?
+                193&nbsp;&nbsp;(defn&nbsp;triangular-matrix?
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 194&nbsp;&nbsp;&nbsp;&nbsp;[m]
                 </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                195&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;true?
+<span class="covered" title="8 out of 8 forms covered">
+                195&nbsp;&nbsp;&nbsp;&nbsp;(or&nbsp;(every?&nbsp;true?
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                196&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
+                196&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                197&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[i&nbsp;row]
+                197&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[i&nbsp;row]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                198&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(zero?&nbsp;i)
+                198&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(zero?&nbsp;i)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                199&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true
+                199&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;zero?&nbsp;(take&nbsp;i&nbsp;row))))
+                200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;zero?&nbsp;(take&nbsp;i&nbsp;row))))
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                201&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;(count&nbsp;m))&nbsp;m)))
+                201&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;(count&nbsp;m))&nbsp;m))
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                202&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;true?
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                203&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                204&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[i&nbsp;row]
+                </span><br/>
+<span class="partial" title="9 out of 10 forms covered">
+                205&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;i&nbsp;(dec&nbsp;(count&nbsp;m)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                206&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true
+                </span><br/>
+<span class="covered" title="14 out of 14 forms covered">
+                207&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;zero?&nbsp;(take-last&nbsp;(-&nbsp;(dec&nbsp;(count&nbsp;m))&nbsp;i)&nbsp;row))))
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                208&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;(count&nbsp;m))&nbsp;m))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                202&nbsp;&nbsp;
+                209&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                203&nbsp;&nbsp;(defn&nbsp;row-adjust
+                210&nbsp;&nbsp;(defn&nbsp;row-adjust
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                204&nbsp;&nbsp;&nbsp;&nbsp;&quot;using&nbsp;`row-1`&nbsp;to&nbsp;adjust&nbsp;row&nbsp;elements&nbsp;of&nbsp;`row-2`&nbsp;so&nbsp;that&nbsp;their&nbsp;first&nbsp;`n`&nbsp;values&nbsp;are&nbsp;equal&nbsp;to&nbsp;zeros&quot;
+                211&nbsp;&nbsp;&nbsp;&nbsp;&quot;using&nbsp;`row-1`&nbsp;to&nbsp;adjust&nbsp;row&nbsp;elements&nbsp;of&nbsp;`row-2`&nbsp;so&nbsp;that&nbsp;their&nbsp;first&nbsp;`n`&nbsp;values&nbsp;are&nbsp;equal&nbsp;to&nbsp;zeros&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                205&nbsp;&nbsp;&nbsp;&nbsp;[row-1&nbsp;row-2&nbsp;n]
+                212&nbsp;&nbsp;&nbsp;&nbsp;[row-1&nbsp;row-2&nbsp;n]
                 </span><br/>
 <span class="covered" title="10 out of 10 forms covered">
-                206&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(every?&nbsp;zero?&nbsp;(take&nbsp;n&nbsp;row-2))
+                213&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(every?&nbsp;zero?&nbsp;(take&nbsp;n&nbsp;row-2))
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                207&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[m&nbsp;(range&nbsp;(gu&#x2F;first-n-zeros&nbsp;row-1)&nbsp;n)
+                214&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[m&nbsp;(range&nbsp;(gu&#x2F;first-n-zeros&nbsp;row-1)&nbsp;n)
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                208&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-2&nbsp;row-2
+                215&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-2&nbsp;row-2
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                209&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prev-r-2&nbsp;row-2]
+                216&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prev-r-2&nbsp;row-2]
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                210&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&lt;&nbsp;(gu&#x2F;first-n-zeros&nbsp;r-2)&nbsp;(gu&#x2F;first-n-zeros&nbsp;prev-r-2))
+                217&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&lt;&nbsp;(gu&#x2F;first-n-zeros&nbsp;r-2)&nbsp;(gu&#x2F;first-n-zeros&nbsp;prev-r-2))
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                211&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prev-r-2
+<span class="covered" title="1 out of 1 forms covered">
+                218&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prev-r-2
                 </span><br/>
 <span class="covered" title="12 out of 12 forms covered">
-                212&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(&gt;=&nbsp;(gu&#x2F;first-n-zeros&nbsp;r-2)&nbsp;n)
+                219&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(&gt;=&nbsp;(gu&#x2F;first-n-zeros&nbsp;r-2)&nbsp;n)
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                213&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;m))
+                220&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;m))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                214&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-2
+                221&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-2
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                215&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mth-row-1&nbsp;(double&nbsp;(nth&nbsp;row-1&nbsp;(first&nbsp;m)))
+                222&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mth-row-1&nbsp;(double&nbsp;(nth&nbsp;row-1&nbsp;(first&nbsp;m)))
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                216&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mth-r-2&nbsp;(double&nbsp;(nth&nbsp;r-2&nbsp;(first&nbsp;m)))
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                217&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mth-row-1-multiplier&nbsp;(Math&#x2F;abs&nbsp;(double&nbsp;(&#x2F;&nbsp;mth-r-2&nbsp;mth-row-1)))]
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                218&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;m)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                219&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(and&nbsp;(zero?&nbsp;mth-r-2)&nbsp;(zero?&nbsp;mth-row-1))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                220&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(as-&gt;&nbsp;[row-1]&nbsp;$
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                221&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(perform-arithmetic-op&nbsp;$&nbsp;(Math&#x2F;abs&nbsp;mth-row-1-multiplier)&nbsp;*)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                222&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(perform-arithmetic-op&nbsp;[r-2]&nbsp;$&nbsp;(if&nbsp;(not=&nbsp;(&#x2F;&nbsp;mth-row-1&nbsp;(Math&#x2F;abs&nbsp;mth-row-1))&nbsp;(&#x2F;&nbsp;mth-r-2&nbsp;(Math&#x2F;abs&nbsp;mth-r-2)))&nbsp;+&nbsp;-))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                223&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;$))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                224&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-2)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                225&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-2)))))
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                226&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-2))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                227&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                228&nbsp;&nbsp;(defn&nbsp;recursive-row-adjust
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                229&nbsp;&nbsp;&nbsp;&nbsp;[matrix&nbsp;row-index-to-be-processed]
+                223&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mth-r-2&nbsp;(double&nbsp;(nth&nbsp;r-2&nbsp;(first&nbsp;m)))
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                230&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[row-idxs&nbsp;(range&nbsp;row-index-to-be-processed);(range&nbsp;(first&nbsp;(dimension&nbsp;matrix)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                231&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;nil]
-                </span><br/>
-<span class="partial" title="17 out of 18 forms covered">
-                232&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(and&nbsp;(seq&nbsp;result)
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                233&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(or&nbsp;(&gt;=&nbsp;(gu&#x2F;first-n-zeros&nbsp;result)
+                224&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mth-row-1-multiplier&nbsp;(Math&#x2F;abs&nbsp;(&#x2F;&nbsp;mth-r-2&nbsp;mth-row-1))]
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                234&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-index-to-be-processed)
+                225&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;m)
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                235&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&gt;=&nbsp;(gu&#x2F;first-n-zeros&nbsp;(get-val&nbsp;matrix&nbsp;[row-index-to-be-processed]))
+<span class="not-tracked" title="0 out of 0 forms covered">
+                226&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(and&nbsp;(zero?&nbsp;mth-r-2)&nbsp;(zero?&nbsp;mth-row-1))
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                236&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-index-to-be-processed)))
+<span class="not-tracked" title="0 out of 0 forms covered">
+                227&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(as-&gt;&nbsp;[row-1]&nbsp;$
                 </span><br/>
-<span class="covered" title="2 out of 2 forms covered">
-                237&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;row-idxs))
+<span class="not-tracked" title="0 out of 0 forms covered">
+                228&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(perform-arithmetic-op&nbsp;$&nbsp;(Math&#x2F;abs&nbsp;mth-row-1-multiplier)&nbsp;*)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                229&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(perform-arithmetic-op&nbsp;[r-2]&nbsp;$&nbsp;(if&nbsp;(not=&nbsp;(&#x2F;&nbsp;mth-row-1&nbsp;(Math&#x2F;abs&nbsp;mth-row-1))&nbsp;(&#x2F;&nbsp;mth-r-2&nbsp;(Math&#x2F;abs&nbsp;mth-r-2)))&nbsp;+&nbsp;-))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                230&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;$)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                231&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;#(if&nbsp;(and&nbsp;(pos?&nbsp;%)&nbsp;(&lt;&nbsp;%&nbsp;0.0000001))&nbsp;0.0&nbsp;%)&nbsp;$))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                232&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-2)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                233&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-2)))))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                238&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                239&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;row-idxs)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                240&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(=&nbsp;(first&nbsp;row-idxs)&nbsp;row-index-to-be-processed)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                241&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and&nbsp;(zero?&nbsp;(get-val&nbsp;matrix&nbsp;[(first&nbsp;row-idxs)&nbsp;(dec&nbsp;row-index-to-be-processed)]))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(zero?&nbsp;(get-val&nbsp;matrix&nbsp;[(first&nbsp;row-idxs)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                243&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gu&#x2F;first-n-zeros
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                244&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(get-val&nbsp;matrix&nbsp;[row-index-to-be-processed]))]))))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                245&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                246&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust&nbsp;(get-val&nbsp;matrix&nbsp;[(first&nbsp;row-idxs)])
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                247&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(or&nbsp;result
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                248&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(get-val&nbsp;matrix&nbsp;[row-index-to-be-processed]))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                249&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-index-to-be-processed))))))
+                234&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-2))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                250&nbsp;&nbsp;
+                235&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                251&nbsp;&nbsp;(defn&nbsp;upper-triangular-matrix
+                236&nbsp;&nbsp;(defn&nbsp;recursive-row-adjust
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                252&nbsp;&nbsp;&nbsp;&nbsp;&quot;Converts&nbsp;any&nbsp;square&nbsp;matrix&nbsp;into&nbsp;an&nbsp;upper-triangular&nbsp;matrix
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                253&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;all&nbsp;the&nbsp;matrix&nbsp;elements&nbsp;below&nbsp;the&nbsp;diagonal&nbsp;elements&nbsp;are&nbsp;zero&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                254&nbsp;&nbsp;&nbsp;&nbsp;[matrix]
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                255&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[num-rows&nbsp;_]&nbsp;(dimension&nbsp;matrix)]
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                256&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[m&nbsp;matrix
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                257&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nr&nbsp;(range&nbsp;1&nbsp;num-rows)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                258&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swap-count&nbsp;0]
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                259&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;nr)
+                237&nbsp;&nbsp;&nbsp;&nbsp;[matrix&nbsp;row-index-to-be-processed]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                260&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:upper-triangular&nbsp;m&nbsp;:num-swaps&nbsp;swap-count}
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                261&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[adjusted-row&nbsp;(recursive-row-adjust&nbsp;m&nbsp;(first&nbsp;nr))
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                262&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-n-zeros-adjusted-row&nbsp;(gu&#x2F;first-n-zeros&nbsp;adjusted-row)
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                263&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m-adjusted&nbsp;(gu&#x2F;replace-nth&nbsp;m&nbsp;(first&nbsp;nr)&nbsp;adjusted-row)
-                </span><br/>
-<span class="covered" title="6 out of 6 forms covered">
-                264&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;should-be-swapped?&nbsp;(&gt;&nbsp;first-n-zeros-adjusted-row&nbsp;(first&nbsp;nr))
-                </span><br/>
-<span class="covered" title="6 out of 6 forms covered">
-                265&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m-swapped&nbsp;(cond-&gt;&nbsp;m-adjusted
-                </span><br/>
-<span class="covered" title="6 out of 6 forms covered">
-                266&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;should-be-swapped?&nbsp;(swap-rows&nbsp;(first&nbsp;nr)&nbsp;first-n-zeros-adjusted-row))]
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                267&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;m-swapped
+                238&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[row-idxs&nbsp;(range&nbsp;row-index-to-be-processed);(range&nbsp;(first&nbsp;(dimension&nbsp;matrix)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                268&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;nr
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                269&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;should-be-swapped?)&nbsp;rest)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                270&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;swap-count
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                271&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;should-be-swapped?&nbsp;inc)))))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                272&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                273&nbsp;&nbsp;(defn&nbsp;determinant
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                274&nbsp;&nbsp;&nbsp;&nbsp;&quot;Caluclates&nbsp;the&nbsp;determinant&nbsp;of&nbsp;a&nbsp;square&nbsp;matrix&nbsp;by&nbsp;first&nbsp;calculating&nbsp;it&#x27;s&nbsp;uper&nbsp;triangular&nbsp;matrix
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                275&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;then&nbsp;multiplying&nbsp;it&#x27;s&nbsp;diagonal&nbsp;elements&nbsp;together&nbsp;while&nbsp;taking&nbsp;into&nbsp;account&nbsp;the&nbsp;number&nbsp;of&nbsp;row&nbsp;swaps&nbsp;made&nbsp;in&nbsp;the&nbsp;process&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                276&nbsp;&nbsp;&nbsp;&nbsp;[m]
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                277&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{:keys&nbsp;[upper-triangular&nbsp;num-swaps]}&nbsp;(upper-triangular-matrix&nbsp;m)]
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                278&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;(reduce
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                279&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[{:keys&nbsp;[i]&nbsp;:as&nbsp;acc}&nbsp;v]
+                239&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;nil]
                 </span><br/>
 <span class="covered" title="18 out of 18 forms covered">
-                280&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(update&nbsp;(update&nbsp;acc&nbsp;:result&nbsp;#(*&nbsp;%&nbsp;(nth&nbsp;v&nbsp;(first&nbsp;i))))&nbsp;:i&nbsp;rest))
-                </span><br/>
-<span class="covered" title="10 out of 10 forms covered">
-                281&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:i&nbsp;(range&nbsp;(count&nbsp;upper-triangular))&nbsp;:result&nbsp;1}&nbsp;upper-triangular)
-                </span><br/>
-<span class="covered" title="10 out of 10 forms covered">
-                282&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:result&nbsp;(*&nbsp;(if&nbsp;(pos?&nbsp;num-swaps)&nbsp;-1.0&nbsp;1.0))&nbsp;Math&#x2F;round)))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                283&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                284&nbsp;&nbsp;(defn&nbsp;cross-product
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                285&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;the&nbsp;cross&nbsp;product&nbsp;of&nbsp;two&nbsp;(indexed)&nbsp;rows&nbsp;of&nbsp;a&nbsp;matrix&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                286&nbsp;&nbsp;&nbsp;&nbsp;[row-1-indexed&nbsp;row-2-indexed]
-                </span><br/>
-<span class="covered" title="8 out of 8 forms covered">
-                287&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;#(merge-with&nbsp;+&nbsp;%1&nbsp;%2)
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                288&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[x]
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                289&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;merge
-                </span><br/>
-<span class="covered" title="2 out of 2 forms covered">
-                290&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
-                </span><br/>
-<span class="covered" title="21 out of 21 forms covered">
-                291&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[y]&nbsp;{(sort&nbsp;(flatten&nbsp;[(first&nbsp;x)&nbsp;(first&nbsp;y)]))&nbsp;(*&nbsp;(second&nbsp;x)&nbsp;(second&nbsp;y))})
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                292&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-2-indexed)))
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                293&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-1-indexed)))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                294&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                295&nbsp;&nbsp;(defn&nbsp;eigen-values
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                296&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;the&nbsp;eigen&nbsp;values&nbsp;of&nbsp;a&nbsp;matrix&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                297&nbsp;&nbsp;&nbsp;&nbsp;[matrix]
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                298&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[diagonal-elements-minus-lambda&nbsp;(loop&nbsp;[utm&nbsp;(:upper-triangular&nbsp;(upper-triangular-matrix&nbsp;matrix))
+                240&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(and&nbsp;(seq&nbsp;result)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                299&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;(range&nbsp;(count&nbsp;utm))
+                241&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(or&nbsp;(&gt;=&nbsp;(gu&#x2F;first-n-zeros&nbsp;result)
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                300&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;[]]
+                242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-index-to-be-processed)
                 </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                301&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;i)
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                302&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+<span class="covered" title="8 out of 8 forms covered">
+                243&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&gt;=&nbsp;(gu&#x2F;first-n-zeros&nbsp;(get-val&nbsp;matrix&nbsp;[row-index-to-be-processed]))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                303&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;utm)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                304&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(rest&nbsp;i)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                305&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(conj&nbsp;result
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                306&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-1&nbsp;(get-val&nbsp;(first&nbsp;utm)&nbsp;[(first&nbsp;i)])]))))
+                244&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-index-to-be-processed)))
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                307&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eq&nbsp;(vals
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                308&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[deml&nbsp;(rest&nbsp;diagonal-elements-minus-lambda)
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                309&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ff&nbsp;(first&nbsp;diagonal-elements-minus-lambda)]
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                310&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;deml)
+                245&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;row-idxs))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                311&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ff
+                246&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                312&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;deml)
+                247&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;row-idxs)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                313&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cross-product&nbsp;(cond-&gt;&nbsp;ff
+                248&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(=&nbsp;(first&nbsp;row-idxs)&nbsp;row-index-to-be-processed)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                314&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(map?&nbsp;ff))&nbsp;gu&#x2F;index-matrix-rows)
+                249&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and&nbsp;(zero?&nbsp;(get-val&nbsp;matrix&nbsp;[(first&nbsp;row-idxs)&nbsp;(dec&nbsp;row-index-to-be-processed)]))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                315&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gu&#x2F;index-matrix-rows&nbsp;(first&nbsp;deml)))))))]
+                250&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(zero?&nbsp;(get-val&nbsp;matrix&nbsp;[(first&nbsp;row-idxs)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                251&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gu&#x2F;first-n-zeros
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                252&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(get-val&nbsp;matrix&nbsp;[row-index-to-be-processed]))]))))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                253&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                254&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust&nbsp;(get-val&nbsp;matrix&nbsp;[(first&nbsp;row-idxs)])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                255&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(or&nbsp;result
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                256&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(get-val&nbsp;matrix&nbsp;[row-index-to-be-processed]))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                257&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-index-to-be-processed))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                258&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                259&nbsp;&nbsp;(defn&nbsp;upper-triangular-matrix
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                260&nbsp;&nbsp;&nbsp;&nbsp;&quot;Converts&nbsp;any&nbsp;square&nbsp;matrix&nbsp;into&nbsp;an&nbsp;upper-triangular&nbsp;matrix
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                261&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;all&nbsp;the&nbsp;matrix&nbsp;elements&nbsp;below&nbsp;the&nbsp;diagonal&nbsp;elements&nbsp;are&nbsp;zero&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                262&nbsp;&nbsp;&nbsp;&nbsp;[matrix]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                263&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[num-rows&nbsp;_]&nbsp;(dimension&nbsp;matrix)]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                316&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(lau&#x2F;solve-equation&nbsp;eq)))
+                264&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[m&nbsp;matrix
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                265&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nr&nbsp;(range&nbsp;1&nbsp;num-rows)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                266&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swap-count&nbsp;0]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                267&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;nr)
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                268&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:upper-triangular&nbsp;m&nbsp;:num-swaps&nbsp;swap-count}
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                269&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[adjusted-row&nbsp;(recursive-row-adjust&nbsp;m&nbsp;(first&nbsp;nr))
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                270&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-n-zeros-adjusted-row&nbsp;(gu&#x2F;first-n-zeros&nbsp;adjusted-row)
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                271&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m-adjusted&nbsp;(gu&#x2F;replace-nth&nbsp;m&nbsp;(first&nbsp;nr)&nbsp;adjusted-row)
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                272&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;should-be-swapped?&nbsp;(&gt;&nbsp;first-n-zeros-adjusted-row&nbsp;(first&nbsp;nr))
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                273&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m-swapped&nbsp;(cond-&gt;&nbsp;m-adjusted
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                274&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;should-be-swapped?&nbsp;(swap-rows&nbsp;(first&nbsp;nr)&nbsp;first-n-zeros-adjusted-row))]
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                275&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;m-swapped
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                276&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;nr
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                277&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;should-be-swapped?)&nbsp;rest)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                278&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;swap-count
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                279&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;should-be-swapped?&nbsp;inc)))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                280&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                281&nbsp;&nbsp;(defn&nbsp;determinant
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                282&nbsp;&nbsp;&nbsp;&nbsp;&quot;Caluclates&nbsp;the&nbsp;determinant&nbsp;of&nbsp;a&nbsp;square&nbsp;matrix&nbsp;by&nbsp;first&nbsp;calculating&nbsp;it&#x27;s&nbsp;uper&nbsp;triangular&nbsp;matrix
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                283&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;then&nbsp;multiplying&nbsp;it&#x27;s&nbsp;diagonal&nbsp;elements&nbsp;together&nbsp;while&nbsp;taking&nbsp;into&nbsp;account&nbsp;the&nbsp;number&nbsp;of&nbsp;row&nbsp;swaps&nbsp;made&nbsp;in&nbsp;the&nbsp;process&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                284&nbsp;&nbsp;&nbsp;&nbsp;[m]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                285&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{:keys&nbsp;[upper-triangular&nbsp;num-swaps]}&nbsp;(upper-triangular-matrix&nbsp;m)]
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                286&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;(reduce
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                287&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[{:keys&nbsp;[i]&nbsp;:as&nbsp;acc}&nbsp;v]
+                </span><br/>
+<span class="covered" title="18 out of 18 forms covered">
+                288&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(update&nbsp;(update&nbsp;acc&nbsp;:result&nbsp;#(*&nbsp;%&nbsp;(nth&nbsp;v&nbsp;(first&nbsp;i))))&nbsp;:i&nbsp;rest))
+                </span><br/>
+<span class="covered" title="10 out of 10 forms covered">
+                289&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:i&nbsp;(range&nbsp;(count&nbsp;upper-triangular))&nbsp;:result&nbsp;1}&nbsp;upper-triangular)
+                </span><br/>
+<span class="covered" title="10 out of 10 forms covered">
+                290&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:result&nbsp;(*&nbsp;(if&nbsp;(pos?&nbsp;num-swaps)&nbsp;-1.0&nbsp;1.0))&nbsp;Math&#x2F;round)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                291&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                292&nbsp;&nbsp;(defn&nbsp;cross-product
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                293&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;the&nbsp;cross&nbsp;product&nbsp;of&nbsp;two&nbsp;(indexed)&nbsp;rows&nbsp;of&nbsp;a&nbsp;matrix&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                294&nbsp;&nbsp;&nbsp;&nbsp;[row-1-indexed&nbsp;row-2-indexed]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                295&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;#(merge-with&nbsp;+&nbsp;%1&nbsp;%2)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                296&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[x]
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                297&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;merge
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                298&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
+                </span><br/>
+<span class="covered" title="21 out of 21 forms covered">
+                299&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[y]&nbsp;{(sort&nbsp;(flatten&nbsp;[(first&nbsp;x)&nbsp;(first&nbsp;y)]))&nbsp;(*&nbsp;(second&nbsp;x)&nbsp;(second&nbsp;y))})
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                300&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-2-indexed)))
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                301&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row-1-indexed)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                302&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                303&nbsp;&nbsp;(defn&nbsp;concat-matrix-rows
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                304&nbsp;&nbsp;&nbsp;&nbsp;&quot;Concatenates&nbsp;matrix&nbsp;rows&nbsp;with&nbsp;the&nbsp;first&nbsp;`(num-cols&nbsp;-&nbsp;1)`&nbsp;values&nbsp;of&nbsp;the&nbsp;same&nbsp;row
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                305&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;helps&nbsp;in&nbsp;finding&nbsp;the&nbsp;characteristic&nbsp;equation&nbsp;of&nbsp;the&nbsp;matrix&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                306&nbsp;&nbsp;&nbsp;&nbsp;[matrix&nbsp;num-cols]
+                </span><br/>
+<span class="covered" title="13 out of 13 forms covered">
+                307&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;#(concat&nbsp;%&nbsp;(take&nbsp;(dec&nbsp;num-cols)&nbsp;%))&nbsp;matrix))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                308&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                309&nbsp;&nbsp;(defn&nbsp;characteristic-equation-parts
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                310&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;the&nbsp;positive&nbsp;or&nbsp;the&nbsp;negative&nbsp;parts&nbsp;of&nbsp;the&nbsp;characteristic&nbsp;euqation
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                311&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Both&nbsp;the&nbsp;positive&nbsp;and&nbsp;negative&nbsp;pats&nbsp;will&nbsp;be&nbsp;added&nbsp;to&nbsp;form&nbsp;the&nbsp;final&nbsp;eqution&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                312&nbsp;&nbsp;&nbsp;&nbsp;([concatenated-matrix-minus-lambda-i&nbsp;num-rows]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                313&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(characteristic-equation-parts&nbsp;concatenated-matrix-minus-lambda-i&nbsp;num-rows&nbsp;true))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                314&nbsp;&nbsp;&nbsp;&nbsp;([concatenated-matrix-minus-lambda-i&nbsp;num-rows&nbsp;positive-part?]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                315&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[end-col-idx&nbsp;(dec&nbsp;(second&nbsp;(dimension&nbsp;concatenated-matrix-minus-lambda-i)))
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                316&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i-range&nbsp;(if&nbsp;positive-part?
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                317&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;num-rows)
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                318&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;end-col-idx&nbsp;(-&nbsp;end-col-idx&nbsp;num-rows)&nbsp;-1))]
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                319&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[i&nbsp;i-range
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                320&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;[]]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                321&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;i)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                322&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                323&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[product&nbsp;(loop&nbsp;[paths&nbsp;(map&nbsp;vector
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                324&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;num-rows)
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                325&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;(first&nbsp;i)
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                326&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((if&nbsp;positive-part?&nbsp;+&nbsp;-)&nbsp;(first&nbsp;i)&nbsp;num-rows)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                327&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;positive-part?&nbsp;1&nbsp;-1)))
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                328&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;{}]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                329&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;paths)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                330&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                331&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;paths)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                332&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ij&nbsp;(get-val&nbsp;concatenated-matrix-minus-lambda-i&nbsp;(first&nbsp;paths))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                333&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ij-mod&nbsp;(if&nbsp;(coll?&nbsp;ij)&nbsp;(gu&#x2F;index-matrix-rows&nbsp;ij)&nbsp;ij)]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                334&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(coll?&nbsp;result)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                335&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;result))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                336&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ij-mod
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                337&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(coll?&nbsp;result)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                338&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(coll?&nbsp;ij-mod)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                339&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cross-product&nbsp;result&nbsp;ij-mod)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                340&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;{}&nbsp;(map&nbsp;(fn&nbsp;[[k&nbsp;v]]&nbsp;[k&nbsp;(*&nbsp;v&nbsp;ij-mod)])&nbsp;result)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                341&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(coll?&nbsp;ij-mod)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                342&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;{}&nbsp;(map&nbsp;(fn&nbsp;[[k&nbsp;v]]&nbsp;[k&nbsp;(*&nbsp;v&nbsp;result)])&nbsp;ij-mod))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                343&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*&nbsp;ij-mod&nbsp;result))))))))]
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                344&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;i)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                345&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(coll?&nbsp;result)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                346&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;result))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                347&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vals&nbsp;product)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                348&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(coll?&nbsp;result)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                349&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(coll?&nbsp;product)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                350&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[bigger-coll&nbsp;(if&nbsp;(&gt;=&nbsp;(count&nbsp;product)&nbsp;(count&nbsp;result))&nbsp;(vals&nbsp;product)&nbsp;result)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                351&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smaller-coll&nbsp;(if&nbsp;(&lt;&nbsp;(count&nbsp;product)&nbsp;(count&nbsp;result))&nbsp;(vals&nbsp;product)&nbsp;result)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                352&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smaller-coll-padded&nbsp;(concat&nbsp;(take&nbsp;(-&nbsp;(count&nbsp;bigger-coll)&nbsp;(count&nbsp;smaller-coll))&nbsp;(repeat&nbsp;0))&nbsp;smaller-coll)]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                353&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;+&nbsp;bigger-coll&nbsp;smaller-coll-padded))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                354&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(update&nbsp;(vec&nbsp;result)&nbsp;(dec&nbsp;(count&nbsp;result))&nbsp;+&nbsp;product))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                355&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(coll?&nbsp;product)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                356&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(update&nbsp;(vec&nbsp;(vals&nbsp;product))&nbsp;(dec&nbsp;(count&nbsp;product))&nbsp;+&nbsp;result)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                357&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(+&nbsp;result&nbsp;product)))))))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                358&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                359&nbsp;&nbsp;(defn&nbsp;eigen-values
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                360&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;the&nbsp;eigen&nbsp;values&nbsp;of&nbsp;a&nbsp;matrix&nbsp;from&nbsp;it&#x27;s&nbsp;characteristic&nbsp;equation&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                361&nbsp;&nbsp;&nbsp;&nbsp;[matrix]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                362&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[m&nbsp;n]&nbsp;(dimension&nbsp;matrix)
+                </span><br/>
+<span class="covered" title="17 out of 17 forms covered">
+                363&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matrix-minus-lambda-i&nbsp;(map&nbsp;#(update&nbsp;(vec&nbsp;%1)&nbsp;%2&nbsp;(fn&nbsp;[e]&nbsp;[-1&nbsp;e]))&nbsp;matrix&nbsp;(range&nbsp;m))
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                364&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;concatenated-matrix-minus-lambda-i&nbsp;(concat-matrix-rows&nbsp;matrix-minus-lambda-i&nbsp;n)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                365&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-part-product&nbsp;(characteristic-equation-parts&nbsp;concatenated-matrix-minus-lambda-i&nbsp;m)
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                366&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;second-part-product&nbsp;(characteristic-equation-parts&nbsp;concatenated-matrix-minus-lambda-i&nbsp;m&nbsp;false)
+                </span><br/>
+<span class="partial" title="10 out of 11 forms covered">
+                367&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bigger-coll&nbsp;(if&nbsp;(&gt;=&nbsp;(count&nbsp;first-part-product)&nbsp;(count&nbsp;second-part-product))&nbsp;first-part-product&nbsp;second-part-product)
+                </span><br/>
+<span class="partial" title="10 out of 11 forms covered">
+                368&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smaller-coll&nbsp;(if&nbsp;(&lt;&nbsp;(count&nbsp;first-part-product)&nbsp;(count&nbsp;second-part-product))&nbsp;first-part-product&nbsp;second-part-product)
+                </span><br/>
+<span class="covered" title="16 out of 16 forms covered">
+                369&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smaller-coll-padded&nbsp;(concat&nbsp;(take&nbsp;(-&nbsp;(count&nbsp;bigger-coll)&nbsp;(count&nbsp;smaller-coll))&nbsp;(repeat&nbsp;0))&nbsp;smaller-coll)
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                370&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smaller-coll-padded-negative&nbsp;(map&nbsp;#(*&nbsp;%&nbsp;-1)&nbsp;smaller-coll-padded)
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                371&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eq&nbsp;(map&nbsp;+&nbsp;bigger-coll&nbsp;smaller-coll-padded-negative)]
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                372&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(sort
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                373&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(concat&nbsp;(lau&#x2F;solve-equation&nbsp;(remove&nbsp;zero?&nbsp;eq))
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                374&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(filter&nbsp;zero?&nbsp;(last&nbsp;(partition-by&nbsp;identity&nbsp;eq)))))))
                 </span><br/>
  </body>
 </html>
