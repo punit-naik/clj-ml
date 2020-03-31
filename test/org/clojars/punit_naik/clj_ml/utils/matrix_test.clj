@@ -133,7 +133,8 @@
     (is (= (mu/determinant sample-identity-matrix) 1))
     (is (= (mu/determinant upper-triangular-matrix-data-1) -6))
     (is (= (mu/determinant upper-triangular-matrix-data-2) -4))
-    (is (= (mu/determinant upper-triangular-matrix-data-3) -18))))
+    (is (= (mu/determinant upper-triangular-matrix-data-3) -18))
+    (is (= (mu/determinant upper-triangular-matrix-data-4) 9))))
 
 (deftest swap-rows-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/swap-rows` correctly swaps the rows of a matrix or not"
