@@ -36,7 +36,9 @@
 (defonce ^:private cross-product-data-2 {'(0 0) 1, '(0 1) -2, '(1 1) 1})
 (defonce ^:private cross-product-data-3 {'(0 0 0) -1, '(0 0 1) 3, '(0 1 1) -3, '(1 1 1) 1})
 (defonce ^:private eigen-value-data-1 [[2 1 0] [1 2 1] [0 1 2]])
-(defonce ^:private eigen-value-result-1 '(2.0 1.5000000000000095 1.3333333333333244))
+(defonce ^:private eigen-value-result-1 '(0.5857864376269051 2.0 3.414213562373095))
+(defonce ^:private eigen-value-data-2 [[2 27 0] [0 4 40] [0 3 30]])
+(defonce ^:private eigen-value-result-2 '(0 2.0 34.0))
 
 (deftest is-matrix-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/matrix?` function"
@@ -150,4 +152,4 @@
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-values `correctly calculates the eigen values of a matrix or not"
     (is (= (mu/eigen-values sample-identity-matrix) '(1.0 1.0 1.0)))
     (is (= (mu/eigen-values eigen-value-data-1) eigen-value-result-1))
-    (is (= (mu/eigen-values upper-triangular-matrix-data-4) eigen-value-result-1))))
+    (is (= (mu/eigen-values eigen-value-data-2) eigen-value-result-2))))
