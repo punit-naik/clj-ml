@@ -4,6 +4,8 @@
 
 Collection of ML and it's corresponsing utilities in Clojure
 
+**NOTE**: Sorry for the extremely verbose code in some cases. I have coded it that way so that I understand the steps properly, especially in some cases where complex mathematical steps are involved. But it's no excuse for not writing idiomatic code, I get it.
+
 ## Usage
 
 **NOTE**: [Java](https://openjdk.java.net/) and [Leiningen](https://github.com/technomancy/leiningen) must be pre-installed!
