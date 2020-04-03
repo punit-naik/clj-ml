@@ -134,7 +134,7 @@
        exponential
        (perform-arithmetic-op 1 +)
        reciprocal))
-  ([m deriv]
+  ([m _]
    (-> (perform-arithmetic-op m -1 *)
        (perform-arithmetic-op 1 +)
        (perform-arithmetic-op m *))))
@@ -356,12 +356,21 @@
                         (update (vec (vals product)) (dec (count product)) + result)
                         (+ result product)))))))))))
 
+(defn matrix-minus-lambda-i
+  "Does A-λI when λ is known as well as unkonwn"
+  ([matrix] (matrix-minus-lambda-i matrix nil))
+  ([matrix lambda]
+   (map #(update (vec %1) %2 (fn [e]
+                               (if (nil? lambda)
+                                 [-1 e] (- e lambda))))
+        matrix (range (first (dimension matrix))))))
+
 (defn eigen-values
   "Gets the eigen values of a matrix from it's characteristic equation"
   [matrix]
   (let [[m n] (dimension matrix)
-        matrix-minus-lambda-i (map #(update (vec %1) %2 (fn [e] [-1 e])) matrix (range m))
-        concatenated-matrix-minus-lambda-i (concat-matrix-rows matrix-minus-lambda-i n)
+        matrix-minus-unkown-lambda-i (matrix-minus-lambda-i matrix)
+        concatenated-matrix-minus-lambda-i (concat-matrix-rows matrix-minus-unkown-lambda-i n)
         first-part-product (characteristic-equation-parts concatenated-matrix-minus-lambda-i m)
         second-part-product (characteristic-equation-parts concatenated-matrix-minus-lambda-i m false)
         bigger-coll (if (>= (count first-part-product) (count second-part-product)) first-part-product second-part-product)
