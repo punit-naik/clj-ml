@@ -46,7 +46,7 @@
       (:coeffs (update result :coeffs butlast)))))
 
 (defn find-all-possible-solutions
-  "Given the a to z terms of the quadratic euqation ax ^n+....+z=0 as a collection
+  "Given the a to z terms of the euqation ax ^n+....+z=0 as a collection
    This function finds all the possible roots of this equation"
   [coefficients]
   (condp = (count coefficients)
@@ -70,8 +70,8 @@
            flatten distinct sort))))
 
 (defn solve-equation
-  "Given the a to z terms of the quadratic euqation ax^n+....+z=0
-   This returns all the roots for the equation"
+  "Given the a to z terms of the euqation ax^n+....+z=0
+   This returns all the roots for the equation using synthetic division"
   [coefficients]
   (loop [coeffs coefficients
          all-possible (reverse (find-all-possible-solutions coeffs))
