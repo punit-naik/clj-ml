@@ -1,5 +1,5 @@
 (ns org.clojars.punit-naik.clj-ml.lsh
-  (:require [clojure.set :refer [union subset?]]
+  (:require [clojure.set :refer [subset?]]
             [clojure.string :refer [join]]
             [org.clojars.punit-naik.clj-ml.utils.generic :refer [shingles]]
             [org.clojars.punit-naik.clj-ml.utils.string :refer [levenshtein-distance]]
