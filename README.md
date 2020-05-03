@@ -6,6 +6,13 @@ Collection of ML and it's corresponsing utilities in Clojure
 
 **NOTE**: Sorry for the extremely verbose code in some cases. I have coded it that way so that I understand the steps properly, especially in some cases where complex mathematical steps are involved. But it's no excuse for not writing idiomatic code, I get it.
 
+## TODO
+
+1. `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-equation` does not work for all kinds of equations, like `-λ^3+5*λ^2+3*λ-6`.
+   So the task is to improve this function and make it more generic.
+3. Finding eigenvectors work, but somehow the signs of the vector elements are not right.
+2. Currently, finding the eigenvector for the eigenvalue of `0` does not work, have to improve this.
+
 ## Usage
 
 **NOTE**: [Java](https://openjdk.java.net/) and [Leiningen](https://github.com/technomancy/leiningen) must be pre-installed!
