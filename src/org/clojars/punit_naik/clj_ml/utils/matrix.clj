@@ -1,5 +1,7 @@
 (ns org.clojars.punit-naik.clj-ml.utils.matrix
-  (:require [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
+  (:require [clojure.math.combinatorics :as combo]
+            [clojure.set :refer [intersection]]
+            [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
             [org.clojars.punit-naik.clj-ml.utils.linear-algebra :as lau]))
 
 (defn- equal-dimensions?
@@ -382,3 +384,63 @@
     (sort
      (concat (lau/solve-equation (remove zero? eq))
              (filter zero? (last (partition-by identity eq)))))))
+
+(defn cramers-rule
+  "Generates row index combinations for the A-λI matrix (`mmli`) to be used to find eigenvectors using Cramer's rule
+  Calculates determinant for every row combination and returns all the determinant values if none of them are zero
+  If any one particular determinant value is zero, it will retry determinants for other row cobinations"
+  ([mmli] (cramers-rule mmli (dimension mmli)))
+  ([mmli [m n]]
+   (loop [all-combos (->> (range m)
+                          combo/permutations
+                          (map #(take (dec m) %))
+                          (map sort)
+                          distinct)
+          result nil]
+     (if (or result (empty? all-combos))
+       result
+       (recur (rest all-combos)
+              (let [cramers-rule-eqs (map (partial nth mmli)
+                                          (first all-combos))
+                    determinants (map
+                                  (fn [j]
+                                    (determinant (map (fn [cre]
+                                                        (println "CRE ->" cre)
+                                                        (vals (dissoc (into {} (map-indexed (fn [i v] [i v]) cre)) j)))
+                                                      cramers-rule-eqs)))
+                                  (range n))]
+                (if (every? #(not (zero? %)) determinants)
+                  determinants result)))))))
+
+(defn eigen-vectors
+  "Gets the eigenvectors of a matrix by using it's eigenvalues using Cramer's rule"
+  ([matrix] (eigen-vectors matrix (eigen-values matrix)))
+  ([matrix eigen-values]
+   (let [dim (dimension matrix)]
+     (loop [evs eigen-values
+            eigen-vectors []]
+       (if (empty? evs)
+         (->> (remove nil? eigen-vectors)
+              (map #(->> (map lau/factors %)
+                         (apply intersection)
+                         (remove (fn [x] (= x 1)))
+                         sort last))
+              (map (fn [ev lcm] (map #(double (/ % lcm)) ev)) (remove nil? eigen-vectors)))
+         (recur (rest evs)
+                (conj eigen-vectors
+                      (cramers-rule (matrix-minus-lambda-i matrix (first evs)) dim))))))))
+
+(comment
+  (cramers-rule (matrix-minus-lambda-i [[8 -8 -2] [4 -4 -2] [3 -3 1]] 4))
+  (matrix-minus-lambda-i [[8 -8 -2] [4 -4 -2] [3 -3 1]] 4)
+  (determinant [[8 -8 -2] [4 -4 -2] [3 -3 1]])
+  (eigen-values [[8 -8 -2] [4 -4 -2] [3 -3 1]])
+  (eigen-values [[3 -2 5] [6 -4 7] [5 -4 6]])
+  (lau/solve-equation [-1 5 3 -6])
+  (reverse (lau/find-all-possible-solutions [-1 5 3 -6]))
+  (eigen-vectors [[8 -8 -2] [4 -4 -2] [3 -3 1]])
+  (cramers-rule [[7 -8 -2] [4 -4 -2] [3 -4 0]])
+  (lau/factors nil)
+  (lau/factors -6)
+  (clojure.set/intersection (lau/factors 6) (lau/factors -6) (lau/factors -3))
+  (clojure.set/intersection (lau/factors 18) (lau/factors -6) (lau/factors 12)))
