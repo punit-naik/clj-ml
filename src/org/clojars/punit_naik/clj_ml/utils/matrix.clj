@@ -269,7 +269,8 @@
         (let [adjusted-row (recursive-row-adjust m (first nr))
               first-n-zeros-adjusted-row (gu/first-n-zeros adjusted-row)
               m-adjusted (gu/replace-nth m (first nr) adjusted-row)
-              should-be-swapped? (> first-n-zeros-adjusted-row (first nr))
+              should-be-swapped? (and (> first-n-zeros-adjusted-row (first nr))
+                                      (not= first-n-zeros-adjusted-row num-rows))
               m-swapped (cond-> m-adjusted
                           should-be-swapped? (swap-rows (first nr) first-n-zeros-adjusted-row))]
           (recur m-swapped
