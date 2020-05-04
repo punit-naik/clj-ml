@@ -33,7 +33,7 @@
 (defn isa-solution?
   "Given the a to z terms of the quadratic euqation ax^n+....+z=0 as a collection
    And the root, this function checks if the same root is a solution for the euqation or not
-   And returns the new reduced equation for finding the remaining roots"
+   And returns the new reduced equation for finding the remaining roots using Synthetic Division"
   [coefficients root]
   (let [result (reduce (fn [{:keys [sum] :as acc} v]
                          (let [s (+ (if (zero? sum) v (* root sum)) (if (zero? sum) sum v))]
