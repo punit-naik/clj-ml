@@ -382,3 +382,94 @@
     (sort
      (concat (lau/solve-equation (remove zero? eq))
              (filter zero? (last (partition-by identity eq)))))))
+
+(defn pivot-indicies
+  "Gets the indices of pivots in each row of an REF matrix"
+  [ref-matrix]
+  (let [[_ n] (dimension ref-matrix)]
+    (map (fn [row]
+           (let [pivot-index (gu/first-n-zeros row)]
+             (when (< pivot-index n) pivot-index)))
+         ref-matrix)))
+
+(defn adjust-element-at-pivot-indices
+  "Adjusts all the row elements at the pivot indices and makes them equal to `1`
+  By diving all the row elements by the element at the pivot index"
+  [ref-matrix]
+  (map (fn [row]
+         (let [fnz (gu/first-n-zeros row)]
+           (if (not= fnz (second (dimension ref-matrix)))
+             (let [fnz-row-val (double (nth row fnz))]
+               (if (not= fnz-row-val 1.0)
+                 (map #(double (/ % fnz-row-val)) row) row)) row)))
+       ref-matrix))
+
+(defn row-adjust-rref
+  "Adjusts the element of `row-1` at index `i` and makes it zero using the elements of `row-2`"
+  [row-1 row-2 i]
+  (let [row-1-i (nth row-1 i)
+        row-1-i-abs (Math/abs row-1-i)
+        row-2-i (nth row-2 i)
+        row-2-i-abs (Math/abs row-2-i)
+        row-2-multiplier (/ row-1-i-abs row-2-i-abs)]
+    (->> (map #(* % row-2-multiplier) row-2)
+         (map (fn [row-1-elem row-2-elem]
+                ((if (= (/ row-1-i row-1-i-abs)
+                       (/ row-2-i row-2-i-abs)) - +) row-1-elem row-2-elem)) row-1))))
+
+(defn adjust-elements-above-pivot-indices
+  "Adjusts all the row elements above pivot indices columns to zero"
+  [ref-matrix pivot-indicies]
+  (loop [refm (map-indexed #(conj [] %1 %2) ref-matrix)
+         pi (map-indexed #(conj [] %1 %2) pivot-indicies)
+         result {}]
+    (if (empty? refm)
+      result
+      (let [first-refm (first refm)
+            first-refm-index (first first-refm)
+            first-refm-value (second first-refm)]
+        (recur (rest refm)
+               (rest pi)
+               (let [intermediate-result (->> (rest pi)
+                                              (remove #(nil? (second %)))
+                                              reverse
+                                              (reduce
+                                               (fn [acc [row-index pivot-index]]
+                                                 (merge acc
+                                                        (reduce (fn [acc2 v2]
+                                                                  (cond-> acc2
+                                                                    (not (contains? result v2))
+                                                                    (assoc v2
+                                                                           (row-adjust-rref (get acc v2 (nth ref-matrix v2))
+                                                                                            (get acc row-index (nth ref-matrix row-index))
+                                                                                            pivot-index)))) {} (reverse (range row-index))))) {}))]
+                 (cond-> result
+                   (not (every? zero? first-refm-value))
+                   (merge (or (seq intermediate-result)
+                              (assoc {} first-refm-index (get result first-refm-index first-refm-value))))
+
+                   (every? zero? first-refm-value)
+                   (assoc first-refm-index first-refm-value))))))))
+
+(defn row-echelon-form
+  "Calculates the Row Echelon Form (REF) of a matrix"
+  [matrix]
+  (sort-by gu/first-n-zeros (:upper-triangular (upper-triangular-matrix matrix))))
+
+(defn reduced-row-echelon-form
+  "Calculates the Reduced Row Echelon Form (RREF) of a REF matrix"
+  [ref-matrix]
+  (->> (-> (adjust-element-at-pivot-indices ref-matrix)
+           (adjust-elements-above-pivot-indices (pivot-indicies ref-matrix)))
+       (into (sorted-map)) vals))
+
+(comment
+  (nth [1 2 3] (or nil 0))
+  (upper-triangular-matrix [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])
+  (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])
+  (pivot-indicies (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]]))
+  (adjust-element-at-pivot-indices (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]]))
+  (adjust-elements-above-pivot-indices (adjust-element-at-pivot-indices (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]]))
+                                       (pivot-indicies (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])))
+  (row-adjust-rref [0 1 2 3] [0 0 0 1] 3)
+  (reduced-row-echelon-form (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])))
