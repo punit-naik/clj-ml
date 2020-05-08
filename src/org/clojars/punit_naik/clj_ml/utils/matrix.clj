@@ -235,6 +235,8 @@
 
 (defn recursive-row-adjust
   [matrix row-index-to-be-processed]
+  (if (not (and (= (dec (count matrix)) row-index-to-be-processed)
+                (every? zero? (nth matrix row-index-to-be-processed))))
   (loop [row-idxs (range row-index-to-be-processed)
          result nil]
     (if (or (and (seq result)
