@@ -410,15 +410,17 @@
 (defn row-adjust-rref
   "Adjusts the element of `row-1` at index `i` and makes it zero using the elements of `row-2`"
   [row-1 row-2 i]
-  (let [row-1-i (nth row-1 i)
-        row-1-i-abs (Math/abs row-1-i)
-        row-2-i (nth row-2 i)
-        row-2-i-abs (Math/abs row-2-i)
-        row-2-multiplier (/ row-1-i-abs row-2-i-abs)]
-    (->> (map #(* % row-2-multiplier) row-2)
-         (map (fn [row-1-elem row-2-elem]
-                ((if (= (/ row-1-i row-1-i-abs)
-                       (/ row-2-i row-2-i-abs)) - +) row-1-elem row-2-elem)) row-1))))
+  (let [row-1-i (nth row-1 i)]
+    (if (not (zero? row-1-i))
+      (let [row-1-i-abs (Math/abs row-1-i)
+            row-2-i (nth row-2 i)
+            row-2-i-abs (Math/abs row-2-i)
+            row-2-multiplier (/ row-1-i-abs row-2-i-abs)]
+        (->> (map #(* % row-2-multiplier) row-2)
+             (map (fn [row-1-elem row-2-elem]
+                    ((if (= (/ row-1-i row-1-i-abs)
+                            (/ row-2-i row-2-i-abs)) - +) row-1-elem row-2-elem)) row-1)))
+      row-1)))
 
 (defn adjust-elements-above-pivot-indices
   "Adjusts all the row elements above pivot indices columns to zero"
@@ -466,6 +468,49 @@
            (adjust-elements-above-pivot-indices (pivot-indicies ref-matrix)))
        (into (sorted-map)) vals))
 
+(defn eigen-vector-for-lamba
+  "Finds the eigenvector for a matrix with a particular eigenvalue"
+  ([matrix lambda] (eigen-vector-for-lamba matrix lambda false))
+  ([matrix lambda already-calculated?]
+   (let [[_ n] (dimension matrix)
+         rref-reversed (->> (matrix-minus-lambda-i matrix lambda)
+                            row-echelon-form reduced-row-echelon-form
+                            (map-indexed (fn [i row] [i row])) reverse)
+         zero-row-count (count (filter #(every? zero? (second %)) rref-reversed))]
+     (loop [rref-r rref-reversed
+            default-val-counter 1.0
+            result {}]
+     (if (empty? rref-r)
+       (cond->> (into (sorted-map) result)
+         (<= zero-row-count 1) vals
+         (> zero-row-count 1) vals;(map (fn [[_ v]] ((if already-calculated? + -) v 1)))
+         )
+       (recur (rest rref-r) (inc default-val-counter)
+              (let [first-rref-reversed (first rref-r)
+                    first-rref-reversed-index (first first-rref-reversed)
+                    first-rref-reversed-row (second first-rref-reversed)
+                    all-zero? (every? zero? first-rref-reversed-row)]
+                (cond-> result
+                  all-zero? (assoc first-rref-reversed-index (cond->> default-val-counter
+                                                               already-calculated? (- 1.0)))
+                  (not all-zero?)
+                  (assoc first-rref-reversed-index
+                         (* -1.0 (reduce + (map
+                                            (fn [row-v i] (* row-v (get result i 0)))
+                                            first-rref-reversed-row (range n)))))))))))))
+
+(defn eigen-vectors
+  "Finds the Eigenvectors of a matrix by using it's Eigenvalues"
+  [matrix eigen-values]
+  (loop [evals eigen-values
+         prev-eval nil
+         evecs []]
+    (if (empty? evals)
+      evecs
+      (recur (rest evals)
+             (first evals)
+             (conj evecs (eigen-vector-for-lamba matrix (first evals) (= prev-eval (first evals))))))))
+
 (comment
   (nth [1 2 3] (or nil 0))
   (upper-triangular-matrix [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])
@@ -475,4 +520,13 @@
   (adjust-elements-above-pivot-indices (adjust-element-at-pivot-indices (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]]))
                                        (pivot-indicies (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])))
   (row-adjust-rref [0 1 2 3] [0 0 0 1] 3)
-  (reduced-row-echelon-form (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])))
+  (reduced-row-echelon-form (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]]))
+  (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[-5 -6 3] [3 4 -3] [0 0 -2]] -2)))
+  (reduced-row-echelon-form (row-echelon-form [[-2 -2 -2] [-2 -5 1] [-2 1 -5]]))
+  (eigen-values [[-1,2,2],[2,2,-1],[2,-1,2]])
+  (matrix-multiply [[-1,2,2],[2,2,-1],[2,-1,2]] [[1.5] [2] [1]])
+  (eigen-vectors [[-1,2,2],[2,2,-1],[2,-1,2]] (eigen-values [[-1,2,2],[2,2,-1],[2,-1,2]]))
+  (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[-16 9 0 0] [12 5 0 0] [0 0 6 -2] [0 0 0 4]] 6)))
+  (let [m [[-16 9 0 0] [12 5 0 0] [0 0 6 -2] [0 0 0 4]]]
+    (->> (eigen-values m)
+         (eigen-vectors m))))
