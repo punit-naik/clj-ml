@@ -2,6 +2,14 @@
   (:require [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
             [clojure.set :refer [intersection]]))
 
+(defn eval-fn
+  "Evaluates a function ax^n+bx^n-1+...+z represented by a collection of it's coefficients [a b ... z]
+   at the value `x`"
+  [eq x]
+  (->> (map-indexed (fn [idx coeff]
+                      (* coeff (Math/pow x (- (dec (count eq)) idx)))) eq)
+       (reduce +)))
+
 (defn solve-quadratic-equation
   "Given the a,b and c terms of the quadratic euqation ax^2+bx+c=0
    This returns a pair of solutions for x"

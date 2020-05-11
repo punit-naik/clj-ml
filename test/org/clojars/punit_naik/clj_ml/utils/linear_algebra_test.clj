@@ -2,6 +2,13 @@
   (:require [clojure.test :refer [deftest testing is]]
             [org.clojars.punit-naik.clj-ml.utils.linear-algebra :as lau]))
 
+(deftest eval-fn-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/eval-fn` correctly evaluates a function at a value or not"
+    (is (= (lau/eval-fn [1 0 -5] 2) -1.0))
+    (is (= (lau/eval-fn [1 0 -5] 1) -4.0))
+    (is (= (lau/eval-fn [1 1 1] 2) 7.0))
+    (is (= (lau/eval-fn [1 1 1] -1) 1.0))))
+
 (deftest solve-quadratic-equation-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-quadratic-equation` can solve quadratic equations properly or not"
     (is (= (lau/solve-quadratic-equation {:a 1 :b -3 :c 2}) [2.0 1.0]))
