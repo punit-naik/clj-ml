@@ -1,5 +1,6 @@
 (ns org.clojars.punit-naik.clj-ml.utils.matrix
-  (:require [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
+  (:require [clojure.string :refer [split]]
+            [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
             [org.clojars.punit-naik.clj-ml.utils.linear-algebra :as lau]))
 
 (defn- equal-dimensions?
@@ -382,9 +383,16 @@
         smaller-coll-padded (concat (take (- (count bigger-coll) (count smaller-coll)) (repeat 0)) smaller-coll)
         smaller-coll-padded-negative (map #(* % -1) smaller-coll-padded)
         eq (map + bigger-coll smaller-coll-padded-negative)]
-    (sort
-     (concat (lau/solve-equation :newton (remove zero? eq))
-             (filter zero? (last (partition-by identity eq)))))))
+    (->> (remove zero? eq)
+         (lau/solve-equation :newton)
+         (concat (filter zero? (last (partition-by identity eq))))
+         (map (fn [ev]
+                (if (re-find #"\." (str ev))
+                  (let [[l t] (split (str ev) #"\.")]
+                    (if (<= (- 1.0 (Double/parseDouble (str "0." t)))
+                            (gu/error-decimal (dec (count t))))
+                      (inc (Double/parseDouble l)) ev)) ev)))
+         distinct sort)))
 
 (defn pivot-indicies
   "Gets the indices of pivots in each row of an REF matrix"
