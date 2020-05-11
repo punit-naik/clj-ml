@@ -35,3 +35,9 @@
     (is (= (gu/shingles "punit n" 7) ["punit n"]))
     (is (= (gu/shingles "punit n" 8) []))
     (is (= (gu/shingles "punit n" 9) []))))
+
+(deftest approximate-decimal-test
+  (testing "the `org.clojars.punit-naik.clj-ml.utils.matrix/approximate-decimal` function"
+    (is (= (gu/approximate-decimal 1.1234 3) 1.123))
+    (is (= (gu/approximate-decimal 1.1234 2) 1.12))
+    (is (= (gu/approximate-decimal 1.1234 1) 1.1))))
