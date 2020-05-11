@@ -41,3 +41,9 @@
     (is (= (gu/approximate-decimal 1.1234 3) 1.123))
     (is (= (gu/approximate-decimal 1.1234 2) 1.12))
     (is (= (gu/approximate-decimal 1.1234 1) 1.1))))
+
+(deftest error-decimal-test
+  (testing "the `org.clojars.punit-naik.clj-ml.utils.matrix/error-decimal` function"
+    (is (= (gu/error-decimal 1) 0.01))
+    (is (= (gu/error-decimal 2) 0.001))
+    (is (= (gu/error-decimal 3) 0.0001))))

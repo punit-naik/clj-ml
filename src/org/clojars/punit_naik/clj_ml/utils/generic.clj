@@ -65,3 +65,8 @@
   [num n]
   (let [[f s] (split (str num) #"\.")]
     (Double/parseDouble (str f "." (join (take n s))))))
+
+(defn error-decimal
+  "Given a precision value as an integer, this function returns the corresponding error value"
+  [n]
+  (Double/parseDouble (str "0." (join (take n (repeat 0))) 1)))
