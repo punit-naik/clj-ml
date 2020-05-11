@@ -392,7 +392,7 @@
                     (if (<= (- 1.0 (Double/parseDouble (str "0." t)))
                             (gu/error-decimal (dec (count t))))
                       (inc (Double/parseDouble l)) ev)) ev)))
-         distinct sort)))
+         sort)))
 
 (defn pivot-indicies
   "Gets the indices of pivots in each row of an REF matrix"
@@ -491,7 +491,7 @@
      (if (empty? rref-r)
        (cond->> (into (sorted-map) result)
          (<= zero-row-count 1) vals
-         (> zero-row-count 1) vals;(map (fn [[_ v]] ((if already-calculated? + -) v 1)))
+         (> zero-row-count 1) (map (fn [[_ v]] ((if already-calculated? + -) v 1)))
          )
        (recur (rest rref-r) (inc default-val-counter)
               (let [first-rref-reversed (first rref-r)
@@ -535,6 +535,7 @@
   (matrix-multiply [[-1,2,2],[2,2,-1],[2,-1,2]] [[1.5] [2] [1]])
   (eigen-vectors [[-1,2,2],[2,2,-1],[2,-1,2]] (eigen-values [[-1,2,2],[2,2,-1],[2,-1,2]]))
   (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[-16 9 0 0] [12 5 0 0] [0 0 6 -2] [0 0 0 4]] 6)))
-  (let [m [[-16 9 0 0] [12 5 0 0] [0 0 6 -2] [0 0 0 4]]]
+  (let [m [[1 2 3] [3 2 1] [2 1 3]]]
     (->> (eigen-values m)
-         (eigen-vectors m))))
+         (eigen-vectors m)
+         )))
