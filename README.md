@@ -8,8 +8,8 @@ Collection of ML and it's corresponsing utilities in Clojure
 
 ## TODO
 
-1. `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-equation` does not work for all kinds of equations, like `-λ^3+5*λ^2+3*λ-6`.
-   So the task is to improve this function and make it more generic.
+1. `org.clojars.punit-naik.clj-ml.utils.matrix/reduced-row-echelon-form` does not work properly.
+   Turns out, converting the matrix to Upper Traingular first does not yield the best result. Need to formulate a new strategy.
 
 ## Usage
 
