@@ -383,7 +383,7 @@
         smaller-coll-padded-negative (map #(* % -1) smaller-coll-padded)
         eq (map + bigger-coll smaller-coll-padded-negative)]
     (sort
-     (concat (lau/solve-equation (remove zero? eq))
+     (concat (lau/solve-equation :newton (remove zero? eq))
              (filter zero? (last (partition-by identity eq)))))))
 
 (defn pivot-indicies
