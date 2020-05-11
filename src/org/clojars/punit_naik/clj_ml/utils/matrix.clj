@@ -252,7 +252,8 @@
                        (and (zero? (get-val matrix [(first row-idxs) (dec row-index-to-be-processed)]))
                             (zero? (get-val matrix [(first row-idxs)
                                                     (gu/first-n-zeros
-                                                     (get-val matrix [row-index-to-be-processed]))]))))
+                                                     (get-val matrix [row-index-to-be-processed]))]))
+                            (not (nil? result))))
                  result
                  (row-adjust (get-val matrix [(first row-idxs)])
                              (or result
@@ -535,7 +536,11 @@
   (matrix-multiply [[-1,2,2],[2,2,-1],[2,-1,2]] [[1.5] [2] [1]])
   (eigen-vectors [[-1,2,2],[2,2,-1],[2,-1,2]] (eigen-values [[-1,2,2],[2,2,-1],[2,-1,2]]))
   (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[-16 9 0 0] [12 5 0 0] [0 0 6 -2] [0 0 0 4]] 6)))
-  (let [m [[1 2 3] [3 2 1] [2 1 3]]]
+  (let [;m [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]]
+        m [[2 1 0] [1 2 1] [0 1 2]]]
     (->> (eigen-values m)
          (eigen-vectors m)
-         )))
+         ))
+  (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] (- 2 1.414))))
+  (upper-triangular-matrix (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 2))
+  (row-adjust [1 0 1] [0 1 0] 1))
