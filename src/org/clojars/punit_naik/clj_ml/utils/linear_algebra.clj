@@ -1,5 +1,6 @@
 (ns org.clojars.punit-naik.clj-ml.utils.linear-algebra
-  (:require [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
+  (:require [org.clojars.punit-naik.clj-ml.utils.calculus :as cu]
+            [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
             [clojure.set :refer [intersection]]))
 
 (defn eval-fn
@@ -77,7 +78,7 @@
                 first-coeff-factors)
            flatten distinct sort))))
 
-(defn solve-equation
+(defn solve-equation-synthetic-division
   "Given the a to z terms of the euqation ax^n+....+z=0
    This returns all the roots for the equation using synthetic division"
   [coefficients]
@@ -96,3 +97,50 @@
                  (rest all-possible))
                (cond-> solutions
                  next-eq (conj testing-root)))))))
+
+(defn newtons-method
+  "Uses Newton's method t find the root of an equation ax^n+bx^n-1+...+z
+   Represented as a collection of it's coefficients [a b ... z]
+   It selects a root for precision upto the number set by the arg `precision`"
+  [eq eq-deriv precision x-0]
+  (loop [testing-root x-0
+         error 1]
+    (let [f-x (eval-fn eq testing-root)]
+      (if (or (zero? f-x)
+              (<= error (gu/error-decimal precision)))
+      testing-root
+      (let [f-dash-x (eval-fn eq-deriv testing-root)
+            new-root (if (zero? f-dash-x)
+                       (if (zero? f-x)
+                         testing-root
+                         ((if (= (/ testing-root (Math/abs testing-root)) -1) + -)
+                          testing-root (gu/error-decimal precision))) (- testing-root (/ f-x f-dash-x)))]
+        (recur new-root (Math/abs (- new-root testing-root))))))))
+
+(defn solve-equation-newtons-method
+  "Given the a to z terms of the euqation ax^n+....+z=0
+   This returns all the roots for the equation using newton's method"
+  [coefficients]
+  (let [precision 5]
+    (->> (find-all-possible-solutions coefficients)
+         (map #(-> (newtons-method coefficients (cu/derivative coefficients) precision %)
+                   (gu/approximate-decimal precision)))
+         distinct)))
+
+(defmulti solve-equation
+  "Given the a to z terms of the euqation ax^n+....+z=0
+   This returns all the roots for the equation"
+  (fn [method _] method))
+
+(defmethod solve-equation :synthetic-division
+  [_ coefficients]
+  (solve-equation-synthetic-division coefficients))
+
+(defmethod solve-equation :newton
+  [_ coefficients]
+  (solve-equation-newtons-method coefficients))
+
+(defmethod solve-equation :default
+  [_ coefficients]
+  (let [sesd (solve-equation-synthetic-division coefficients)]
+    (if (seq sesd) sesd (solve-equation-newtons-method coefficients))))
