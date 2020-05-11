@@ -468,6 +468,7 @@
 (defn row-echelon-form
   "Calculates the Row Echelon Form (REF) of a matrix"
   [matrix]
+  ;(sort-by #(count (filter zero? %)) matrix)
   (sort-by gu/first-n-zeros (:upper-triangular (upper-triangular-matrix matrix))))
 
 (defn reduced-row-echelon-form
@@ -541,6 +542,8 @@
     (->> (eigen-values m)
          (eigen-vectors m)
          ))
-  (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] (- 2 1.414))))
-  (upper-triangular-matrix (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 2))
+  (reduced-row-echelon-form '([1 1.4140000000000001 1] [0 1 1.4140000000000001] [1.4140000000000001 1 0]))
+  (reduced-row-echelon-form (sort-by #(count (filter zero? %)) (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.586)))
+  (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.586)))
+  (upper-triangular-matrix (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.586))
   (row-adjust [1 0 1] [0 1 0] 1))
