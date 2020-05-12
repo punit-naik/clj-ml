@@ -6,6 +6,8 @@ Collection of ML and it's corresponsing utilities in Clojure
 
 ## TODO/CURRENT ISSUES
 
+1. have to add visualisation utilities for displaying data as graphs, charts, etc,.
+
 ## Usage
 
 **NOTE**: [Java](https://openjdk.java.net/) and [Leiningen](https://github.com/technomancy/leiningen) must be pre-installed!
