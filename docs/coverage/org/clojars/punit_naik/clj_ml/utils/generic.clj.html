@@ -8,7 +8,7 @@
                 001&nbsp;&nbsp;(ns&nbsp;org.clojars.punit-naik.clj-ml.utils.generic
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                002&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clojure.string&nbsp;:refer&nbsp;[split]]))
+                002&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clojure.string&nbsp;:refer&nbsp;[join&nbsp;split]]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 003&nbsp;&nbsp;
@@ -186,6 +186,81 @@
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(conj&nbsp;result&nbsp;(reduce&nbsp;str&nbsp;(take&nbsp;n&nbsp;(drop&nbsp;(first&nbsp;idx-coll)&nbsp;s)))))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                062&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                063&nbsp;&nbsp;(defn&nbsp;approximate-decimal
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                064&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;decimal&nbsp;number&nbsp;`num`,&nbsp;this&nbsp;function&nbsp;approximates&#x2F;selects&nbsp;it&#x27;s&nbsp;value&nbsp;upto&nbsp;`n`&nbsp;decimal&nbsp;places.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                065&nbsp;&nbsp;&nbsp;&nbsp;[num&nbsp;n]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                066&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[f&nbsp;s]&nbsp;(split&nbsp;(str&nbsp;num)&nbsp;#&quot;\.&quot;)]
+                </span><br/>
+<span class="covered" title="11 out of 11 forms covered">
+                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;f&nbsp;&quot;.&quot;&nbsp;(join&nbsp;(take&nbsp;n&nbsp;s))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                068&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                069&nbsp;&nbsp;(defn&nbsp;error-decimal
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                070&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;precision&nbsp;value&nbsp;as&nbsp;an&nbsp;integer,&nbsp;this&nbsp;function&nbsp;returns&nbsp;the&nbsp;corresponding&nbsp;error&nbsp;value&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                071&nbsp;&nbsp;&nbsp;&nbsp;[n]
+                </span><br/>
+<span class="covered" title="13 out of 13 forms covered">
+                072&nbsp;&nbsp;&nbsp;&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;(join&nbsp;(take&nbsp;n&nbsp;(repeat&nbsp;0)))&nbsp;1)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                073&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                074&nbsp;&nbsp;(defn&nbsp;round-decimal
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                075&nbsp;&nbsp;&nbsp;&nbsp;&quot;Rounds&nbsp;of&nbsp;a&nbsp;decimal&nbsp;based&nbsp;on&nbsp;`precision`&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                076&nbsp;&nbsp;&nbsp;&nbsp;[num]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                077&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[l&nbsp;t]&nbsp;(split&nbsp;(str&nbsp;num)&nbsp;#&quot;\.&quot;)]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&gt;=&nbsp;(count&nbsp;t)&nbsp;5)&nbsp;;&nbsp;Choosing&nbsp;for&nbsp;precision&nbsp;of&nbsp;5&nbsp;digits&nbsp;after&nbsp;decimal&nbsp;for&nbsp;now
+                </span><br/>
+<span class="covered" title="12 out of 12 forms covered">
+                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[percentage&nbsp;(*&nbsp;(-&nbsp;1.0&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;t)))&nbsp;100.0)
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;negative?&nbsp;(re-find&nbsp;#&quot;\-&quot;&nbsp;(str&nbsp;l))]
+                </span><br/>
+<span class="covered" title="27 out of 27 forms covered">
+                081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;(Double&#x2F;parseDouble&nbsp;(last&nbsp;(split&nbsp;(str&nbsp;l)&nbsp;#&quot;\-&quot;)))
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&lt;=&nbsp;percentage&nbsp;0.2)&nbsp;inc
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&gt;=&nbsp;percentage&nbsp;99.9)&nbsp;identity
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;negative?&nbsp;(*&nbsp;-1)
+                </span><br/>
+<span class="covered" title="11 out of 11 forms covered">
+                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and&nbsp;(not&nbsp;(&lt;=&nbsp;percentage&nbsp;0.2))
+                </span><br/>
+<span class="covered" title="15 out of 15 forms covered">
+                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(&gt;=&nbsp;percentage&nbsp;99.9)))&nbsp;((if&nbsp;negative?&nbsp;-&nbsp;+)&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;t)))))&nbsp;num)))
                 </span><br/>
  </body>
 </html>

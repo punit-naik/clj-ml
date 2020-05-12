@@ -8,271 +8,442 @@
                 001&nbsp;&nbsp;(ns&nbsp;org.clojars.punit-naik.clj-ml.utils.linear-algebra
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                002&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[org.clojars.punit-naik.clj-ml.utils.generic&nbsp;:as&nbsp;gu]
+                002&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[org.clojars.punit-naik.clj-ml.utils.calculus&nbsp;:as&nbsp;cu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.set&nbsp;:refer&nbsp;[intersection]]))
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[org.clojars.punit-naik.clj-ml.utils.generic&nbsp;:as&nbsp;gu]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.set&nbsp;:refer&nbsp;[intersection]]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;
+                005&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                005&nbsp;&nbsp;(defn&nbsp;solve-quadratic-equation
+                006&nbsp;&nbsp;(defn&nbsp;eval-fn
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a,b&nbsp;and&nbsp;c&nbsp;terms&nbsp;of&nbsp;the&nbsp;quadratic&nbsp;euqation&nbsp;ax^2+bx+c=0
+                007&nbsp;&nbsp;&nbsp;&nbsp;&quot;Evaluates&nbsp;a&nbsp;function&nbsp;ax^n+bx^n-1+...+z&nbsp;represented&nbsp;by&nbsp;a&nbsp;collection&nbsp;of&nbsp;it&#x27;s&nbsp;coefficients&nbsp;[a&nbsp;b&nbsp;...&nbsp;z]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;returns&nbsp;a&nbsp;pair&nbsp;of&nbsp;solutions&nbsp;for&nbsp;x&quot;
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;the&nbsp;value&nbsp;`x`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;[{:keys&nbsp;[a&nbsp;b&nbsp;c]}]
+                009&nbsp;&nbsp;&nbsp;&nbsp;[eq&nbsp;x]
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[four-a-c&nbsp;(*&nbsp;4&nbsp;a&nbsp;c)
+                010&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;+&nbsp;(map-indexed&nbsp;(fn&nbsp;[idx&nbsp;coeff]
+                </span><br/>
+<span class="covered" title="14 out of 14 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*&nbsp;coeff&nbsp;(Math&#x2F;pow&nbsp;x&nbsp;(-&nbsp;(dec&nbsp;(count&nbsp;eq))&nbsp;idx))))&nbsp;eq)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                012&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                013&nbsp;&nbsp;(defn&nbsp;solve-quadratic-equation
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a,b&nbsp;and&nbsp;c&nbsp;terms&nbsp;of&nbsp;the&nbsp;quadratic&nbsp;euqation&nbsp;ax^2+bx+c=0
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;returns&nbsp;a&nbsp;pair&nbsp;of&nbsp;solutions&nbsp;for&nbsp;x&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;[{:keys&nbsp;[a&nbsp;b&nbsp;c]}]
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[four-a-c&nbsp;(*&nbsp;4&nbsp;a&nbsp;c)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b-squared&nbsp;(*&nbsp;b&nbsp;b)
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b-squared&nbsp;(*&nbsp;b&nbsp;b)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;square-root-b-squared-minus-four-a-c&nbsp;(Math&#x2F;sqrt&nbsp;(-&nbsp;b-squared&nbsp;four-a-c))
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;square-root-b-squared-minus-four-a-c&nbsp;(Math&#x2F;sqrt&nbsp;(-&nbsp;b-squared&nbsp;four-a-c))
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;two-a&nbsp;(*&nbsp;2&nbsp;a)]
+                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;two-a&nbsp;(*&nbsp;2&nbsp;a)]
                 </span><br/>
 <span class="covered" title="13 out of 13 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(double&nbsp;(&#x2F;&nbsp;(+&nbsp;(*&nbsp;b&nbsp;-1)&nbsp;square-root-b-squared-minus-four-a-c)&nbsp;two-a))
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(double&nbsp;(&#x2F;&nbsp;(+&nbsp;(*&nbsp;b&nbsp;-1)&nbsp;square-root-b-squared-minus-four-a-c)&nbsp;two-a))
                 </span><br/>
 <span class="covered" title="15 out of 15 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(double&nbsp;(&#x2F;&nbsp;(+&nbsp;(*&nbsp;b&nbsp;-1)&nbsp;(*&nbsp;square-root-b-squared-minus-four-a-c&nbsp;-1))&nbsp;two-a))]))
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(double&nbsp;(&#x2F;&nbsp;(+&nbsp;(*&nbsp;b&nbsp;-1)&nbsp;(*&nbsp;square-root-b-squared-minus-four-a-c&nbsp;-1))&nbsp;two-a))]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;
+                023&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                016&nbsp;&nbsp;(defn&nbsp;factors
+                024&nbsp;&nbsp;(defn&nbsp;factors
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;all&nbsp;the&nbsp;factors&nbsp;of&nbsp;a&nbsp;number&quot;
+                025&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;all&nbsp;the&nbsp;factors&nbsp;of&nbsp;a&nbsp;number&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;([num]
+                026&nbsp;&nbsp;&nbsp;&nbsp;([num]
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[n&nbsp;(range&nbsp;1&nbsp;(inc&nbsp;(Math&#x2F;abs&nbsp;num)))
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[n&nbsp;(range&nbsp;1&nbsp;(inc&nbsp;(Math&#x2F;abs&nbsp;num)))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;#{}]
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;#{}]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;n)
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;n)
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;n)
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;n)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;result
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;result
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(zero?&nbsp;(mod&nbsp;(Math&#x2F;abs&nbsp;num)&nbsp;(first&nbsp;n)))&nbsp;(conj&nbsp;(first&nbsp;n)))))))
+                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(zero?&nbsp;(mod&nbsp;(Math&#x2F;abs&nbsp;num)&nbsp;(first&nbsp;n)))&nbsp;(conj&nbsp;(first&nbsp;n)))))))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;([num&nbsp;decimal?]
+                034&nbsp;&nbsp;&nbsp;&nbsp;([num&nbsp;decimal?]
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;decimal?
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;decimal?
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[up&nbsp;down]&nbsp;(gu&#x2F;rationalise&nbsp;(Math&#x2F;abs&nbsp;num))]
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[up&nbsp;down]&nbsp;(gu&#x2F;rationalise&nbsp;(Math&#x2F;abs&nbsp;num))]
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;(factors&nbsp;up)
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;(factors&nbsp;up)
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not=&nbsp;down&nbsp;1)&nbsp;(intersection&nbsp;(factors&nbsp;down))))
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not=&nbsp;down&nbsp;1)&nbsp;(intersection&nbsp;(factors&nbsp;down))))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(factors&nbsp;num))))
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(factors&nbsp;num))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                032&nbsp;&nbsp;
+                040&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                033&nbsp;&nbsp;(defn&nbsp;isa-solution?
+                041&nbsp;&nbsp;(defn&nbsp;isa-solution?
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a&nbsp;to&nbsp;z&nbsp;terms&nbsp;of&nbsp;the&nbsp;quadratic&nbsp;euqation&nbsp;ax^n+....+z=0&nbsp;as&nbsp;a&nbsp;collection
+                042&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a&nbsp;to&nbsp;z&nbsp;terms&nbsp;of&nbsp;the&nbsp;quadratic&nbsp;euqation&nbsp;ax^n+....+z=0&nbsp;as&nbsp;a&nbsp;collection
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And&nbsp;the&nbsp;root,&nbsp;this&nbsp;function&nbsp;checks&nbsp;if&nbsp;the&nbsp;same&nbsp;root&nbsp;is&nbsp;a&nbsp;solution&nbsp;for&nbsp;the&nbsp;euqation&nbsp;or&nbsp;not
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And&nbsp;the&nbsp;root,&nbsp;this&nbsp;function&nbsp;checks&nbsp;if&nbsp;the&nbsp;same&nbsp;root&nbsp;is&nbsp;a&nbsp;solution&nbsp;for&nbsp;the&nbsp;euqation&nbsp;or&nbsp;not
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And&nbsp;returns&nbsp;the&nbsp;new&nbsp;reduced&nbsp;equation&nbsp;for&nbsp;finding&nbsp;the&nbsp;remaining&nbsp;roots&quot;
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And&nbsp;returns&nbsp;the&nbsp;new&nbsp;reduced&nbsp;equation&nbsp;for&nbsp;finding&nbsp;the&nbsp;remaining&nbsp;roots&nbsp;using&nbsp;Synthetic&nbsp;Division&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;[coefficients&nbsp;root]
+                045&nbsp;&nbsp;&nbsp;&nbsp;[coefficients&nbsp;root]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[result&nbsp;(reduce&nbsp;(fn&nbsp;[{:keys&nbsp;[sum]&nbsp;:as&nbsp;acc}&nbsp;v]
+                046&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[result&nbsp;(reduce&nbsp;(fn&nbsp;[{:keys&nbsp;[sum]&nbsp;:as&nbsp;acc}&nbsp;v]
                 </span><br/>
 <span class="covered" title="18 out of 18 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s&nbsp;(+&nbsp;(if&nbsp;(zero?&nbsp;sum)&nbsp;v&nbsp;(*&nbsp;root&nbsp;sum))&nbsp;(if&nbsp;(zero?&nbsp;sum)&nbsp;sum&nbsp;v))]
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s&nbsp;(+&nbsp;(if&nbsp;(zero?&nbsp;sum)&nbsp;v&nbsp;(*&nbsp;root&nbsp;sum))&nbsp;(if&nbsp;(zero?&nbsp;sum)&nbsp;sum&nbsp;v))]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;acc
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;acc
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;:sum&nbsp;s)
+                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;:sum&nbsp;s)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(update&nbsp;:coeffs&nbsp;conj&nbsp;s))))
+                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(update&nbsp;:coeffs&nbsp;conj&nbsp;s))))
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:sum&nbsp;0&nbsp;:coeffs&nbsp;[]}&nbsp;coefficients)]
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:sum&nbsp;0&nbsp;:coeffs&nbsp;[]}&nbsp;coefficients)]
                 </span><br/>
 <span class="covered" title="16 out of 16 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(and&nbsp;(zero?&nbsp;(Math&#x2F;round&nbsp;(*&nbsp;(:sum&nbsp;result)&nbsp;1.0)))
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(and&nbsp;(zero?&nbsp;(Math&#x2F;round&nbsp;(*&nbsp;(:sum&nbsp;result)&nbsp;1.0)))
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(seq&nbsp;(:coeffs&nbsp;result)))
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(seq&nbsp;(:coeffs&nbsp;result)))
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:coeffs&nbsp;(update&nbsp;result&nbsp;:coeffs&nbsp;butlast)))))
+                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:coeffs&nbsp;(update&nbsp;result&nbsp;:coeffs&nbsp;butlast)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                047&nbsp;&nbsp;
+                055&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                048&nbsp;&nbsp;(defn&nbsp;find-all-possible-solutions
+                056&nbsp;&nbsp;(defn&nbsp;find-all-possible-solutions
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a&nbsp;to&nbsp;z&nbsp;terms&nbsp;of&nbsp;the&nbsp;quadratic&nbsp;euqation&nbsp;ax&nbsp;^n+....+z=0&nbsp;as&nbsp;a&nbsp;collection
+                057&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a&nbsp;to&nbsp;z&nbsp;terms&nbsp;of&nbsp;the&nbsp;euqation&nbsp;ax&nbsp;^n+....+z=0&nbsp;as&nbsp;a&nbsp;collection
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;function&nbsp;finds&nbsp;all&nbsp;the&nbsp;possible&nbsp;roots&nbsp;of&nbsp;this&nbsp;equation&quot;
+                058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;function&nbsp;finds&nbsp;all&nbsp;the&nbsp;possible&nbsp;roots&nbsp;of&nbsp;this&nbsp;equation&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;[coefficients]
+                059&nbsp;&nbsp;&nbsp;&nbsp;[coefficients]
                 </span><br/>
 <span class="covered" title="15 out of 15 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(count&nbsp;coefficients)
+                060&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(count&nbsp;coefficients)
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;[(&#x2F;&nbsp;(*&nbsp;(second&nbsp;coefficients)&nbsp;-1)
+                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;[(&#x2F;&nbsp;(*&nbsp;(second&nbsp;coefficients)&nbsp;-1)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;coefficients))]
+                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;coefficients))]
                 </span><br/>
 <span class="covered" title="10 out of 10 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;(solve-quadratic-equation&nbsp;{:a&nbsp;(nth&nbsp;coefficients&nbsp;0)
+                063&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;(solve-quadratic-equation&nbsp;{:a&nbsp;(nth&nbsp;coefficients&nbsp;0)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:b&nbsp;(nth&nbsp;coefficients&nbsp;1)
+                064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:b&nbsp;(nth&nbsp;coefficients&nbsp;1)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:c&nbsp;(nth&nbsp;coefficients&nbsp;2)})
+                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:c&nbsp;(nth&nbsp;coefficients&nbsp;2)})
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[first-coefficient&nbsp;(first&nbsp;coefficients)
+                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[first-coefficient&nbsp;(first&nbsp;coefficients)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last-coefficient&nbsp;(last&nbsp;coefficients)
+                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last-coefficient&nbsp;(last&nbsp;coefficients)
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-coeff-factors&nbsp;(sort&nbsp;(factors&nbsp;first-coefficient&nbsp;true))
+                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-coeff-factors&nbsp;(sort&nbsp;(factors&nbsp;first-coefficient&nbsp;true))
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last-coeff-factors&nbsp;(sort&nbsp;(factors&nbsp;last-coefficient&nbsp;true))]
+                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last-coeff-factors&nbsp;(sort&nbsp;(factors&nbsp;last-coefficient&nbsp;true))]
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;(map&nbsp;(fn&nbsp;[i]
+                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;(map&nbsp;(fn&nbsp;[i]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                063&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[j]
+                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[j]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&gt;&nbsp;(Math&#x2F;abs&nbsp;last-coefficient)
+                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&gt;&nbsp;(Math&#x2F;abs&nbsp;last-coefficient)
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Math&#x2F;abs&nbsp;first-coefficient))
+                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Math&#x2F;abs&nbsp;first-coefficient))
                 </span><br/>
 <span class="covered" title="12 out of 12 forms covered">
-                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(&#x2F;&nbsp;j&nbsp;i)&nbsp;(&#x2F;&nbsp;(*&nbsp;j&nbsp;-1)&nbsp;i)]
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(&#x2F;&nbsp;j&nbsp;i)&nbsp;(&#x2F;&nbsp;(*&nbsp;j&nbsp;-1)&nbsp;i)]
                 </span><br/>
 <span class="covered" title="12 out of 12 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(&#x2F;&nbsp;i&nbsp;j)&nbsp;(&#x2F;&nbsp;(*&nbsp;i&nbsp;-1)&nbsp;j)]))
+                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(&#x2F;&nbsp;i&nbsp;j)&nbsp;(&#x2F;&nbsp;(*&nbsp;i&nbsp;-1)&nbsp;j)]))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last-coeff-factors))
+                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last-coeff-factors))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-coeff-factors)
+                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-coeff-factors)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flatten&nbsp;distinct&nbsp;sort))))
+                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flatten&nbsp;distinct&nbsp;sort))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                071&nbsp;&nbsp;
+                079&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                072&nbsp;&nbsp;(defn&nbsp;solve-equation
+                080&nbsp;&nbsp;(defn&nbsp;solve-equation-synthetic-division
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                073&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a&nbsp;to&nbsp;z&nbsp;terms&nbsp;of&nbsp;the&nbsp;quadratic&nbsp;euqation&nbsp;ax^n+....+z=0
+                081&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a&nbsp;to&nbsp;z&nbsp;terms&nbsp;of&nbsp;the&nbsp;euqation&nbsp;ax^n+....+z=0
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;returns&nbsp;all&nbsp;the&nbsp;roots&nbsp;for&nbsp;the&nbsp;equation&quot;
+                082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;returns&nbsp;all&nbsp;the&nbsp;roots&nbsp;for&nbsp;the&nbsp;equation&nbsp;using&nbsp;synthetic&nbsp;division&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                075&nbsp;&nbsp;&nbsp;&nbsp;[coefficients]
+                083&nbsp;&nbsp;&nbsp;&nbsp;[coefficients]
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                076&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[coeffs&nbsp;coefficients
+                084&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[coeffs&nbsp;coefficients
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-possible&nbsp;(reverse&nbsp;(find-all-possible-solutions&nbsp;coeffs))
+                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-possible&nbsp;(reverse&nbsp;(find-all-possible-solutions&nbsp;coeffs))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;solutions&nbsp;[]]
+                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;solutions&nbsp;[]]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(=&nbsp;(count&nbsp;solutions)
+                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(=&nbsp;(count&nbsp;solutions)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dec&nbsp;(count&nbsp;coefficients)))
+                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dec&nbsp;(count&nbsp;coefficients)))
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;all-possible))
+                089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;all-possible))
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;#(*&nbsp;%1&nbsp;1.0)&nbsp;solutions)
+                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;#(*&nbsp;%1&nbsp;1.0)&nbsp;solutions)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[testing-root&nbsp;(first&nbsp;all-possible)
+                091&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[testing-root&nbsp;(first&nbsp;all-possible)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next-eq&nbsp;(isa-solution?&nbsp;coeffs&nbsp;testing-root)]
+                092&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next-eq&nbsp;(isa-solution?&nbsp;coeffs&nbsp;testing-root)]
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(or&nbsp;next-eq&nbsp;coeffs)
+                093&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(or&nbsp;next-eq&nbsp;coeffs)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;next-eq
+                094&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;next-eq
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reverse&nbsp;(find-all-possible-solutions&nbsp;next-eq))
+                095&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reverse&nbsp;(find-all-possible-solutions&nbsp;next-eq))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(rest&nbsp;all-possible))
+                096&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(rest&nbsp;all-possible))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;solutions
+                097&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;solutions
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next-eq&nbsp;(conj&nbsp;testing-root)))))))
+                098&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next-eq&nbsp;(conj&nbsp;testing-root)))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                099&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                100&nbsp;&nbsp;(defn&nbsp;newtons-method
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                101&nbsp;&nbsp;&nbsp;&nbsp;&quot;Uses&nbsp;Newton&#x27;s&nbsp;method&nbsp;t&nbsp;find&nbsp;the&nbsp;root&nbsp;of&nbsp;an&nbsp;equation&nbsp;ax^n+bx^n-1+...+z
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Represented&nbsp;as&nbsp;a&nbsp;collection&nbsp;of&nbsp;it&#x27;s&nbsp;coefficients&nbsp;[a&nbsp;b&nbsp;...&nbsp;z]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It&nbsp;selects&nbsp;a&nbsp;root&nbsp;for&nbsp;precision&nbsp;upto&nbsp;the&nbsp;number&nbsp;set&nbsp;by&nbsp;the&nbsp;arg&nbsp;`precision`&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                104&nbsp;&nbsp;&nbsp;&nbsp;[eq&nbsp;eq-deriv&nbsp;precision&nbsp;x-0]
+                </span><br/>
+<span class="partial" title="3 out of 5 forms covered">
+                105&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[testing-root&nbsp;x-0
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error&nbsp;1]
+                </span><br/>
+<span class="partial" title="5 out of 10 forms covered">
+                107&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[f-x&nbsp;(eval-fn&nbsp;eq&nbsp;testing-root)]
+                </span><br/>
+<span class="partial" title="9 out of 18 forms covered">
+                108&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(zero?&nbsp;f-x)
+                </span><br/>
+<span class="partial" title="5 out of 10 forms covered">
+                109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&lt;=&nbsp;error&nbsp;(gu&#x2F;error-decimal&nbsp;precision)))
+                </span><br/>
+<span class="partial" title="1 out of 2 forms covered">
+                110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testing-root
+                </span><br/>
+<span class="partial" title="5 out of 10 forms covered">
+                111&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[f-dash-x&nbsp;(eval-fn&nbsp;eq-deriv&nbsp;testing-root)
+                </span><br/>
+<span class="partial" title="4 out of 8 forms covered">
+                112&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new-root&nbsp;(if&nbsp;(zero?&nbsp;f-dash-x)
+                </span><br/>
+<span class="partial" title="4 out of 8 forms covered">
+                113&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(zero?&nbsp;f-x)
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                114&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testing-root
+                </span><br/>
+<span class="partial" title="12 out of 24 forms covered">
+                115&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((if&nbsp;(=&nbsp;(&#x2F;&nbsp;testing-root&nbsp;(Math&#x2F;abs&nbsp;testing-root))&nbsp;-1)&nbsp;+&nbsp;-)
+                </span><br/>
+<span class="partial" title="11 out of 22 forms covered">
+                116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testing-root&nbsp;(gu&#x2F;error-decimal&nbsp;precision)))&nbsp;(-&nbsp;testing-root&nbsp;(&#x2F;&nbsp;f-x&nbsp;f-dash-x)))]
+                </span><br/>
+<span class="partial" title="1 out of 2 forms covered">
+                117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;new-root&nbsp;(Math&#x2F;abs&nbsp;(-&nbsp;new-root&nbsp;testing-root))))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                118&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                119&nbsp;&nbsp;(defn&nbsp;solve-equation-newtons-method
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                120&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a&nbsp;to&nbsp;z&nbsp;terms&nbsp;of&nbsp;the&nbsp;euqation&nbsp;ax^n+....+z=0
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;returns&nbsp;all&nbsp;the&nbsp;roots&nbsp;for&nbsp;the&nbsp;equation&nbsp;using&nbsp;newton&#x27;s&nbsp;method&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                122&nbsp;&nbsp;&nbsp;&nbsp;[coefficients]
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                123&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[precision&nbsp;5]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                124&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;(find-all-possible-solutions&nbsp;coefficients)
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;#(gu&#x2F;approximate-decimal&nbsp;(newtons-method&nbsp;coefficients
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cu&#x2F;derivative&nbsp;coefficients)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                127&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;precision&nbsp;%)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;precision))
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                129&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;distinct)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                130&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                131&nbsp;&nbsp;(defmulti&nbsp;solve-equation
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                132&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;the&nbsp;a&nbsp;to&nbsp;z&nbsp;terms&nbsp;of&nbsp;the&nbsp;euqation&nbsp;ax^n+....+z=0
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                133&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;returns&nbsp;all&nbsp;the&nbsp;roots&nbsp;for&nbsp;the&nbsp;equation&quot;
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                134&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[method&nbsp;_]&nbsp;method))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                135&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                136&nbsp;&nbsp;(defmethod&nbsp;solve-equation&nbsp;:synthetic-division
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                137&nbsp;&nbsp;&nbsp;&nbsp;[_&nbsp;coefficients]
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                138&nbsp;&nbsp;&nbsp;&nbsp;(solve-equation-synthetic-division&nbsp;coefficients))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                139&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                140&nbsp;&nbsp;(defmethod&nbsp;solve-equation&nbsp;:newton
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                141&nbsp;&nbsp;&nbsp;&nbsp;[_&nbsp;coefficients]
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                142&nbsp;&nbsp;&nbsp;&nbsp;(solve-equation-newtons-method&nbsp;coefficients))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                143&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                144&nbsp;&nbsp;(defmethod&nbsp;solve-equation&nbsp;:default
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                145&nbsp;&nbsp;&nbsp;&nbsp;[_&nbsp;coefficients]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                146&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[sesd&nbsp;(solve-equation-synthetic-division&nbsp;coefficients)]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                147&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(seq&nbsp;sesd)&nbsp;sesd&nbsp;(solve-equation-newtons-method&nbsp;coefficients))))
                 </span><br/>
  </body>
 </html>
