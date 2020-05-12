@@ -57,8 +57,7 @@
                                                         :original-data "punit4"
                                                         :possible-duplicate-index 1
                                                         :possible-duplicate-data "punitn"
-                                                        :match-percentage 91.66666666666667})
-)
+                                                        :match-percentage 91.66666666666667}))
 
 (deftest hash-n-times-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.lsh/hash-n-times` works properly or not"
