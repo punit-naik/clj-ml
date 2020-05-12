@@ -8,10 +8,6 @@ Collection of ML and it's corresponsing utilities in Clojure
 
 ## TODO/CURRENT ISSUES
 
-1. There is a problem in the method described in `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vector-for-lamba`
-   Used to calculate the eigenvector from the RREF of a matrix for a particular λ.
-   Please note, the RREF is correct but the process of finding eigenvector is a bit wrong.
-
 ## Usage
 
 **NOTE**: [Java](https://openjdk.java.net/) and [Leiningen](https://github.com/technomancy/leiningen) must be pre-installed!
