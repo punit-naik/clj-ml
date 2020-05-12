@@ -41,6 +41,26 @@
 (defonce ^:private eigen-value-result-2 '(0 2.0 34.0))
 (defonce ^:private eigen-vector-input-1 [[-1 2 2] [2 2 -1] [2 -1 2]])
 (defonce ^:private eigen-vector-input-2 [[2 1 0] [1 2 1] [0 1 2]])
+(defonce ^:private sigmoid-input-1 [[0.2 0.4] [0.5 0.7] [0.9 0.004]])
+(defonce ^:private sigmoid-output-1 '((0.549833997312478 0.598687660112452)
+                                      (0.6224593312018546 0.6681877721681662)
+                                      (0.7109495026250039 0.5009999986666688)))
+(defonce ^:private sigmoid-input-2 sample-identity-matrix)
+(defonce ^:private sigmoid-output-2 '((0.7310585786300049 0.5 0.5)
+                                      (0.5 0.7310585786300049 0.5)
+                                      (0.5 0.5 0.7310585786300049)))
+(defonce ^:private concat-matrix-rows-output-1 '((1 0 0 1 0) (0 1 0 0 1) (0 0 1 0 0)))
+(defonce ^:private concat-matrix-rows-output-2 '((3 -2 5 3 -2) (6 -4 7 6 -4) (5 -4 6 5 -4)))
+(defonce ^:private characteristic-equation-parts-output-1 [-1 3 -3 1])
+(defonce ^:private characteristic-equation-parts-output-2 [-1 6 -12 8])
+(defonce ^:private characteristic-equation-parts-output-3 [-1 36 -188 240])
+
+(deftest equal-dimensions?-test
+  (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/equal-dimensions?` function"
+    (testing "correctly identifies a matrix with equal dimensions"
+      (is (mu/equal-dimensions? valid-2d-matrix)))
+    (testing "correctly identifies an matrix with unequal dimensions"
+      (is (false? (mu/equal-dimensions? invalid-2d-matrix))))))
 
 (deftest is-matrix-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/matrix?` function"
@@ -48,6 +68,23 @@
       (is (mu/matrix? valid-2d-matrix)))
     (testing "correctly identifies an invalid matrix"
       (is (false? (mu/matrix? invalid-2d-matrix))))))
+
+(deftest get-val-test
+  (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/get-val` function works properly"
+    (is (= (mu/get-val sample-identity-matrix [0]) [1 0 0]))
+    (is (= (mu/get-val sample-identity-matrix [1]) [0 1 0]))
+    (is (= (mu/get-val sample-identity-matrix [2]) [0 0 1]))
+    (is (= (mu/get-val sample-identity-matrix [0 0]) 1))
+    (is (= (mu/get-val sample-identity-matrix [1 1]) 1))
+    (is (= (mu/get-val sample-identity-matrix [2 2]) 1))))
+
+(deftest random-fn-test
+  (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/random-fn` function works properly"
+    (let [seed 10
+          checker-fn (fn [coll] (every? (fn [x] (<= 0 x seed)) coll))]
+      (is (checker-fn (mu/random-fn 5 (rand seed))))
+      (is (checker-fn (mu/random-fn 10 (rand seed))))
+      (is (checker-fn (mu/random-fn 15 (rand seed)))))))
 
 (deftest create-matrix-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/create-matrix` function creates a valid 2D matrix"
@@ -68,6 +105,11 @@
       (is (mu/identity-matrix? m))
       (is (= (mu/dimension m) [3 3]))
       (is (= m sample-identity-matrix)))))
+
+(deftest dimension-test
+  (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/dimension` function finds the dimensions of a mtrix properly"
+    (is (= (mu/dimension valid-2d-matrix) [2 3]))
+    (is (= (mu/dimension sample-identity-matrix) [3 3]))))
 
 (deftest transpose-matrix-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/transpose` function transposes a 2D matrix properly"
@@ -101,6 +143,11 @@
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/absolute` function calculates the absolute of a 2D matrix properly"
     (is (= (mu/absolute sample-identity-matrix-negative-values) (mu/perform-arithmetic-op sample-identity-matrix 1.0 *)))))
 
+(deftest sigmoid-test
+  (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/sigmoid` function calculates the sigmoid of a 2D matrix properly"
+    (is (= (mu/sigmoid sigmoid-input-1) sigmoid-output-1))
+    (is (= (mu/sigmoid sigmoid-input-2) sigmoid-output-2))))
+
 (deftest reciprocal-matrix-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/reciprocal` function calculates the reciprocal of a 2D matrix properly"
     (is (= (mu/reciprocal valid-2d-matrix) valid-2d-matrix-reciprocal))))
@@ -124,6 +171,11 @@
     (is (= (mu/row-adjust [1 3 1 4] [3 9 5 15] 2) '(0.0 0.0 2.0 3.0)))
     (is (= (mu/row-adjust [0 2 1 1] [0 4 2 3] 2) '(0.0 0.0 0.0 1.0)))))
 
+(deftest recursive-row-adjust-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/recursive-row-adjust` properly adjusts the rows of a matrix or not"
+    (is (= (mu/recursive-row-adjust upper-triangular-matrix-data-1 1) '(0.0 0.0 -3.0)))
+    (is (= (mu/recursive-row-adjust upper-triangular-matrix-data-1 2) '(0.0 -0.6666666666666665 -2.333333333333334)))))
+
 (deftest upper-triangular-matrix-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/upper-triangular-matrix` properly generates an upper triangular matrix or not"
     (is (= (:upper-triangular (mu/upper-triangular-matrix sample-identity-matrix)) sample-identity-matrix))
@@ -145,10 +197,29 @@
     (is (= (mu/swap-rows sample-identity-matrix 0 1) sample-identity-matrix-swapped-1))
     (is (= (mu/swap-rows sample-identity-matrix 0 2) sample-identity-matrix-swapped-2))))
 
+(deftest mean-coll-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/mean-coll` correctly works or not"
+    (is (= (mu/mean-coll [0 2 4]) 2.0))
+    (is (= (mu/mean-coll [1 0 1 0]) 0.5))))
+
 (deftest cross-product-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/cross-product` correctly calculates the cross product of the rows of a matrix or not"
     (is (= (mu/cross-product cross-product-data-1 cross-product-data-1) cross-product-data-2))
     (is (= (mu/cross-product cross-product-data-2 cross-product-data-1) cross-product-data-3))))
+
+(deftest concat-matrix-rows-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/concat-matrix-rows` correctly works or not"
+    (is (= (mu/concat-matrix-rows sample-identity-matrix 3) concat-matrix-rows-output-1))
+    (is (= (mu/concat-matrix-rows upper-triangular-matrix-data-1 3) concat-matrix-rows-output-2))))
+
+(defonce characteristic-equation-parts-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/characteristic-equation-parts` correctly works or not"
+    (is (= (mu/characteristic-equation-parts (mu/concat-matrix-rows (mu/matrix-minus-lambda-i sample-identity-matrix) 3) 3)
+           characteristic-equation-parts-output-1))
+    (is (= (mu/characteristic-equation-parts (mu/concat-matrix-rows (mu/matrix-minus-lambda-i eigen-value-data-1) 3) 3)
+           characteristic-equation-parts-output-2))
+    (is (= (mu/characteristic-equation-parts (mu/concat-matrix-rows (mu/matrix-minus-lambda-i eigen-value-data-2) 3) 3)
+           characteristic-equation-parts-output-3))))
 
 (deftest matrix-minus-lambda-i-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/matrix-minus-lambda-i` correctly works correctly or not"
