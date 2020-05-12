@@ -174,9 +174,9 @@
 
 (deftest reduced-row-echelon-form-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/reduced-row-echelon-form` correctly works"
-    (is (= (mu/reduced-row-echelon-form [[-2 -2 -2] [-2 -5 1] [-2 1 -5]]) '((1.0 0.0 2.0) (0.0 1.0 -1.0) (0 0 0))))
-    (is (= (mu/reduced-row-echelon-form '([-3 -6 3] [3 6 -3] [0 0 0])) '((1.0 2.0 -1.0) (0 0 0) [0 0 0])))
-    (is (= (mu/reduced-row-echelon-form '([-3 -6 3] [3 6 -3] [0 0 0])) '((1.0 2.0 -1.0) (0 0 0) [0 0 0])))
+    (is (= (mu/reduced-row-echelon-form [[-2 -2 -2] [-2 -5 1] [-2 1 -5]]) '((1.0 0.0 2.0) (0.0 1.0 -1.0) (0.0 0.0 0.0))))
+    (is (= (mu/reduced-row-echelon-form '([-3 -6 3] [3 6 -3] [0 0 0])) '((1.0 2.0 -1.0) (0.0 0.0 0.0) [0 0 0])))
+    (is (= (mu/reduced-row-echelon-form '([-3 -6 3] [3 6 -3] [0 0 0])) '((1.0 2.0 -1.0) (0.0 0.0 0.0) [0 0 0])))
     (is (= (mu/reduced-row-echelon-form [[1 1.414 1] [1.414 1 0] [0 1 1.414]]) '((1.0 0.0 -1.0) (-0.0 1.0 1.414) (0.0 0.0 0.0))))
     (is (= (mu/reduced-row-echelon-form [[1 -1.414 1] [-1.414 1 0] [0 1 -1.414]]) '((1.0 0.0 -1.0) (-0.0 1.0 -1.414) (0.0 0.0 0.0))))))
 
