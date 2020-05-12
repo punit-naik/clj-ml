@@ -70,3 +70,17 @@
   "Given a precision value as an integer, this function returns the corresponding error value"
   [n]
   (Double/parseDouble (str "0." (join (take n (repeat 0))) 1)))
+
+(defn round-decimal
+  "Rounds of a decimal based on `precision`"
+  [num]
+  (let [[l t] (split (str num) #"\.")]
+    (if (>= (count t) 3) ; Choosing for precision of 3 digits after decimal for now
+      (let [percentage (* (- 1.0 (Double/parseDouble (str "0." t))) 100.0)
+            negative? (re-find #"\-" (str l))]
+        (cond-> (Double/parseDouble (last (split (str l) #"\-")))
+          (<= percentage 0.2) inc
+          (>= percentage 99.9) identity
+          negative? (* -1)
+          (and (not (<= percentage 0.2))
+               (not (>= percentage 99.9))) ((if negative? - +) (Double/parseDouble (str "0." t))))) num)))
