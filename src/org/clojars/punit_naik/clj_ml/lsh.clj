@@ -30,10 +30,10 @@
      banded-minhash-list
      (map murmur3-128 (range (count banded-minhash-list))))))
 
-(defn find-candidate-subsets
-  "Given a list of tuples of (<str>,<hash>), tries to generate a a list of similar candidates"
-  [str-hash-pair-list]
-  (reduce (fn []) {} str-hash-pair-list))
+;(defn find-candidate-subsets
+;  "Given a list of tuples of (<str>,<hash>), tries to generate a a list of similar candidates"
+;  [str-hash-pair-list]
+;  (reduce (fn []) {} str-hash-pair-list))
 
 (defn compare-records
   "Compares a list of records/string with each other using `org.clojars.punit-naik.clj-ml.utils.string/levenshtein-distance`"
@@ -93,7 +93,3 @@
        (pmap compare-records)
        (apply concat)
        (filter #(>= (:match-percentage %) match-threshold))))
-
-(comment
-  (find-possible-duplicates 1 5 2 90 ["punit" "punitn" "punir" "test123" "punit4" "test12" "test11"])
-  )
