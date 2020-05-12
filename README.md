@@ -4,12 +4,7 @@
 
 Collection of ML and it's corresponsing utilities in Clojure
 
-**NOTE**: Sorry for the extremely verbose code in some cases. I have coded it that way so that I understand the steps properly, especially in some cases where complex mathematical steps are involved. But it's no excuse for not writing idiomatic code, I get it.
-
-## TODO
-
-1. `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-equation` does not work for all kinds of equations, like `-λ^3+5*λ^2+3*λ-6`.
-   So the task is to improve this function and make it more generic.
+## TODO/CURRENT ISSUES
 
 ## Usage
 
@@ -34,6 +29,11 @@ lein with-profiles +uberjar uberjar
 ### Code Coverage
 
 [`clj-ml` Code Coverage](https://punit-naik.github.io/clj-ml/coverage/)
+
+## Note
+
+1. Sorry for the extremely verbose code in some cases. I have coded it that way so that I understand the steps properly, especially in some cases where complex mathematical steps are involved. But it's no excuse for not writing idiomatic code, I get it.
+2. I have not tested the functions inside this library for all possible inputs. Will look to improve the code incrementally.
 
 ## License
 

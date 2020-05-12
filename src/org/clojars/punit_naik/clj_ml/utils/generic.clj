@@ -1,5 +1,5 @@
 (ns org.clojars.punit-naik.clj-ml.utils.generic
-  (:require [clojure.string :refer [split]]))
+  (:require [clojure.string :refer [join split]]))
 
 (defn index-matrix-rows
   "This function indexes `matrix`'s rows and returns a map where key is the row number and value is the row itself"
@@ -59,3 +59,28 @@
         result
         (recur (rest idx-coll)
                (conj result (reduce str (take n (drop (first idx-coll) s)))))))))
+
+(defn approximate-decimal
+  "Given a decimal number `num`, this function approximates/selects it's value upto `n` decimal places."
+  [num n]
+  (let [[f s] (split (str num) #"\.")]
+    (Double/parseDouble (str f "." (join (take n s))))))
+
+(defn error-decimal
+  "Given a precision value as an integer, this function returns the corresponding error value"
+  [n]
+  (Double/parseDouble (str "0." (join (take n (repeat 0))) 1)))
+
+(defn round-decimal
+  "Rounds of a decimal based on `precision`"
+  [num]
+  (let [[l t] (split (str num) #"\.")]
+    (if (>= (count t) 5) ; Choosing for precision of 5 digits after decimal for now
+      (let [percentage (* (- 1.0 (Double/parseDouble (str "0." t))) 100.0)
+            negative? (re-find #"\-" (str l))]
+        (cond-> (Double/parseDouble (last (split (str l) #"\-")))
+          (<= percentage 0.2) inc
+          (>= percentage 99.9) identity
+          negative? (* -1)
+          (and (not (<= percentage 0.2))
+               (not (>= percentage 99.9))) ((if negative? - +) (Double/parseDouble (str "0." t))))) num)))

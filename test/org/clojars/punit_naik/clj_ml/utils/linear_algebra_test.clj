@@ -2,6 +2,13 @@
   (:require [clojure.test :refer [deftest testing is]]
             [org.clojars.punit-naik.clj-ml.utils.linear-algebra :as lau]))
 
+(deftest eval-fn-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/eval-fn` correctly evaluates a function at a value or not"
+    (is (= (lau/eval-fn [1 0 -5] 2) -1.0))
+    (is (= (lau/eval-fn [1 0 -5] 1) -4.0))
+    (is (= (lau/eval-fn [1 1 1] 2) 7.0))
+    (is (= (lau/eval-fn [1 1 1] -1) 1.0))))
+
 (deftest solve-quadratic-equation-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-quadratic-equation` can solve quadratic equations properly or not"
     (is (= (lau/solve-quadratic-equation {:a 1 :b -3 :c 2}) [2.0 1.0]))
@@ -32,8 +39,28 @@
     (is (lau/isa-solution? [1 0 -3 -2] -1))
     (is (lau/isa-solution? [1 1 -11 -5 30] -3))))
 
+(deftest solve-equation-synthetic-division-test
+  (testing "if the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-equation-synthetic-division` correctly finds all the roots of the euqation or not"
+    (is (= (lau/solve-equation-synthetic-division [1 0 -5]) '(-2.23606797749979 2.23606797749979)))
+    (is (= (lau/solve-equation-synthetic-division [1 1 -11 -5 30]) '(2.0 -3.0 -2.23606797749979 2.23606797749979)))
+    (is (= (lau/solve-equation-synthetic-division [1 0 -3 -2]) '(2.0 -1.0 -1.0)))))
+
+(deftest newtons-method-test
+  (testing "the `org.clojars.punit-naik.clj-ml.utils.linear-algebra/newtons-method` function"
+    (is (= (lau/newtons-method [1 0 -5] [2 0] 5 -2.23606) -2.23606797749979))
+    (is (= (lau/newtons-method [1 0 -5] [2 0] 5 2.23606) 2.23606797749979))))
+
+(deftest solve-equation-newtons-method-test
+  (testing "if the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-equation-newtons-method` correctly finds all the roots of the euqation or not"
+    (is (= (lau/solve-equation-newtons-method [1 0 -5]) '(2.23606 -2.23606)))
+    (is (= (lau/solve-equation-newtons-method [1 1 -11 -5 30]) '(-3.0 -2.23606 1.99999 2.0 2.23606)))
+    (is (= (lau/solve-equation-newtons-method [1 0 -3 -2]) '(-1.0 2.0)))
+    (is (= (lau/solve-equation-newtons-method [-1 5 3 -6]) '(-1.24889 0.8978 5.35109)))))
+
 (deftest solve-equation-test
   (testing "if the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-equation` correctly finds all the roots of the euqation or not"
-    (is (= (lau/solve-equation [1 0 -5]) '(-2.23606797749979 2.23606797749979)))
-    (is (= (lau/solve-equation [1 1 -11 -5 30]) '(2.0 -3.0 -2.23606797749979 2.23606797749979)))
-    (is (= (lau/solve-equation [1 0 -3 -2]) '(2.0 -1.0 -1.0)))))
+    (is (= (lau/solve-equation :synthetic-division [1 0 -5]) '(-2.23606797749979 2.23606797749979)))
+    (is (= (lau/solve-equation :synthetic-division [1 1 -11 -5 30]) '(2.0 -3.0 -2.23606797749979 2.23606797749979)))
+    (is (= (lau/solve-equation :synthetic-division [1 0 -3 -2]) '(2.0 -1.0 -1.0)))
+    (is (= (lau/solve-equation nil [-1 5 3 -6]) '(-1.24889 0.8978 5.35109)))
+    (is (every? #(Double/isNaN %) (lau/solve-equation nil [1 4 6])))))
