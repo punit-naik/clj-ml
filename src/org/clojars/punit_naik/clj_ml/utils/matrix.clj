@@ -2,8 +2,7 @@
   (:require [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
             [org.clojars.punit-naik.clj-ml.utils.linear-algebra :as lau]))
 
-;
-(defn- equal-dimensions?
+(defn equal-dimensions?
   "Checks if the nested matrices of a matrix have euqal dimensions or not"
   [m]
   (if (every? coll? m)
@@ -31,7 +30,6 @@
                    (and (equal-dimensions? mat)
                         (every? true? (map equal-dimensions? mat))))))))))
 
-;
 (defn get-val
   "Get's a specific value from the martix `m` based on the path provided in `index-path`"
   [m index-path]
@@ -41,7 +39,6 @@
       result
       (recur (rest ip) (nth result (first ip))))))
 
-;
 (defmacro random-fn
   "Executes the function `f` repeatedly `n` times"
   [n f]
@@ -66,7 +63,6 @@
   [m]
   (map (fn [i] (map (fn [j] (if (= i j) 1 0)) (range m))) (range m)))
 
-;
 (defn dimension
   "Returns the dimenston of a 2-D matrix in a vector two elements"
   [m]
@@ -131,7 +127,6 @@
   [m]
   (map (fn [row] (map (fn [col-elem] (double (Math/abs col-elem))) row)) m))
 
-;
 (defn sigmoid
   "Returns the sigmoid/logistic values of a 2-D matrix"
   ([m]
@@ -153,7 +148,6 @@
         (gu/replace-nth i jth-row)
         (gu/replace-nth j ith-row))))
 
-;
 (defn mean-coll
   "Calculates the mean of a collection `c`"
   [c]
@@ -239,7 +233,6 @@
                    r-2)))))
     row-2))
 
-;
 (defn recursive-row-adjust
   [matrix row-index-to-be-processed]
   (if-not (and (= (dec (count matrix)) row-index-to-be-processed)
@@ -312,14 +305,12 @@
                           row-2-indexed)))
                row-1-indexed)))
 
-;
 (defn concat-matrix-rows
   "Concatenates matrix rows with the first `(num-cols - 1)` values of the same row
    This helps in finding the characteristic equation of the matrix"
   [matrix num-cols]
   (map #(concat % (take (dec num-cols) %)) matrix))
 
-;
 (defn characteristic-equation-parts
   "Finds the positive or the negative parts of the characteristic euqation
    Both the positive and negative parts will be added to form the final eqution"
