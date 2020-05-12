@@ -1,18 +1,18 @@
 (ns org.clojars.punit-naik.clj-ml.utils.matrix
-  (:require [clojure.string :refer [split]]
-            [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
+  (:require [org.clojars.punit-naik.clj-ml.utils.generic :as gu]
             [org.clojars.punit-naik.clj-ml.utils.linear-algebra :as lau]))
 
+;
 (defn- equal-dimensions?
   "Checks if the nested matrices of a matrix have euqal dimensions or not"
   [m]
   (if (every? coll? m)
     (not (nil?
-           (reduce
-             (fn [acc r]
-               (if (nil? acc)
-                 acc
-                 (when (= (count acc) (count r)) r))) m)))
+          (reduce
+           (fn [acc r]
+             (if (nil? acc)
+               acc
+               (when (= (count acc) (count r)) r))) m)))
     true))
 
 (defn matrix?
@@ -31,6 +31,7 @@
                    (and (equal-dimensions? mat)
                         (every? true? (map equal-dimensions? mat))))))))))
 
+;
 (defn get-val
   "Get's a specific value from the martix `m` based on the path provided in `index-path`"
   [m index-path]
@@ -40,6 +41,7 @@
       result
       (recur (rest ip) (nth result (first ip))))))
 
+;
 (defmacro random-fn
   "Executes the function `f` repeatedly `n` times"
   [n f]
@@ -64,6 +66,7 @@
   [m]
   (map (fn [i] (map (fn [j] (if (= i j) 1 0)) (range m))) (range m)))
 
+;
 (defn dimension
   "Returns the dimenston of a 2-D matrix in a vector two elements"
   [m]
@@ -76,12 +79,12 @@
     (and (matrix? m)
          (= p q)
          (every? true?
-           (flatten
-             (map (fn [i]
-                    (map (fn [j]
-                           (let [ij (get-val m [i j])] (if (= i j) (= 1 ij) (zero? ij))))
-                         (range p)))
-                  (range p)))))))
+                 (flatten
+                  (map (fn [i]
+                         (map (fn [j]
+                                (let [ij (get-val m [i j])] (if (= i j) (= 1 ij) (zero? ij))))
+                              (range p)))
+                       (range p)))))))
 
 (defn transpose
   "Returns the transpose of a 2-D matrix"
@@ -128,6 +131,7 @@
   [m]
   (map (fn [row] (map (fn [col-elem] (double (Math/abs col-elem))) row)) m))
 
+;
 (defn sigmoid
   "Returns the sigmoid/logistic values of a 2-D matrix"
   ([m]
@@ -149,6 +153,7 @@
         (gu/replace-nth i jth-row)
         (gu/replace-nth j ith-row))))
 
+;
 (defn mean-coll
   "Calculates the mean of a collection `c`"
   [c]
@@ -181,15 +186,15 @@
           (recur (rest tm)
                  (concat result
                          (map
-                           (fn [x]
-                             (let [j (:value (get-val t [x]))
-                                   j-mean (mean-coll j)]
-                               (assoc {} (sort [row x])
-                                      (double (/ (reduce +
-                                                   (map #(* (- %1 i-mean) (- %2 j-mean))
-                                                        value j))
-                                                 (dec n))))))
-                           (range row (count t))))))))))
+                          (fn [x]
+                            (let [j (:value (get-val t [x]))
+                                  j-mean (mean-coll j)]
+                              (assoc {} (sort [row x])
+                                     (double (/ (reduce +
+                                                        (map #(* (- %1 i-mean) (- %2 j-mean))
+                                                             value j))
+                                                (dec n))))))
+                          (range row (count t))))))))))
 
 (defn triangular-matrix?
   [m]
@@ -234,6 +239,7 @@
                    r-2)))))
     row-2))
 
+;
 (defn recursive-row-adjust
   [matrix row-index-to-be-processed]
   (if (not (and (= (dec (count matrix)) row-index-to-be-processed)
@@ -306,12 +312,14 @@
                           row-2-indexed)))
                row-1-indexed)))
 
+;
 (defn concat-matrix-rows
   "Concatenates matrix rows with the first `(num-cols - 1)` values of the same row
    This helps in finding the characteristic equation of the matrix"
   [matrix num-cols]
   (map #(concat % (take (dec num-cols) %)) matrix))
 
+;
 (defn characteristic-equation-parts
   "Finds the positive or the negative parts of the characteristic euqation
    Both the positive and negative parts will be added to form the final eqution"
@@ -389,32 +397,8 @@
          (concat (filter zero? (last (partition-by identity eq))))
          (map (fn [ev]
                 (if (re-find #"\." (str ev))
-                  (let [[l t] (split (str ev) #"\.")]
-                    (if (<= (- 1.0 (Double/parseDouble (str "0." t)))
-                            (gu/error-decimal (dec (count t))))
-                      (inc (Double/parseDouble l)) ev)) ev)))
+                  (gu/round-decimal ev) ev)))
          sort)))
-
-(defn pivot-indicies
-  "Gets the indices of pivots in each row of an REF matrix"
-  [ref-matrix]
-  (let [[_ n] (dimension ref-matrix)]
-    (map (fn [row]
-           (let [pivot-index (gu/first-n-zeros row)]
-             (when (< pivot-index n) pivot-index)))
-         ref-matrix)))
-
-(defn adjust-element-at-pivot-indices
-  "Adjusts all the row elements at the pivot indices and makes them equal to `1`
-  By diving all the row elements by the element at the pivot index"
-  [ref-matrix]
-  (map (fn [row]
-         (let [fnz (gu/first-n-zeros row)]
-           (if (not= fnz (second (dimension ref-matrix)))
-             (let [fnz-row-val (double (nth row fnz))]
-               (if (not= fnz-row-val 1.0)
-                 (map #(double (/ % fnz-row-val)) row) row)) row)))
-       ref-matrix))
 
 (defn row-adjust-rref
   "Adjusts the element of `row-1` at index `i` and makes it zero using the elements of `row-2`"
@@ -424,59 +408,56 @@
       (let [row-1-i-abs (Math/abs row-1-i)
             row-2-i (nth row-2 i)
             row-2-i-abs (Math/abs row-2-i)
-            row-2-multiplier (/ row-1-i-abs row-2-i-abs)]
+            row-2-multiplier (/ row-1-i-abs row-2-i-abs)
+            minus-or-plus (if (= (double (/ row-1-i row-1-i-abs))
+                                 (double (/ row-2-i row-2-i-abs))) - +)]
         (->> (map #(* % row-2-multiplier) row-2)
              (map (fn [row-1-elem row-2-elem]
-                    ((if (= (/ row-1-i row-1-i-abs)
-                            (/ row-2-i row-2-i-abs)) - +) row-1-elem row-2-elem)) row-1)))
+                    (gu/round-decimal
+                     (minus-or-plus row-1-elem row-2-elem))) row-1)))
       row-1)))
 
-(defn adjust-elements-above-pivot-indices
-  "Adjusts all the row elements above pivot indices columns to zero"
-  [ref-matrix pivot-indicies]
-  (loop [refm (map-indexed #(conj [] %1 %2) ref-matrix)
-         pi (map-indexed #(conj [] %1 %2) pivot-indicies)
-         result {}]
-    (if (empty? refm)
-      result
-      (let [first-refm (first refm)
-            first-refm-index (first first-refm)
-            first-refm-value (second first-refm)]
-        (recur (rest refm)
-               (rest pi)
-               (let [intermediate-result (->> (rest pi)
-                                              (remove #(nil? (second %)))
-                                              reverse
-                                              (reduce
-                                               (fn [acc [row-index pivot-index]]
-                                                 (merge acc
-                                                        (reduce (fn [acc2 v2]
-                                                                  (cond-> acc2
-                                                                    (not (contains? result v2))
-                                                                    (assoc v2
-                                                                           (row-adjust-rref (get acc v2 (nth ref-matrix v2))
-                                                                                            (get acc row-index (nth ref-matrix row-index))
-                                                                                            pivot-index)))) {} (reverse (range row-index))))) {}))]
-                 (cond-> result
-                   (not (every? zero? first-refm-value))
-                   (merge (or (seq intermediate-result)
-                              (assoc {} first-refm-index (get result first-refm-index first-refm-value))))
-
-                   (every? zero? first-refm-value)
-                   (assoc first-refm-index first-refm-value))))))))
-
-(defn row-echelon-form
-  "Calculates the Row Echelon Form (REF) of a matrix"
-  [matrix]
-  ;(sort-by #(count (filter zero? %)) matrix)
-  (sort-by gu/first-n-zeros (:upper-triangular (upper-triangular-matrix matrix))))
+(defn zero-above-below-i-j
+  "Makes all the elements above and below `matrix[i, j]` zero using row transformations"
+  [matrix [i j] num-rows]
+  (let [matrix-i (nth matrix i)]
+    (loop [rows-to-be-fixed (concat (range 0 i) (range (inc i) num-rows))
+           result matrix]
+      (if (empty? rows-to-be-fixed)
+        result
+        (let [p (first rows-to-be-fixed)
+              fixed-row (-> (nth result p)
+                            (row-adjust-rref matrix-i j))
+              all-zeros? (every? zero? fixed-row)]
+          (recur ((if all-zeros? butlast rest) rows-to-be-fixed)
+                 (if all-zeros?
+                   (concat (remove nil? (gu/replace-nth result p nil)) (list fixed-row))
+                   (gu/replace-nth result p fixed-row))))))))
 
 (defn reduced-row-echelon-form
-  "Calculates the Reduced Row Echelon Form (RREF) of a REF matrix"
-  [ref-matrix]
-  (->> (-> (adjust-element-at-pivot-indices ref-matrix)
-           (adjust-elements-above-pivot-indices (pivot-indicies ref-matrix)))
-       (into (sorted-map)) vals))
+  [matrix]
+  (let [[m n] (dimension matrix)
+        indexes (range m)
+        sorted-matrix (sort-by #(conj [] (count (filter zero? %))
+                                      (gu/first-n-zeros %)) matrix)]
+    (loop [idxs indexes
+           result nil]
+      (if (empty? idxs)
+        result
+        (recur (rest idxs)
+               (let [i (first idxs)
+                     row-i (nth (or result sorted-matrix) i)
+                     all-zeros? (every? zero? row-i)
+                     j (gu/first-n-zeros row-i)
+                     ij-th (nth row-i (cond-> j
+                                        (= j n) dec))
+                     new-result (cond-> (or result sorted-matrix)
+                                  (not all-zeros?) (zero-above-below-i-j [i j] m))]
+                 (if (and (not all-zeros?)
+                          (not= ij-th 1))
+                   (gu/replace-nth new-result i (map (fn [e] (double (/ e (cond-> ij-th
+                                                                            (zero? ij-th) inc)))) row-i))
+                   new-result)))))))
 
 (defn eigen-vector-for-lamba
   "Finds the eigenvector for a matrix with a particular eigenvalue"
@@ -484,30 +465,29 @@
   ([matrix lambda already-calculated?]
    (let [[_ n] (dimension matrix)
          rref-reversed (->> (matrix-minus-lambda-i matrix lambda)
-                            row-echelon-form reduced-row-echelon-form
+                            reduced-row-echelon-form
                             (map-indexed (fn [i row] [i row])) reverse)
          zero-row-count (count (filter #(every? zero? (second %)) rref-reversed))]
      (loop [rref-r rref-reversed
             default-val-counter 1.0
             result {}]
-     (if (empty? rref-r)
-       (cond->> (into (sorted-map) result)
-         (<= zero-row-count 1) vals
-         (> zero-row-count 1) (map (fn [[_ v]] ((if already-calculated? + -) v 1)))
-         )
-       (recur (rest rref-r) (inc default-val-counter)
-              (let [first-rref-reversed (first rref-r)
-                    first-rref-reversed-index (first first-rref-reversed)
-                    first-rref-reversed-row (second first-rref-reversed)
-                    all-zero? (every? zero? first-rref-reversed-row)]
-                (cond-> result
-                  all-zero? (assoc first-rref-reversed-index (cond->> default-val-counter
-                                                               already-calculated? (- 1.0)))
-                  (not all-zero?)
-                  (assoc first-rref-reversed-index
-                         (* -1.0 (reduce + (map
-                                            (fn [row-v i] (* row-v (get result i 0)))
-                                            first-rref-reversed-row (range n)))))))))))))
+       (if (empty? rref-r)
+         (cond->> (into (sorted-map) result)
+           (<= zero-row-count 1) vals
+           (> zero-row-count 1) (map (fn [[_ v]] ((if already-calculated? + -) v 1))))
+         (recur (rest rref-r) (inc default-val-counter)
+                (let [first-rref-reversed (first rref-r)
+                      first-rref-reversed-index (first first-rref-reversed)
+                      first-rref-reversed-row (second first-rref-reversed)
+                      all-zero? (every? zero? first-rref-reversed-row)]
+                  (cond-> result
+                    all-zero? (assoc first-rref-reversed-index (cond->> default-val-counter
+                                                                 already-calculated? (- 1.0)))
+                    (not all-zero?)
+                    (assoc first-rref-reversed-index
+                           (* -1.0 (reduce + (map
+                                              (fn [row-v i] (* row-v (get result i 0)))
+                                              first-rref-reversed-row (range n)))))))))))))
 
 (defn eigen-vectors
   "Finds the Eigenvectors of a matrix by using it's Eigenvalues"
@@ -522,6 +502,73 @@
              (conj evecs (eigen-vector-for-lamba matrix (first evals) (= prev-eval (first evals))))))))
 
 (comment
+  (defn row-echelon-form
+    "Calculates the Row Echelon Form (REF) of a matrix"
+    [matrix]
+    ;(sort-by #(count (filter zero? %)) matrix)
+    (sort-by gu/first-n-zeros (:upper-triangular (upper-triangular-matrix matrix))))
+  
+  (defn pivot-indicies
+    "Gets the indices of pivots in each row of an REF matrix"
+    [ref-matrix]
+    (let [[_ n] (dimension ref-matrix)]
+      (map (fn [row]
+             (let [pivot-index (gu/first-n-zeros row)]
+               (when (< pivot-index n) pivot-index)))
+           ref-matrix)))
+  
+  (defn adjust-element-at-pivot-indices
+    "Adjusts all the row elements at the pivot indices and makes them equal to `1`
+  By diving all the row elements by the element at the pivot index"
+    [ref-matrix]
+    (map (fn [row]
+           (let [fnz (gu/first-n-zeros row)]
+             (if (not= fnz (second (dimension ref-matrix)))
+               (let [fnz-row-val (double (nth row fnz))]
+                 (if (not= fnz-row-val 1.0)
+                   (map #(double (/ % fnz-row-val)) row) row)) row)))
+         ref-matrix))
+  
+  (defn adjust-elements-above-pivot-indices
+    "Adjusts all the row elements above pivot indices columns to zero"
+    [ref-matrix pivot-indicies]
+    (loop [refm (map-indexed #(conj [] %1 %2) ref-matrix)
+           pi (map-indexed #(conj [] %1 %2) pivot-indicies)
+           result {}]
+      (if (empty? refm)
+        result
+        (let [first-refm (first refm)
+              first-refm-index (first first-refm)
+              first-refm-value (second first-refm)]
+          (recur (rest refm)
+                 (rest pi)
+                 (let [intermediate-result (->> (rest pi)
+                                                (remove #(nil? (second %)))
+                                                reverse
+                                                (reduce
+                                                 (fn [acc [row-index pivot-index]]
+                                                   (merge acc
+                                                          (reduce (fn [acc2 v2]
+                                                                    (cond-> acc2
+                                                                      (not (contains? result v2))
+                                                                      (assoc v2
+                                                                             (row-adjust-rref (get acc v2 (nth ref-matrix v2))
+                                                                                              (get acc row-index (nth ref-matrix row-index))
+                                                                                              pivot-index)))) {} (reverse (range row-index))))) {}))]
+                   (cond-> result
+                     (not (every? zero? first-refm-value))
+                     (merge (or (seq intermediate-result)
+                                (assoc {} first-refm-index (get result first-refm-index first-refm-value))))
+
+                     (every? zero? first-refm-value)
+                     (assoc first-refm-index first-refm-value))))))))
+  
+  (defn reduced-row-echelon-form
+    "Calculates the Reduced Row Echelon Form (RREF) of a REF matrix"
+    [ref-matrix]
+    (->> (-> (adjust-element-at-pivot-indices ref-matrix)
+             (adjust-elements-above-pivot-indices (pivot-indicies ref-matrix)))
+         (into (sorted-map)) vals))
   (nth [1 2 3] (or nil 0))
   (upper-triangular-matrix [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])
   (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])
@@ -531,8 +578,8 @@
                                        (pivot-indicies (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])))
   (row-adjust-rref [0 1 2 3] [0 0 0 1] 3)
   (reduced-row-echelon-form (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]]))
-  (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[-5 -6 3] [3 4 -3] [0 0 -2]] -2)))
-  (reduced-row-echelon-form (row-echelon-form [[-2 -2 -2] [-2 -5 1] [-2 1 -5]]))
+  (reduced-row-echelon-form (matrix-minus-lambda-i [[-5 -6 3] [3 4 -3] [0 0 -2]] -2))
+  (reduced-row-echelon-form [[-2 -2 -2] [-2 -5 1] [-2 1 -5]])
   (eigen-values [[-1,2,2],[2,2,-1],[2,-1,2]])
   (matrix-multiply [[-1,2,2],[2,2,-1],[2,-1,2]] [[1.5] [2] [1]])
   (eigen-vectors [[-1,2,2],[2,2,-1],[2,-1,2]] (eigen-values [[-1,2,2],[2,2,-1],[2,-1,2]]))
@@ -540,10 +587,17 @@
   (let [;m [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]]
         m [[2 1 0] [1 2 1] [0 1 2]]]
     (->> (eigen-values m)
-         (eigen-vectors m)
-         ))
+         (eigen-vectors m)))
   (reduced-row-echelon-form '([1 1.4140000000000001 1] [0 1 1.4140000000000001] [1.4140000000000001 1 0]))
   (reduced-row-echelon-form (sort-by #(count (filter zero? %)) (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.586)))
   (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.586)))
   (upper-triangular-matrix (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.586))
-  (row-adjust [1 0 1] [0 1 0] 1))
+  (row-adjust [1 0 1] [0 1 0] 1)
+  (row-adjust-rref [1.4140000000000001 1 0] [1 1.4140000000000001 1] 0)
+  (reduced-row-echelon-form (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.5857864376269049))
+  (reduced-row-echelon-form (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 3.414213562373095))
+  (reduced-row-echelon-form (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 2))
+  (eigen-vector-for-lamba [[2 1 0] [1 2 1] [0 1 2]] 0.5857864376269049)
+  (let [m [[2 1 0] [1 2 1] [0 1 2]]]
+    (->> (eigen-values m)
+         (eigen-vectors m))))

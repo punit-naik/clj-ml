@@ -39,6 +39,8 @@
 (defonce ^:private eigen-value-result-1 '(0.58578 2.0 3.41421))
 (defonce ^:private eigen-value-data-2 [[2 27 0] [0 4 40] [0 3 30]])
 (defonce ^:private eigen-value-result-2 '(0 2.0 34.0))
+(defonce ^:private eigen-vector-input-1 [[-1 2 2] [2 2 -1] [2 -1 2]])
+(defonce ^:private eigen-vector-input-2 [[2 1 0] [1 2 1] [0 1 2]])
 
 (deftest is-matrix-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/matrix?` function"
@@ -148,8 +150,47 @@
     (is (= (mu/cross-product cross-product-data-1 cross-product-data-1) cross-product-data-2))
     (is (= (mu/cross-product cross-product-data-2 cross-product-data-1) cross-product-data-3))))
 
+(deftest matrix-minus-lambda-i-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/matrix-minus-lambda-i` correctly works correctly or not"
+    (is (= (mu/matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.5857864376269049) '([1.4142135623730951 1 0] [1 1.4142135623730951 1] [0 1 1.4142135623730951])))
+    (is (= (mu/matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 3.414213562373095) '([-1.414213562373095 1 0] [1 -1.414213562373095 1] [0 1 -1.414213562373095])))
+    (is (= (mu/matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 2) '([0 1 0] [1 0 1] [0 1 0])))))
+
 (deftest eigen-values-test
-  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-values `correctly calculates the eigen values of a matrix or not"
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-values` correctly calculates the eigen values of a matrix or not"
     (is (= (mu/eigen-values sample-identity-matrix) '(1.0 1.0)))
     (is (= (mu/eigen-values eigen-value-data-1) eigen-value-result-1))
     (is (= (mu/eigen-values eigen-value-data-2) eigen-value-result-2))))
+
+(deftest row-adjust-rref-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/row-adjust-rref` correctly works"
+    (is (= (mu/row-adjust-rref [1.414 1 0] [1 1.414 1] 0) '(0.0 -1.0 -1.414)))
+    (is (= (mu/row-adjust-rref [0 1 1.414] [1 1.414 1] 0) [0 1 1.414]))))
+
+(deftest zero-above-below-i-j-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/zero-above-below-i-j` correctly works"
+    (is (= (mu/zero-above-below-i-j [[1 1.414 1] [1.414 1 0] [0 1 1.414]] [0 0] 3) '([1 1.414 1] (0.0 -1.0 -1.414) [0 1 1.414])))
+    (is (= (mu/zero-above-below-i-j '([1 -1.414 1] [-1.414 1 0] [0 1 -1.414]) [0 0] 3) '([1 -1.414 1] (0.0 -1.0 1.414) [0 1 -1.414])))))
+
+(deftest reduced-row-echelon-form-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/reduced-row-echelon-form` correctly works"
+    (is (= (mu/reduced-row-echelon-form [[-2 -2 -2] [-2 -5 1] [-2 1 -5]]) '((1.0 0.0 2.0) (0.0 1.0 -1.0) (0 0 0))))
+    (is (= (mu/reduced-row-echelon-form '([-3 -6 3] [3 6 -3] [0 0 0])) '((1.0 2.0 -1.0) (0 0 0) [0 0 0])))
+    (is (= (mu/reduced-row-echelon-form '([-3 -6 3] [3 6 -3] [0 0 0])) '((1.0 2.0 -1.0) (0 0 0) [0 0 0])))
+    (is (= (mu/reduced-row-echelon-form [[1 1.414 1] [1.414 1 0] [0 1 1.414]]) '((1.0 0.0 -1.0) (-0.0 1.0 1.414) (0.0 0.0 0.0))))
+    (is (= (mu/reduced-row-echelon-form [[1 -1.414 1] [-1.414 1 0] [0 1 -1.414]]) '((1.0 0.0 -1.0) (-0.0 1.0 -1.414) (0.0 0.0 0.0))))))
+
+(deftest eigen-vector-for-lamba-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vector-for-lamba` correctly works"
+    (is (= (mu/eigen-vector-for-lamba [[2 1 0] [1 2 1] [0 1 2]] 0.5857864376269049) '(1.0 -1.4142135623730951 1.0)))
+    (is (= (mu/eigen-vector-for-lamba [[2 1 0] [1 2 1] [0 1 2]] 3.414213562373095) '(1.0 1.414213562373095 1.0)))
+    (is (= (mu/eigen-vector-for-lamba [[2 1 0] [1 2 1] [0 1 2]] 2) '(-1.0 -0.0 1.0)))
+    (is (= (mu/eigen-vector-for-lamba eigen-vector-input-1 -3) '(-2.0 1.0 1.0)))
+    (is (= (mu/eigen-vector-for-lamba eigen-vector-input-1 3) '(0.5 1.0 0.0)))
+    (is (= (mu/eigen-vector-for-lamba eigen-vector-input-1 3 true) '(0.5 0.0 1.0)))))
+
+(deftest eigen-vectors-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vectors` correctly find the eigen vectors of a matri or not"
+    (is (= (mu/eigen-vectors eigen-value-data-2 (mu/eigen-values eigen-value-data-2)) ['(135.0 -10.0 1.0) '(1.0 -1.0 1.0) '(1.125 1.3333333333333333 1.0)]))
+    (is (= (mu/eigen-vectors eigen-vector-input-1 (mu/eigen-values eigen-vector-input-1)) ['(-2.0 1.0 1.0) '(0.5 1.0 0.0) '(0.5 0.0 1.0)]))
+    (is (= (mu/eigen-vectors eigen-vector-input-2 (mu/eigen-values eigen-vector-input-2)) ['(1.0 -1.41422 1.0) '(-1.0 -0.0 1.0) '(1.0 1.4142100000000002 1.0)]))))
