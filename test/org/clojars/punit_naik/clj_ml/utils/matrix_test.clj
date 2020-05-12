@@ -134,11 +134,11 @@
 
 (deftest determinant-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/determinant` properly generates an upper triangular matrix or not"
-    (is (= (mu/determinant sample-identity-matrix) 1))
-    (is (= (mu/determinant upper-triangular-matrix-data-1) -6))
-    (is (= (mu/determinant upper-triangular-matrix-data-2) -4))
-    (is (= (mu/determinant upper-triangular-matrix-data-3) -18))
-    (is (= (mu/determinant upper-triangular-matrix-data-4) 9))))
+    (is (= (mu/determinant sample-identity-matrix) 1.0))
+    (is (= (mu/determinant upper-triangular-matrix-data-1) -6.0))
+    (is (= (mu/determinant upper-triangular-matrix-data-2) -4.0))
+    (is (= (mu/determinant upper-triangular-matrix-data-3) -18.0))
+    (is (= (mu/determinant upper-triangular-matrix-data-4) 9.0))))
 
 (deftest swap-rows-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/swap-rows` correctly swaps the rows of a matrix or not"

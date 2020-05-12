@@ -299,7 +299,7 @@
          (fn [{:keys [i] :as acc} v]
            (update (update acc :result #(* % (nth v (first i)))) :i rest))
          {:i (range (count upper-triangular)) :result 1} upper-triangular)
-        :result (* (if (pos? num-swaps) -1.0 1.0)) Math/round)))
+        :result (* (if (pos? num-swaps) -1.0 1.0)) gu/round-decimal)))
 
 (defn cross-product
   "Finds the cross product of two (indexed) rows of a matrix"
@@ -411,7 +411,7 @@
             row-2-multiplier (/ row-1-i-abs row-2-i-abs)
             minus-or-plus (if (= (double (/ row-1-i row-1-i-abs))
                                  (double (/ row-2-i row-2-i-abs))) - +)]
-        (->> (map #(* % row-2-multiplier) row-2)
+        (->> (map #(double (* % row-2-multiplier)) row-2)
              (map (fn [row-1-elem row-2-elem]
                     (gu/round-decimal
                      (minus-or-plus row-1-elem row-2-elem))) row-1)))
@@ -563,12 +563,13 @@
                      (every? zero? first-refm-value)
                      (assoc first-refm-index first-refm-value))))))))
   
-  (defn reduced-row-echelon-form
-    "Calculates the Reduced Row Echelon Form (RREF) of a REF matrix"
+  (defn reduced-row-echelon-form-deprecated
+    "Calculates the Reduced Row Echelon Form (RREF) of a REF matrix (deprecated)"
     [ref-matrix]
     (->> (-> (adjust-element-at-pivot-indices ref-matrix)
              (adjust-elements-above-pivot-indices (pivot-indicies ref-matrix)))
          (into (sorted-map)) vals))
+  
   (nth [1 2 3] (or nil 0))
   (upper-triangular-matrix [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])
   (row-echelon-form [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]])
