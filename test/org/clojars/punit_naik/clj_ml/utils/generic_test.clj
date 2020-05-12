@@ -52,8 +52,9 @@
   (testing "the `org.clojars.punit-naik.clj-ml.utils.generic/round-decimal` function"
     (is (= (gu/round-decimal 1.79) 1.79))
     (is (= (gu/round-decimal 1.99) 1.99))
-    (is (= (gu/round-decimal 1.999) 2.0))
-    (is (= (gu/round-decimal 1.9999) 2.0))
+    (is (= (gu/round-decimal 1.999) 1.999))
+    (is (= (gu/round-decimal 1.9999) 1.9999))
     (is (= (gu/round-decimal 1.99999) 2.0))
     (is (= (gu/round-decimal 2.9999999002342399) 3.0))
-    (is (= (gu/round-decimal -0.9993960000000004) -1.0))))
+    (is (= (gu/round-decimal -0.9993960000000004) -1.0))
+    (is (= (gu/round-decimal -1.00001) -1.0))))
