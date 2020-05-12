@@ -4,8 +4,6 @@
 
 Collection of ML and it's corresponsing utilities in Clojure
 
-**NOTE**: Sorry for the extremely verbose code in some cases. I have coded it that way so that I understand the steps properly, especially in some cases where complex mathematical steps are involved. But it's no excuse for not writing idiomatic code, I get it.
-
 ## TODO/CURRENT ISSUES
 
 ## Usage
@@ -34,7 +32,8 @@ lein with-profiles +uberjar uberjar
 
 ## Note
 
-I have not tested the functions inside this library for all possible inputs. Will look to improve the code incrementally.
+1. Sorry for the extremely verbose code in some cases. I have coded it that way so that I understand the steps properly, especially in some cases where complex mathematical steps are involved. But it's no excuse for not writing idiomatic code, I get it.
+2. I have not tested the functions inside this library for all possible inputs. Will look to improve the code incrementally.
 
 ## License
 
