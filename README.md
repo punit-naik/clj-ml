@@ -32,6 +32,10 @@ lein with-profiles +uberjar uberjar
 
 [`clj-ml` Code Coverage](https://punit-naik.github.io/clj-ml/coverage/)
 
+## Note
+
+I have not tested the functions inside this library for all possible inputs. Will look to improve the code incrementally.
+
 ## License
 
 Copyright © 2020 [Punit Naik](https://github.com/punit-naik)
