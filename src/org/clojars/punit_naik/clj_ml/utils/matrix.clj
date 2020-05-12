@@ -242,8 +242,8 @@
 ;
 (defn recursive-row-adjust
   [matrix row-index-to-be-processed]
-  (if (not (and (= (dec (count matrix)) row-index-to-be-processed)
-                (every? zero? (nth matrix row-index-to-be-processed))))
+  (if-not (and (= (dec (count matrix)) row-index-to-be-processed)
+               (every? zero? (nth matrix row-index-to-be-processed)))
     (loop [row-idxs (range row-index-to-be-processed)
            result nil]
       (if (or (and (seq result)
@@ -404,17 +404,18 @@
   "Adjusts the element of `row-1` at index `i` and makes it zero using the elements of `row-2`"
   [row-1 row-2 i]
   (let [row-1-i (nth row-1 i)]
-    (if (not (zero? row-1-i))
+    (if-not (zero? row-1-i)
       (let [row-1-i-abs (Math/abs row-1-i)
             row-2-i (nth row-2 i)
             row-2-i-abs (Math/abs row-2-i)
             row-2-multiplier (/ row-1-i-abs row-2-i-abs)
             minus-or-plus (if (= (double (/ row-1-i row-1-i-abs))
                                  (double (/ row-2-i row-2-i-abs))) - +)]
-        (->> (map #(double (* % row-2-multiplier)) row-2)
-             (map (fn [row-1-elem row-2-elem]
-                    (gu/round-decimal
-                     (minus-or-plus row-1-elem row-2-elem))) row-1)))
+        (map (fn [row-1-elem row-2-elem]
+               (gu/round-decimal
+                 (minus-or-plus row-1-elem row-2-elem)))
+             row-1 (map #(double (* % row-2-multiplier))
+                        row-2)))
       row-1)))
 
 (defn zero-above-below-i-j
@@ -426,8 +427,7 @@
       (if (empty? rows-to-be-fixed)
         result
         (let [p (first rows-to-be-fixed)
-              fixed-row (-> (nth result p)
-                            (row-adjust-rref matrix-i j))
+              fixed-row (row-adjust-rref (nth result p) matrix-i j)
               all-zeros? (every? zero? fixed-row)]
           (recur ((if all-zeros? butlast rest) rows-to-be-fixed)
                  (if all-zeros?
@@ -438,8 +438,8 @@
   [matrix]
   (let [[m n] (dimension matrix)
         indexes (range m)
-        sorted-matrix (sort-by #(conj [] (count (filter zero? %))
-                                      (gu/first-n-zeros %)) matrix)]
+        sorted-matrix (sort-by #(vector (count (filter zero? %))
+                                        (gu/first-n-zeros %)) matrix)]
     (loop [idxs indexes
            result nil]
       (if (empty? idxs)
@@ -541,8 +541,8 @@
   (defn adjust-elements-above-pivot-indices
     "Adjusts all the row elements above pivot indices columns to zero"
     [ref-matrix pivot-indicies]
-    (loop [refm (map-indexed #(conj [] %1 %2) ref-matrix)
-           pi (map-indexed #(conj [] %1 %2) pivot-indicies)
+    (loop [refm (map-indexed vector ref-matrix)
+           pi (map-indexed vector pivot-indicies)
            result {}]
       (if (empty? refm)
         result
@@ -575,8 +575,8 @@
   (defn reduced-row-echelon-form-deprecated
     "Calculates the Reduced Row Echelon Form (RREF) of a REF matrix (deprecated)"
     [ref-matrix]
-    (->> (-> (adjust-element-at-pivot-indices ref-matrix)
-             (adjust-elements-above-pivot-indices (pivot-indicies ref-matrix)))
+    (->> (adjust-elements-above-pivot-indices (adjust-element-at-pivot-indices ref-matrix)
+                                              (pivot-indicies ref-matrix))
          (into (sorted-map)) vals))
   
   (nth [1 2 3] (or nil 0))
@@ -594,10 +594,8 @@
   (matrix-multiply [[-1,2,2],[2,2,-1],[2,-1,2]] [[1.5] [2] [1]])
   (eigen-vectors [[-1,2,2],[2,2,-1],[2,-1,2]] (eigen-values [[-1,2,2],[2,2,-1],[2,-1,2]]))
   (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[-16 9 0 0] [12 5 0 0] [0 0 6 -2] [0 0 0 4]] 6)))
-  (let [;m [[2 -2 4 -2] [2 1 10 7] [-4 4 -8 4] [4 -1 14 6]]
-        m [[2 1 0] [1 2 1] [0 1 2]]]
-    (->> (eigen-values m)
-         (eigen-vectors m)))
+  (let [m [[2 1 0] [1 2 1] [0 1 2]]]
+    (eigen-vectors m (eigen-values m)))
   (reduced-row-echelon-form '([1 1.4140000000000001 1] [0 1 1.4140000000000001] [1.4140000000000001 1 0]))
   (reduced-row-echelon-form (sort-by #(count (filter zero? %)) (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.586)))
   (reduced-row-echelon-form (row-echelon-form (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 0.586)))
@@ -609,5 +607,5 @@
   (reduced-row-echelon-form (matrix-minus-lambda-i [[2 1 0] [1 2 1] [0 1 2]] 2))
   (eigen-vector-for-lamba [[2 1 0] [1 2 1] [0 1 2]] 0.5857864376269049)
   (let [m [[2 1 0] [1 2 1] [0 1 2]]]
-    (->> (eigen-values m)
-         (eigen-vectors m))))
+    (eigen-vectors m (eigen-values m)))
+  )

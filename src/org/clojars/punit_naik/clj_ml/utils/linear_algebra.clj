@@ -7,9 +7,8 @@
   "Evaluates a function ax^n+bx^n-1+...+z represented by a collection of it's coefficients [a b ... z]
    at the value `x`"
   [eq x]
-  (->> (map-indexed (fn [idx coeff]
-                      (* coeff (Math/pow x (- (dec (count eq)) idx)))) eq)
-       (reduce +)))
+  (reduce + (map-indexed (fn [idx coeff]
+                           (* coeff (Math/pow x (- (dec (count eq)) idx)))) eq)))
 
 (defn solve-quadratic-equation
   "Given the a,b and c terms of the quadratic euqation ax^2+bx+c=0
@@ -123,8 +122,10 @@
   [coefficients]
   (let [precision 5]
     (->> (find-all-possible-solutions coefficients)
-         (map #(-> (newtons-method coefficients (cu/derivative coefficients) precision %)
-                   (gu/approximate-decimal precision)))
+         (map #(gu/approximate-decimal (newtons-method coefficients
+                                                       (cu/derivative coefficients)
+                                                       precision %)
+                                       precision))
          distinct)))
 
 (defmulti solve-equation
