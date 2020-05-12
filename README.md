@@ -6,10 +6,11 @@ Collection of ML and it's corresponsing utilities in Clojure
 
 **NOTE**: Sorry for the extremely verbose code in some cases. I have coded it that way so that I understand the steps properly, especially in some cases where complex mathematical steps are involved. But it's no excuse for not writing idiomatic code, I get it.
 
-## TODO
+## TODO/CURRENT ISSUES
 
-1. `org.clojars.punit-naik.clj-ml.utils.matrix/reduced-row-echelon-form` does not work properly.
-   Turns out, converting the matrix to Upper Traingular first does not yield the best result. Need to formulate a new strategy.
+1. There is a problem in the method described in `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vector-for-lamba`
+   Used to calculate the eigenvector from the RREF of a matrix for a particular λ.
+   Please note, the RREF is correct but the process of finding eigenvector is a bit wrong.
 
 ## Usage
 
