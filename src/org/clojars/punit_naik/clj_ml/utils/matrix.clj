@@ -481,10 +481,19 @@
                       first-rref-reversed-row (second first-rref-reversed)
                       all-zero? (every? zero? first-rref-reversed-row)]
                   (cond-> result
-                    all-zero? (assoc first-rref-reversed-index (cond->> default-val-counter
-                                                                 already-calculated? (- 1.0)))
+                    all-zero? (assoc (cond->> first-rref-reversed-index
+                                       (let [second-rref-reversed (second rref-r)
+                                             second-rref-reversed-index (first second-rref-reversed)
+                                             second-rref-reversed-row (second second-rref-reversed)
+                                             all-zero-second? (every? zero? second-rref-reversed-row)]
+                                         (and (not all-zero-second?)
+                                              (not= second-rref-reversed-index
+                                                    (gu/first-n-zeros second-rref-reversed-row)))) (- (dec n)))
+                                     (cond->> default-val-counter
+                                       already-calculated? (- 1.0)))
                     (not all-zero?)
-                    (assoc first-rref-reversed-index
+                    (assoc (cond->> first-rref-reversed-index
+                             (contains? result first-rref-reversed-index) (- (dec n)))
                            (* -1.0 (reduce + (map
                                               (fn [row-v i] (* row-v (get result i 0)))
                                               first-rref-reversed-row (range n)))))))))))))
