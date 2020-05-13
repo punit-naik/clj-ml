@@ -14,253 +14,244 @@
                 003&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                004&nbsp;&nbsp;(defn&nbsp;index-matrix-rows
+                004&nbsp;&nbsp;(defn&nbsp;mean-coll
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&quot;This&nbsp;function&nbsp;indexes&nbsp;`matrix`&#x27;s&nbsp;rows&nbsp;and&nbsp;returns&nbsp;a&nbsp;map&nbsp;where&nbsp;key&nbsp;is&nbsp;the&nbsp;row&nbsp;number&nbsp;and&nbsp;value&nbsp;is&nbsp;the&nbsp;row&nbsp;itself&quot;
+                005&nbsp;&nbsp;&nbsp;&nbsp;&quot;Calculates&nbsp;the&nbsp;mean&nbsp;of&nbsp;a&nbsp;collection&nbsp;`c`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;[matrix]
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;(dissoc
-                </span><br/>
-<span class="covered" title="2 out of 2 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[{:keys&nbsp;[size]&nbsp;:as&nbsp;acc}&nbsp;v]
+                006&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;acc&nbsp;(first&nbsp;size)&nbsp;v&nbsp;:size&nbsp;(rest&nbsp;size)))
-                </span><br/>
-<span class="covered" title="8 out of 8 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:size&nbsp;(range&nbsp;(count&nbsp;matrix))}&nbsp;matrix)&nbsp;:size))
+                007&nbsp;&nbsp;&nbsp;&nbsp;(double&nbsp;(&#x2F;&nbsp;(reduce&nbsp;+&nbsp;c)&nbsp;(count&nbsp;c))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;
+                008&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                013&nbsp;&nbsp;(defn&nbsp;first-n-zeros
+                009&nbsp;&nbsp;(defn&nbsp;first-n-zeros
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;collection,&nbsp;this&nbsp;function&nbsp;finds&nbsp;the&nbsp;number&nbsp;of&nbsp;zero&nbsp;elements&nbsp;of&nbsp;the&nbsp;collection&nbsp;from&nbsp;the&nbsp;start&quot;
+                010&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;collection,&nbsp;this&nbsp;function&nbsp;finds&nbsp;the&nbsp;number&nbsp;of&nbsp;zero&nbsp;elements&nbsp;of&nbsp;the&nbsp;collection&nbsp;from&nbsp;the&nbsp;start&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;[coll]
+                011&nbsp;&nbsp;&nbsp;&nbsp;[coll]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[c&nbsp;coll
+                012&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[c&nbsp;coll
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count&nbsp;0
+                013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count&nbsp;0
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last-elem-zero?&nbsp;nil]
+                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last-elem-zero?&nbsp;nil]
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(false?&nbsp;last-elem-zero?)
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(false?&nbsp;last-elem-zero?)
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;c))
+                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(empty?&nbsp;c))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[lez?&nbsp;(zero?&nbsp;(first&nbsp;c))]
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[lez?&nbsp;(zero?&nbsp;(first&nbsp;c))]
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;c)&nbsp;(cond-&gt;&nbsp;count&nbsp;lez?&nbsp;inc)&nbsp;lez?)))))
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;c)&nbsp;(cond-&gt;&nbsp;count&nbsp;lez?&nbsp;inc)&nbsp;lez?)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                024&nbsp;&nbsp;
+                020&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                025&nbsp;&nbsp;(defn&nbsp;replace-nth
+                021&nbsp;&nbsp;(defn&nbsp;replace-nth
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&quot;Replaces&nbsp;`n`th&nbsp;item&nbsp;from&nbsp;`coll`&nbsp;with&nbsp;`replacement`&quot;
+                022&nbsp;&nbsp;&nbsp;&nbsp;&quot;Replaces&nbsp;`n`th&nbsp;item&nbsp;from&nbsp;`coll`&nbsp;with&nbsp;`replacement`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;[coll&nbsp;n&nbsp;replacement]
+                023&nbsp;&nbsp;&nbsp;&nbsp;[coll&nbsp;n&nbsp;replacement]
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;(concat
+                024&nbsp;&nbsp;&nbsp;&nbsp;(concat
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(take&nbsp;n&nbsp;coll)
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(take&nbsp;n&nbsp;coll)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list&nbsp;replacement)
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list&nbsp;replacement)
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(drop&nbsp;(inc&nbsp;n)&nbsp;coll)))
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(drop&nbsp;(inc&nbsp;n)&nbsp;coll)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                032&nbsp;&nbsp;
+                028&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                033&nbsp;&nbsp;(defn&nbsp;rationalise
+                029&nbsp;&nbsp;(defn&nbsp;rationalise
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;&quot;Rationalises&nbsp;a&nbsp;number&nbsp;into&nbsp;a&nbsp;fraction,&nbsp;same&nbsp;as&nbsp;`clojure.core&#x2F;rationalize`
+                030&nbsp;&nbsp;&nbsp;&nbsp;&quot;Rationalises&nbsp;a&nbsp;number&nbsp;into&nbsp;a&nbsp;fraction,&nbsp;same&nbsp;as&nbsp;`clojure.core&#x2F;rationalize`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;But&nbsp;this&nbsp;will&nbsp;always&nbsp;return&nbsp;the&nbsp;numerator&nbsp;as&nbsp;is,&nbsp;without&nbsp;the&nbsp;decimal
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;But&nbsp;this&nbsp;will&nbsp;always&nbsp;return&nbsp;the&nbsp;numerator&nbsp;as&nbsp;is,&nbsp;without&nbsp;the&nbsp;decimal
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hence&nbsp;the&nbsp;denominator&nbsp;will&nbsp;be&nbsp;in&nbsp;multiples&nbsp;of&nbsp;10&quot;
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hence&nbsp;the&nbsp;denominator&nbsp;will&nbsp;be&nbsp;in&nbsp;multiples&nbsp;of&nbsp;10&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;[n]
+                033&nbsp;&nbsp;&nbsp;&nbsp;[n]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(not&nbsp;(integer?&nbsp;n))
+                034&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(not&nbsp;(integer?&nbsp;n))
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(zero?&nbsp;(-&nbsp;n&nbsp;(int&nbsp;n)))))
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(zero?&nbsp;(-&nbsp;n&nbsp;(int&nbsp;n)))))
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[d&nbsp;(as-&gt;&nbsp;(str&nbsp;n)&nbsp;$
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[d&nbsp;(as-&gt;&nbsp;(str&nbsp;n)&nbsp;$
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(split&nbsp;$&nbsp;#&quot;\.&quot;)
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(split&nbsp;$&nbsp;#&quot;\.&quot;)
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(second&nbsp;$)&nbsp;(count&nbsp;$)
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(second&nbsp;$)&nbsp;(count&nbsp;$)
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(take&nbsp;$&nbsp;(repeat&nbsp;10))
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(take&nbsp;$&nbsp;(repeat&nbsp;10))
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(apply&nbsp;*&nbsp;$))]
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(apply&nbsp;*&nbsp;$))]
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vector&nbsp;(Math&#x2F;round&nbsp;(*&nbsp;n&nbsp;d))&nbsp;d))
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vector&nbsp;(Math&#x2F;round&nbsp;(*&nbsp;n&nbsp;d))&nbsp;d))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[n&nbsp;1]))
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[n&nbsp;1]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                047&nbsp;&nbsp;
+                043&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                048&nbsp;&nbsp;(defn&nbsp;shingles
+                044&nbsp;&nbsp;(defn&nbsp;shingles
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generate&nbsp;shingles&nbsp;out&nbsp;of&nbsp;a&nbsp;string&nbsp;`s`&nbsp;(could&nbsp;also&nbsp;work&nbsp;with&nbsp;other&nbsp;types&nbsp;of&nbsp;collections)
+                045&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generate&nbsp;shingles&nbsp;out&nbsp;of&nbsp;a&nbsp;string&nbsp;`s`&nbsp;(could&nbsp;also&nbsp;work&nbsp;with&nbsp;other&nbsp;types&nbsp;of&nbsp;collections)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;shingle&nbsp;size&nbsp;is&nbsp;specified&nbsp;by&nbsp;`n`
+                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;shingle&nbsp;size&nbsp;is&nbsp;specified&nbsp;by&nbsp;`n`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;`s`&nbsp;is&nbsp;a&nbsp;very&nbsp;small&nbsp;string&nbsp;(of&nbsp;count&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;5),
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;`s`&nbsp;is&nbsp;a&nbsp;very&nbsp;small&nbsp;string&nbsp;(of&nbsp;count&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;5),
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;just&nbsp;a&nbsp;list&nbsp;of&nbsp;it&#x27;s&nbsp;individual&nbsp;chars&nbsp;is&nbsp;returned&quot;
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;just&nbsp;a&nbsp;list&nbsp;of&nbsp;it&#x27;s&nbsp;individual&nbsp;chars&nbsp;is&nbsp;returned&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;[s&nbsp;n]
+                049&nbsp;&nbsp;&nbsp;&nbsp;[s&nbsp;n]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;n&nbsp;1)
+                050&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;n&nbsp;1)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;str&nbsp;s)
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;str&nbsp;s)
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[idx-coll&nbsp;(range&nbsp;(-&nbsp;(count&nbsp;s)&nbsp;(dec&nbsp;n)))
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[idx-coll&nbsp;(range&nbsp;(-&nbsp;(count&nbsp;s)&nbsp;(dec&nbsp;n)))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;[]]
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;[]]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;idx-coll)
+                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;idx-coll)
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
+                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;idx-coll)
+                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;idx-coll)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(conj&nbsp;result&nbsp;(reduce&nbsp;str&nbsp;(take&nbsp;n&nbsp;(drop&nbsp;(first&nbsp;idx-coll)&nbsp;s)))))))))
+                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(conj&nbsp;result&nbsp;(reduce&nbsp;str&nbsp;(take&nbsp;n&nbsp;(drop&nbsp;(first&nbsp;idx-coll)&nbsp;s)))))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                062&nbsp;&nbsp;
+                058&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                063&nbsp;&nbsp;(defn&nbsp;approximate-decimal
+                059&nbsp;&nbsp;(defn&nbsp;approximate-decimal
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                064&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;decimal&nbsp;number&nbsp;`num`,&nbsp;this&nbsp;function&nbsp;approximates&#x2F;selects&nbsp;it&#x27;s&nbsp;value&nbsp;upto&nbsp;`n`&nbsp;decimal&nbsp;places.&quot;
+                060&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;decimal&nbsp;number&nbsp;`num`,&nbsp;this&nbsp;function&nbsp;approximates&#x2F;selects&nbsp;it&#x27;s&nbsp;value&nbsp;upto&nbsp;`n`&nbsp;decimal&nbsp;places.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                065&nbsp;&nbsp;&nbsp;&nbsp;[num&nbsp;n]
+                061&nbsp;&nbsp;&nbsp;&nbsp;[num&nbsp;n]
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                066&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[f&nbsp;s]&nbsp;(split&nbsp;(str&nbsp;num)&nbsp;#&quot;\.&quot;)]
+                062&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[f&nbsp;s]&nbsp;(split&nbsp;(str&nbsp;num)&nbsp;#&quot;\.&quot;)]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;f&nbsp;&quot;.&quot;&nbsp;(join&nbsp;(take&nbsp;n&nbsp;s))))))
+                063&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;f&nbsp;&quot;.&quot;&nbsp;(join&nbsp;(take&nbsp;n&nbsp;s))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                068&nbsp;&nbsp;
+                064&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                069&nbsp;&nbsp;(defn&nbsp;error-decimal
+                065&nbsp;&nbsp;(defn&nbsp;error-decimal
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                070&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;precision&nbsp;value&nbsp;as&nbsp;an&nbsp;integer,&nbsp;this&nbsp;function&nbsp;returns&nbsp;the&nbsp;corresponding&nbsp;error&nbsp;value&quot;
+                066&nbsp;&nbsp;&nbsp;&nbsp;&quot;Given&nbsp;a&nbsp;precision&nbsp;value&nbsp;as&nbsp;an&nbsp;integer,&nbsp;this&nbsp;function&nbsp;returns&nbsp;the&nbsp;corresponding&nbsp;error&nbsp;value&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;[n]
+                067&nbsp;&nbsp;&nbsp;&nbsp;[n]
                 </span><br/>
 <span class="covered" title="13 out of 13 forms covered">
-                072&nbsp;&nbsp;&nbsp;&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;(join&nbsp;(take&nbsp;n&nbsp;(repeat&nbsp;0)))&nbsp;1)))
+                068&nbsp;&nbsp;&nbsp;&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;(join&nbsp;(take&nbsp;n&nbsp;(repeat&nbsp;0)))&nbsp;1)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                073&nbsp;&nbsp;
+                069&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                074&nbsp;&nbsp;(defn&nbsp;round-decimal
+                070&nbsp;&nbsp;(defn&nbsp;round-decimal
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                075&nbsp;&nbsp;&nbsp;&nbsp;&quot;Rounds&nbsp;of&nbsp;a&nbsp;decimal&nbsp;based&nbsp;on&nbsp;`precision`&quot;
+                071&nbsp;&nbsp;&nbsp;&nbsp;&quot;Rounds&nbsp;of&nbsp;a&nbsp;decimal&nbsp;based&nbsp;on&nbsp;`precision`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                076&nbsp;&nbsp;&nbsp;&nbsp;[num]
+                072&nbsp;&nbsp;&nbsp;&nbsp;[num]
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                077&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[l&nbsp;t]&nbsp;(split&nbsp;(str&nbsp;num)&nbsp;#&quot;\.&quot;)]
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&gt;=&nbsp;(count&nbsp;t)&nbsp;5)&nbsp;;&nbsp;Choosing&nbsp;for&nbsp;precision&nbsp;of&nbsp;5&nbsp;digits&nbsp;after&nbsp;decimal&nbsp;for&nbsp;now
+                073&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[l&nbsp;t]&nbsp;(split&nbsp;(str&nbsp;num)&nbsp;#&quot;\.&quot;)]
                 </span><br/>
 <span class="covered" title="12 out of 12 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[percentage&nbsp;(*&nbsp;(-&nbsp;1.0&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;t)))&nbsp;100.0)
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(&gt;=&nbsp;(count&nbsp;t)&nbsp;5)&nbsp;;&nbsp;Choosing&nbsp;for&nbsp;precision&nbsp;of&nbsp;5&nbsp;digits&nbsp;after&nbsp;decimal&nbsp;for&nbsp;now
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(zero?&nbsp;(Double&#x2F;parseDouble&nbsp;t))))
+                </span><br/>
+<span class="covered" title="12 out of 12 forms covered">
+                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[percentage&nbsp;(*&nbsp;(-&nbsp;1.0&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;t)))&nbsp;100.0)
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;negative?&nbsp;(re-find&nbsp;#&quot;\-&quot;&nbsp;(str&nbsp;l))]
+                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;negative?&nbsp;(re-find&nbsp;#&quot;\-&quot;&nbsp;(str&nbsp;l))]
                 </span><br/>
 <span class="covered" title="27 out of 27 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;(Double&#x2F;parseDouble&nbsp;(last&nbsp;(split&nbsp;(str&nbsp;l)&nbsp;#&quot;\-&quot;)))
+                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;(Double&#x2F;parseDouble&nbsp;(last&nbsp;(split&nbsp;(str&nbsp;l)&nbsp;#&quot;\-&quot;)))
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&lt;=&nbsp;percentage&nbsp;0.2)&nbsp;inc
+                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&lt;=&nbsp;percentage&nbsp;0.2)&nbsp;inc
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&gt;=&nbsp;percentage&nbsp;99.9)&nbsp;identity
+                080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&gt;=&nbsp;percentage&nbsp;99.9)&nbsp;identity
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;negative?&nbsp;(*&nbsp;-1)
+                081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;negative?&nbsp;(*&nbsp;-1)
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and&nbsp;(not&nbsp;(&lt;=&nbsp;percentage&nbsp;0.2))
+                082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and&nbsp;(not&nbsp;(&lt;=&nbsp;percentage&nbsp;0.2))
                 </span><br/>
 <span class="covered" title="15 out of 15 forms covered">
-                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(&gt;=&nbsp;percentage&nbsp;99.9)))&nbsp;((if&nbsp;negative?&nbsp;-&nbsp;+)&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;t)))))&nbsp;num)))
+                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(&gt;=&nbsp;percentage&nbsp;99.9)))&nbsp;((if&nbsp;negative?&nbsp;-&nbsp;+)&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;t)))))&nbsp;num)))
                 </span><br/>
  </body>
 </html>
