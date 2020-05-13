@@ -13,6 +13,11 @@
       (let [lez? (zero? (first c))]
         (recur (rest c) (cond-> count lez? inc) lez?)))))
 
+(defn mean-coll
+  "Calculates the mean of a collection `c`"
+  [c]
+  (double (/ (reduce + c) (count c))))
+
 (defn replace-nth
   "Replaces `n`th item from `coll` with `replacement`"
   [coll n replacement]
