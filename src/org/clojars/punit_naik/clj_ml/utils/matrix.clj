@@ -148,11 +148,6 @@
         (gu/replace-nth i jth-row)
         (gu/replace-nth j ith-row))))
 
-(defn mean-coll
-  "Calculates the mean of a collection `c`"
-  [c]
-  (double (/ (reduce + c) (count c))))
-
 (defn mean
   "Calculates the mean of a 2-D matrix"
   [m]
