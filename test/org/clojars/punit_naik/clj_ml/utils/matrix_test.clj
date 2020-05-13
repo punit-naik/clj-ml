@@ -22,8 +22,10 @@
 (defonce ^:private valid-2d-matrix-transposed [[1 4] [2 5] [3 6]])
 (defonce ^:private invalid-2d-matrix [[1 2 3] [4 6]])
 (defonce ^:private mat-mul-error-str "The number of columns of the first matrixare not equal to the number of rows of the second matrix")
-(defonce ^:private covar-mat-in [[1 1 1] [1 2 1] [1 3 2] [1 4 3]])
-(defonce ^:private covar-mat-out '((0.0 0.0 0.0) (0.0 1.6666666666666667 1.1666666666666667) (0.0 0.0 0.9166666666666666)))
+(defonce ^:private covar-mat-in-1 [[1 1 1] [1 2 1] [1 3 2] [1 4 3]])
+(defonce ^:private covar-mat-out-1 '((0.0 0.0 0.0) (0.0 1.6666666666666667 1.1666666666666667) (0.0 0.0 0.9166666666666666)))
+(defonce ^:private covar-mat-in-2 [[2.1 8] [2.5 10] [3.6 12] [4 14]])
+(defonce ^:private covar-mat-out-2 '((0.8033333333333333 2.2666666666666666) (0.0 6.666666666666667)))
 (defonce ^:private upper-triangular-matrix-data-1 [[3 -2 5] [6 -4 7] [5 -4 6]])
 (defonce ^:private upper-triangular-matrix-data-1-result '([3 -2 5] (0.0 -0.6666666666666665 -2.333333333333334) (0.0 0.0 -3.0)))
 (defonce ^:private upper-triangular-matrix-data-2 [[1 3 1 4] [3 9 5 15] [0 2 1 1] [0 4 2 3]])
@@ -77,6 +79,11 @@
     (is (= (mu/get-val sample-identity-matrix [0 0]) 1))
     (is (= (mu/get-val sample-identity-matrix [1 1]) 1))
     (is (= (mu/get-val sample-identity-matrix [2 2]) 1))))
+
+(deftest index-matrix-rows-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/index-matrix-rows` is correctly able to index a matrix or not"
+    (is (= (mu/index-matrix-rows sample-identity-matrix)
+           {0 [1 0 0] 1 [0 1 0] 2 [0 0 1]}))))
 
 (deftest random-fn-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/random-fn` function works properly"
@@ -158,12 +165,14 @@
 
 (deftest covariance-matrix-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/covariance` function calculates the covariance matrix of a 2D matrix properly"
-    (is (= (mu/covariance covar-mat-in) covar-mat-out))))
+    (is (= (mu/covariance covar-mat-in-1) covar-mat-out-1))
+    (is (= (mu/covariance covar-mat-in-2) covar-mat-out-2))))
 
 (deftest triangular-matrix?-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/triangular-matrix?` properly identifies an upper triangular matrix or not"
     (is (mu/triangular-matrix? sample-identity-matrix))
     (is (mu/triangular-matrix? [[0 0] [0 0]]))
+    (is (mu/triangular-matrix? [[0 1] [1 0]]))
     (is (not (mu/triangular-matrix? valid-2d-matrix-2)))))
 
 (deftest row-adjust-test
@@ -197,11 +206,6 @@
     (is (= (mu/swap-rows sample-identity-matrix 0 1) sample-identity-matrix-swapped-1))
     (is (= (mu/swap-rows sample-identity-matrix 0 2) sample-identity-matrix-swapped-2))))
 
-(deftest mean-coll-test
-  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/mean-coll` correctly works or not"
-    (is (= (mu/mean-coll [0 2 4]) 2.0))
-    (is (= (mu/mean-coll [1 0 1 0]) 0.5))))
-
 (deftest cross-product-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/cross-product` correctly calculates the cross product of the rows of a matrix or not"
     (is (= (mu/cross-product cross-product-data-1 cross-product-data-1) cross-product-data-2))
@@ -229,9 +233,10 @@
 
 (deftest eigen-values-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-values` correctly calculates the eigen values of a matrix or not"
-    (is (= (mu/eigen-values sample-identity-matrix) '(1.0 1.0)))
+    (is (= (mu/eigen-values sample-identity-matrix) '(1 1 1)))
     (is (= (mu/eigen-values eigen-value-data-1) eigen-value-result-1))
-    (is (= (mu/eigen-values eigen-value-data-2) eigen-value-result-2))))
+    (is (= (mu/eigen-values eigen-value-data-2) eigen-value-result-2))
+    (is (= (mu/eigen-values covar-mat-out-2) '(0.8033333333333333 6.666666666666667)))))
 
 (deftest row-adjust-rref-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/row-adjust-rref` correctly works"
@@ -264,4 +269,5 @@
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vectors` correctly find the eigen vectors of a matrix or not"
     (is (= (mu/eigen-vectors eigen-value-data-2 (mu/eigen-values eigen-value-data-2)) ['(135.0 -10.0 1.0) '(1.0 -0.0 -0.0) '(1.125 1.3333333333333333 1.0)]))
     (is (= (mu/eigen-vectors eigen-vector-input-1 (mu/eigen-values eigen-vector-input-1)) ['(-2.0 1.0 1.0) '(0.5 1.0 0.0) '(0.5 0.0 1.0)]))
-    (is (= (mu/eigen-vectors eigen-vector-input-2 (mu/eigen-values eigen-vector-input-2)) ['(1.0 -1.41422 1.0) '(-1.0 -0.0 1.0) '(1.0 1.4142100000000002 1.0)]))))
+    (is (= (mu/eigen-vectors eigen-vector-input-2 (mu/eigen-values eigen-vector-input-2)) ['(1.0 -1.41422 1.0) '(-1.0 -0.0 1.0) '(1.0 1.4142100000000002 1.0)]))
+    (is (= (mu/eigen-vectors covar-mat-out-2 (mu/eigen-values covar-mat-out-2)) [[1.0 -0.0] [0.3865832859579306 1.0]]))))
