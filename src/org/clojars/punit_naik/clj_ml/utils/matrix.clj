@@ -341,7 +341,7 @@
   (map #(concat % (take (dec num-cols) %)) matrix))
 
 (defn characteristic-equation-parts
-  "Finds the positive or the negative parts of the characteristic euqation
+  "Finds the positive or the negative parts of the characteristic equation
    Both the positive and negative parts will be added to form the final eqution"
   ([concatenated-matrix-minus-lambda-i num-rows]
    (characteristic-equation-parts concatenated-matrix-minus-lambda-i num-rows true))
