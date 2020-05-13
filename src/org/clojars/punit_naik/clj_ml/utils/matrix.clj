@@ -161,7 +161,7 @@
   "Calculates the mean of a 2-D matrix"
   [m]
   (let [averaged-rows (map (fn [row] (double (/ (reduce + row) (count row)))) m)]
-    (mean-coll averaged-rows)))
+    (gu/mean-coll averaged-rows)))
 
 (defn covariance
   "Calculates the covariance matrix of a 2-D matrix"
@@ -180,13 +180,13 @@
                               (range (count t))))
                        (range (count t)))))
         (let [{:keys [row value]} (first tm)
-              i-mean (mean-coll value)]
+              i-mean (gu/mean-coll value)]
           (recur (rest tm)
                  (concat result
                          (map
                           (fn [x]
                             (let [j (:value (get-val t [x]))
-                                  j-mean (mean-coll j)]
+                                  j-mean (gu/mean-coll j)]
                               (assoc {} (sort [row x])
                                      (double (/ (reduce +
                                                         (map #(* (- %1 i-mean) (- %2 j-mean))
