@@ -364,7 +364,7 @@
                            result
                            (recur (rest paths)
                                   (let [ij (get-val concatenated-matrix-minus-lambda-i (first paths))
-                                        ij-mod (if (coll? ij) (gu/index-matrix-rows ij) ij)]
+                                        ij-mod (if (coll? ij) (index-matrix-rows ij) ij)]
                                     (if (and (coll? result)
                                              (empty? result))
                                       ij-mod
