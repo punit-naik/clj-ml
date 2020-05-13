@@ -39,6 +39,15 @@
       result
       (recur (rest ip) (nth result (first ip))))))
 
+(defn index-matrix-rows
+  "This function indexes `matrix`'s rows and returns a map where key is the row number and value is the row itself"
+  [matrix]
+  (dissoc
+   (reduce
+    (fn [{:keys [size] :as acc} v]
+      (assoc acc (first size) v :size (rest size)))
+    {:size (range (count matrix))} matrix) :size))
+
 (defmacro random-fn
   "Executes the function `f` repeatedly `n` times"
   [n f]
