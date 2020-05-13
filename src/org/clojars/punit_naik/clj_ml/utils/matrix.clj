@@ -268,24 +268,26 @@
   "Converts any square matrix into an upper-triangular matrix
    where all the matrix elements below the diagonal elements are zero"
   [matrix]
-  (let [[num-rows _] (dimension matrix)]
-    (loop [m matrix
-           nr (range 1 num-rows)
-           swap-count 0]
-      (if (empty? nr)
-        {:upper-triangular m :num-swaps swap-count}
-        (let [adjusted-row (recursive-row-adjust m (first nr))
-              first-n-zeros-adjusted-row (gu/first-n-zeros adjusted-row)
-              m-adjusted (gu/replace-nth m (first nr) adjusted-row)
-              should-be-swapped? (and (> first-n-zeros-adjusted-row (first nr))
-                                      (not= first-n-zeros-adjusted-row num-rows))
-              m-swapped (cond-> m-adjusted
-                          should-be-swapped? (swap-rows (first nr) first-n-zeros-adjusted-row))]
-          (recur m-swapped
-                 (cond-> nr
-                   (not should-be-swapped?) rest)
-                 (cond-> swap-count
-                   should-be-swapped? inc)))))))
+  (if (triangular-matrix? matrix)
+    {:upper-triangular matrix :num-swaps 0}
+    (let [[num-rows _] (dimension matrix)]
+      (loop [m matrix
+             nr (range 1 num-rows)
+             swap-count 0]
+        (if (empty? nr)
+          {:upper-triangular m :num-swaps swap-count}
+          (let [adjusted-row (recursive-row-adjust m (first nr))
+                first-n-zeros-adjusted-row (gu/first-n-zeros adjusted-row)
+                m-adjusted (gu/replace-nth m (first nr) adjusted-row)
+                should-be-swapped? (and (> first-n-zeros-adjusted-row (first nr))
+                                        (not= first-n-zeros-adjusted-row num-rows))
+                m-swapped (cond-> m-adjusted
+                            should-be-swapped? (swap-rows (first nr) first-n-zeros-adjusted-row))]
+            (recur m-swapped
+                   (cond-> nr
+                     (not should-be-swapped?) rest)
+                   (cond-> swap-count
+                     should-be-swapped? inc))))))))
 
 (defn determinant
   "Caluclates the determinant of a square matrix by first calculating it's uper triangular matrix
