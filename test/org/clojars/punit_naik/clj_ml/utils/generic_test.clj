@@ -4,11 +4,6 @@
 
 (defonce ^:private sample-identity-matrix [[1 0 0] [0 1 0] [0 0 1]])
 
-(deftest index-matrix-rows-test
-  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.generic/index-matrix-rows` is correctly able to index a matrix or not"
-    (is (= (gu/index-matrix-rows sample-identity-matrix)
-           {0 [1 0 0] 1 [0 1 0] 2 [0 0 1]}))))
-
 (deftest first-n-zeros-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.generic/first-n-zeros` is correctly able to find the first n zeros of a row or not"
     (is (= (gu/first-n-zeros (nth sample-identity-matrix 0)) 0))
