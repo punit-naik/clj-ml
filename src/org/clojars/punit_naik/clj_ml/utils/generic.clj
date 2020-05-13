@@ -1,15 +1,6 @@
 (ns org.clojars.punit-naik.clj-ml.utils.generic
   (:require [clojure.string :refer [join split]]))
 
-(defn index-matrix-rows
-  "This function indexes `matrix`'s rows and returns a map where key is the row number and value is the row itself"
-  [matrix]
-  (dissoc
-   (reduce
-    (fn [{:keys [size] :as acc} v]
-      (assoc acc (first size) v :size (rest size)))
-    {:size (range (count matrix))} matrix) :size))
-
 (defn first-n-zeros
   "Given a collection, this function finds the number of zero elements of the collection from the start"
   [coll]
