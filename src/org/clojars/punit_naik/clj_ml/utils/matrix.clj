@@ -403,23 +403,29 @@
 (defn eigen-values
   "Gets the eigen values of a matrix from it's characteristic equation"
   [matrix]
-  (let [[m n] (dimension matrix)
-        matrix-minus-unkown-lambda-i (matrix-minus-lambda-i matrix)
-        concatenated-matrix-minus-lambda-i (concat-matrix-rows matrix-minus-unkown-lambda-i n)
-        first-part-product (characteristic-equation-parts concatenated-matrix-minus-lambda-i m)
-        second-part-product (characteristic-equation-parts concatenated-matrix-minus-lambda-i m false)
-        bigger-coll (if (>= (count first-part-product) (count second-part-product)) first-part-product second-part-product)
-        smaller-coll (if (< (count first-part-product) (count second-part-product)) first-part-product second-part-product)
-        smaller-coll-padded (concat (take (- (count bigger-coll) (count smaller-coll)) (repeat 0)) smaller-coll)
-        smaller-coll-padded-negative (map #(* % -1) smaller-coll-padded)
-        eq (map + bigger-coll smaller-coll-padded-negative)]
-    (->> (remove zero? eq)
-         (lau/solve-equation :newton)
-         (concat (filter zero? (last (partition-by identity eq))))
-         (map (fn [ev]
-                (if (re-find #"\." (str ev))
-                  (gu/round-decimal ev) ev)))
-         sort)))
+  (let [solve-eq (fn [eq]
+                   (->> (remove zero? eq)
+                        (lau/solve-equation :newton)
+                        (concat (filter zero? (last (partition-by identity eq))))
+                        (map (fn [ev]
+                               (if (re-find #"\." (str ev))
+                                 (gu/round-decimal ev) ev)))
+                        sort))
+        [m n] (dimension matrix)
+        matrix-minus-unkown-lambda-i (matrix-minus-lambda-i matrix)]
+    (if (triangular-matrix? matrix)
+      (map (fn [i row]
+             (nth row i)) (range (count matrix)) matrix)
+      (let [concatenated-matrix-minus-lambda-i (concat-matrix-rows matrix-minus-unkown-lambda-i n)
+            first-part-product (characteristic-equation-parts concatenated-matrix-minus-lambda-i m)
+            second-part-product (characteristic-equation-parts concatenated-matrix-minus-lambda-i m false)
+            bigger-coll (if (>= (count first-part-product) (count second-part-product)) first-part-product second-part-product)
+            smaller-coll (if (< (count first-part-product) (count second-part-product)) first-part-product second-part-product)
+            smaller-coll-padded (concat (make-array Integer/TYPE (- (count bigger-coll)
+                                                                    (count smaller-coll))) smaller-coll)
+            smaller-coll-padded-negative (map #(* % -1) smaller-coll-padded)
+            eq (map + bigger-coll smaller-coll-padded-negative)]
+        (solve-eq eq)))))
 
 (defn row-adjust-rref
   "Adjusts the element of `row-1` at index `i` and makes it zero using the elements of `row-2`"
