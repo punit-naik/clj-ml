@@ -10,6 +10,11 @@
     (is (= (gu/first-n-zeros (nth sample-identity-matrix 1)) 1))
     (is (= (gu/first-n-zeros (nth sample-identity-matrix 2)) 2))))
 
+(deftest mean-coll-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.generic/mean-coll` correctly works or not"
+    (is (= (gu/mean-coll [0 2 4]) 2.0))
+    (is (= (gu/mean-coll [1 0 1 0]) 0.5))))
+
 (deftest replace-nth-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.generic/replace-nth` properly replaces the matrix row or not"
     (is (= (gu/replace-nth sample-identity-matrix 2 [0 0 -1])
