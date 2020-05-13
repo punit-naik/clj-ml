@@ -208,7 +208,7 @@
                (fn [i row]
                  (if (= i (dec (count m)))
                    true
-                   (every? zero? (take-last (- (dec (count m)) i) row))))
+                   (every? zero? (take (- (dec (count m)) i) row))))
                (range (count m)) m))))
 
 (defn row-adjust
