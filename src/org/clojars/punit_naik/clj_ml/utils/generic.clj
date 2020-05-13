@@ -75,7 +75,8 @@
   "Rounds of a decimal based on `precision`"
   [num]
   (let [[l t] (split (str num) #"\.")]
-    (if (>= (count t) 5) ; Choosing for precision of 5 digits after decimal for now
+    (if (and (>= (count t) 5) ; Choosing for precision of 5 digits after decimal for now
+             (not (zero? (Double/parseDouble t))))
       (let [percentage (* (- 1.0 (Double/parseDouble (str "0." t))) 100.0)
             negative? (re-find #"\-" (str l))]
         (cond-> (Double/parseDouble (last (split (str l) #"\-")))
