@@ -265,6 +265,11 @@
     (is (= (mu/eigen-vector-for-lamba eigen-vector-input-1 3) '(0.5 1.0 0.0)))
     (is (= (mu/eigen-vector-for-lamba eigen-vector-input-1 3 true) '(0.5 0.0 1.0)))))
 
+(deftest adjust-rref-indices-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/adjust-rref-indices` correctly works"
+    (is (= (mu/adjust-rref-indices 3 [[0 1 0] [0 0 1] [0 0 0]]) '([0 0 0] [0 1 0] [0 0 1])))
+    (is (= (mu/adjust-rref-indices 4 [[0 0 0 1] [0 1 0 0] [1 0 0 0] [0 0 0 0]]) '([1 0 0 0] [0 1 0 0] [0 0 0 0] [0 0 0 1])))))
+
 (deftest eigen-vectors-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vectors` correctly find the eigen vectors of a matrix or not"
     (is (= (mu/eigen-vectors eigen-value-data-2 (mu/eigen-values eigen-value-data-2)) ['(135.0 -10.0 1.0) '(1.0 -0.0 -0.0) '(1.125 1.3333333333333333 1.0)]))
