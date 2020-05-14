@@ -486,6 +486,26 @@
                                                                             (zero? ij-th) inc)))) row-i))
                    new-result)))))))
 
+(defn adjust-rref-indices
+  "Adusts the indices of the RREF of a matrix by looking at the first <x> zeros of the rows"
+  [n rref]
+  (as-> (reduce (fn [acc row]
+                  (let [index (gu/first-n-zeros row)
+                        all-zeros? (every? zero? row)]
+                    (cond-> acc
+                      (not all-zeros?) (update :indices #(disj % index))
+                      (not all-zeros?) (assoc index row))))
+                {:indices (into (hash-set) (range n))} rref) $
+        (reduce (fn [acc row]
+                  (let [all-zeros? (every? zero? row)
+                        index (first (acc :indices))]
+                    (cond-> acc
+                      all-zeros? (update :indices #(disj % index))
+                      all-zeros? (assoc index row)))) $ rref)
+        (dissoc $ :indices)
+        (into (sorted-map) $)
+        (vals $)))
+
 (defn eigen-vector-for-lamba
   "Finds the eigenvector for a matrix with a particular eigenvalue"
   ([matrix lambda] (eigen-vector-for-lamba matrix lambda false))
@@ -493,6 +513,7 @@
    (let [[_ n] (dimension matrix)
          rref-reversed (->> (matrix-minus-lambda-i matrix lambda)
                             reduced-row-echelon-form
+                            (adjust-rref-indices n)
                             (map-indexed (fn [i row] [i row])) reverse)
          zero-row-count (count (filter #(every? zero? (second %)) rref-reversed))]
      (loop [rref-r rref-reversed
@@ -502,25 +523,17 @@
          (cond->> (into (sorted-map) result)
            (<= zero-row-count 1) vals
            (> zero-row-count 1) (map (fn [[_ v]] ((if already-calculated? + -) v 1))))
-         (recur (rest rref-r) (inc default-val-counter)
-                (let [first-rref-reversed (first rref-r)
-                      first-rref-reversed-index (first first-rref-reversed)
-                      first-rref-reversed-row (second first-rref-reversed)
-                      all-zero? (every? zero? first-rref-reversed-row)]
+         (let [first-rref-reversed (first rref-r)
+               first-rref-reversed-index (first first-rref-reversed)
+               first-rref-reversed-row (second first-rref-reversed)
+               all-zeros? (every? zero? first-rref-reversed-row)]
+           (recur (rest rref-r) (cond-> default-val-counter
+                                  all-zeros? inc)
                   (cond-> result
-                    all-zero? (assoc (cond->> first-rref-reversed-index
-                                       (let [second-rref-reversed (second rref-r)
-                                             second-rref-reversed-index (first second-rref-reversed)
-                                             second-rref-reversed-row (second second-rref-reversed)
-                                             all-zero-second? (every? zero? second-rref-reversed-row)]
-                                         (and (not all-zero-second?)
-                                              (not= second-rref-reversed-index
-                                                    (gu/first-n-zeros second-rref-reversed-row)))) (- (dec n)))
-                                     (cond->> default-val-counter
-                                       already-calculated? (- 1.0)))
-                    (not all-zero?)
-                    (assoc (cond->> first-rref-reversed-index
-                             (contains? result first-rref-reversed-index) (- (dec n)))
+                    all-zeros? (assoc first-rref-reversed-index (cond->> default-val-counter
+                                                                  already-calculated? (- 1.0)))
+                    (not all-zeros?)
+                    (assoc first-rref-reversed-index
                            (* -1.0 (reduce + (map
                                               (fn [row-v i] (* row-v (get result i 0)))
                                               first-rref-reversed-row (range n)))))))))))))
