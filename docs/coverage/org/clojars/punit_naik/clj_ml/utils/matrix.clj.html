@@ -1469,454 +1469,550 @@
                 488&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                489&nbsp;&nbsp;(defn&nbsp;eigen-vector-for-lamba
+                489&nbsp;&nbsp;(defn&nbsp;adjust-rref-indices
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                490&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;the&nbsp;eigenvector&nbsp;for&nbsp;a&nbsp;matrix&nbsp;with&nbsp;a&nbsp;particular&nbsp;eigenvalue&quot;
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                491&nbsp;&nbsp;&nbsp;&nbsp;([matrix&nbsp;lambda]&nbsp;(eigen-vector-for-lamba&nbsp;matrix&nbsp;lambda&nbsp;false))
+                490&nbsp;&nbsp;&nbsp;&nbsp;&quot;Adusts&nbsp;the&nbsp;indices&nbsp;of&nbsp;the&nbsp;RREF&nbsp;of&nbsp;a&nbsp;matrix&nbsp;by&nbsp;looking&nbsp;at&nbsp;the&nbsp;first&nbsp;&lt;x&gt;&nbsp;zeros&nbsp;of&nbsp;the&nbsp;rows&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                492&nbsp;&nbsp;&nbsp;&nbsp;([matrix&nbsp;lambda&nbsp;already-calculated?]
+                491&nbsp;&nbsp;&nbsp;&nbsp;[n&nbsp;rref]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                493&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[_&nbsp;n]&nbsp;(dimension&nbsp;matrix)
+                492&nbsp;&nbsp;&nbsp;&nbsp;(as-&gt;&nbsp;(reduce&nbsp;(fn&nbsp;[acc&nbsp;row]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                493&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[index&nbsp;(gu&#x2F;first-n-zeros&nbsp;row)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                494&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-zeros?&nbsp;(every?&nbsp;zero?&nbsp;row)]
+                </span><br/>
+<span class="covered" title="11 out of 11 forms covered">
+                495&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;acc
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                496&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;all-zeros?)&nbsp;(update&nbsp;:indices&nbsp;#(disj&nbsp;%&nbsp;index))
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                497&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;all-zeros?)&nbsp;(assoc&nbsp;index&nbsp;row))))
+                </span><br/>
+<span class="covered" title="10 out of 10 forms covered">
+                498&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:indices&nbsp;(into&nbsp;(hash-set)&nbsp;(range&nbsp;n))}&nbsp;rref)&nbsp;$
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                499&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;(fn&nbsp;[acc&nbsp;row]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                494&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rref-reversed&nbsp;(-&gt;&gt;&nbsp;(matrix-minus-lambda-i&nbsp;matrix&nbsp;lambda)
+                500&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[all-zeros?&nbsp;(every?&nbsp;zero?&nbsp;row)
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                501&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index&nbsp;(first&nbsp;(acc&nbsp;:indices))]
+                </span><br/>
+<span class="covered" title="11 out of 11 forms covered">
+                502&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;acc
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                503&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-zeros?&nbsp;(update&nbsp;:indices&nbsp;#(disj&nbsp;%&nbsp;index))
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                504&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-zeros?&nbsp;(assoc&nbsp;index&nbsp;row))))&nbsp;$&nbsp;rref)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                505&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dissoc&nbsp;$&nbsp;:indices)
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                506&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;(sorted-map)&nbsp;$)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                507&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vals&nbsp;$)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                508&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                495&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reduced-row-echelon-form
+                509&nbsp;&nbsp;(defn&nbsp;eigen-vector-for-lamba
                 </span><br/>
-<span class="covered" title="8 out of 8 forms covered">
-                496&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed&nbsp;(fn&nbsp;[i&nbsp;row]&nbsp;[i&nbsp;row]))&nbsp;reverse)
+<span class="not-tracked" title="0 out of 0 forms covered">
+                510&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;the&nbsp;eigenvector&nbsp;for&nbsp;a&nbsp;matrix&nbsp;with&nbsp;a&nbsp;particular&nbsp;eigenvalue&quot;
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                511&nbsp;&nbsp;&nbsp;&nbsp;([matrix&nbsp;lambda]&nbsp;(eigen-vector-for-lamba&nbsp;matrix&nbsp;lambda&nbsp;false))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                512&nbsp;&nbsp;&nbsp;&nbsp;([matrix&nbsp;lambda&nbsp;already-calculated?]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                513&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[_&nbsp;n]&nbsp;(dimension&nbsp;matrix)
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                514&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rref-reversed&nbsp;(-&gt;&gt;&nbsp;(matrix-minus-lambda-i&nbsp;matrix&nbsp;lambda)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                515&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reduced-row-echelon-form
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                516&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(adjust-rref-indices&nbsp;n)
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                517&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed&nbsp;(fn&nbsp;[i&nbsp;row]&nbsp;[i&nbsp;row]))&nbsp;reverse)
                 </span><br/>
 <span class="covered" title="12 out of 12 forms covered">
-                497&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zero-row-count&nbsp;(count&nbsp;(filter&nbsp;#(every?&nbsp;zero?&nbsp;(second&nbsp;%))&nbsp;rref-reversed))]
+                518&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zero-row-count&nbsp;(count&nbsp;(filter&nbsp;#(every?&nbsp;zero?&nbsp;(second&nbsp;%))&nbsp;rref-reversed))]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                498&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[rref-r&nbsp;rref-reversed
+                519&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[rref-r&nbsp;rref-reversed
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                499&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default-val-counter&nbsp;1.0
+                520&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default-val-counter&nbsp;1.0
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                500&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;{}]
+                521&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;{}]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                501&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;rref-r)
+                522&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;rref-r)
                 </span><br/>
 <span class="covered" title="14 out of 14 forms covered">
-                502&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&gt;&nbsp;(into&nbsp;(sorted-map)&nbsp;result)
+                523&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&gt;&nbsp;(into&nbsp;(sorted-map)&nbsp;result)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                503&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&lt;=&nbsp;zero-row-count&nbsp;1)&nbsp;vals
+                524&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&lt;=&nbsp;zero-row-count&nbsp;1)&nbsp;vals
                 </span><br/>
 <span class="covered" title="13 out of 13 forms covered">
-                504&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&gt;&nbsp;zero-row-count&nbsp;1)&nbsp;(map&nbsp;(fn&nbsp;[[_&nbsp;v]]&nbsp;((if&nbsp;already-calculated?&nbsp;+&nbsp;-)&nbsp;v&nbsp;1))))
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                505&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;rref-r)&nbsp;(inc&nbsp;default-val-counter)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                506&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[first-rref-reversed&nbsp;(first&nbsp;rref-r)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                507&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-rref-reversed-index&nbsp;(first&nbsp;first-rref-reversed)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                508&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-rref-reversed-row&nbsp;(second&nbsp;first-rref-reversed)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                509&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-zero?&nbsp;(every?&nbsp;zero?&nbsp;first-rref-reversed-row)]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                510&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;result
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                511&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-zero?&nbsp;(assoc&nbsp;(cond-&gt;&gt;&nbsp;first-rref-reversed-index
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                512&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[second-rref-reversed&nbsp;(second&nbsp;rref-r)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                513&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;second-rref-reversed-index&nbsp;(first&nbsp;second-rref-reversed)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                514&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;second-rref-reversed-row&nbsp;(second&nbsp;second-rref-reversed)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                515&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-zero-second?&nbsp;(every?&nbsp;zero?&nbsp;second-rref-reversed-row)]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                516&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and&nbsp;(not&nbsp;all-zero-second?)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                517&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not=&nbsp;second-rref-reversed-index
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                518&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gu&#x2F;first-n-zeros&nbsp;second-rref-reversed-row))))&nbsp;(-&nbsp;(dec&nbsp;n)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                519&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&gt;&nbsp;default-val-counter
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                520&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;already-calculated?&nbsp;(-&nbsp;1.0)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                521&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;all-zero?)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                522&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(cond-&gt;&gt;&nbsp;first-rref-reversed-index
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                523&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;result&nbsp;first-rref-reversed-index)&nbsp;(-&nbsp;(dec&nbsp;n)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                524&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*&nbsp;-1.0&nbsp;(reduce&nbsp;+&nbsp;(map
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                525&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[row-v&nbsp;i]&nbsp;(*&nbsp;row-v&nbsp;(get&nbsp;result&nbsp;i&nbsp;0)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                526&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-rref-reversed-row&nbsp;(range&nbsp;n)))))))))))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                527&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                528&nbsp;&nbsp;(defn&nbsp;eigen-vectors
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                529&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;the&nbsp;Eigenvectors&nbsp;of&nbsp;a&nbsp;matrix&nbsp;by&nbsp;using&nbsp;it&#x27;s&nbsp;Eigenvalues&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                530&nbsp;&nbsp;&nbsp;&nbsp;[matrix&nbsp;eigen-values]
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                531&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[evals&nbsp;eigen-values
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                532&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prev-eval&nbsp;nil
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                533&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evecs&nbsp;[]]
+                525&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&gt;&nbsp;zero-row-count&nbsp;1)&nbsp;(map&nbsp;(fn&nbsp;[[_&nbsp;v]]&nbsp;((if&nbsp;already-calculated?&nbsp;+&nbsp;-)&nbsp;v&nbsp;1))))
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                534&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;evals)
+                526&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[first-rref-reversed&nbsp;(first&nbsp;rref-r)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                527&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-rref-reversed-index&nbsp;(first&nbsp;first-rref-reversed)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                528&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-rref-reversed-row&nbsp;(second&nbsp;first-rref-reversed)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                529&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-zeros?&nbsp;(every?&nbsp;zero?&nbsp;first-rref-reversed-row)]
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                535&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evecs
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                536&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;evals)
+                530&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;rref-r)&nbsp;(cond-&gt;&nbsp;default-val-counter
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                537&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;evals)
+                531&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-zeros?&nbsp;inc)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                538&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(conj&nbsp;evecs&nbsp;(eigen-vector-for-lamba&nbsp;matrix&nbsp;(first&nbsp;evals)&nbsp;(=&nbsp;prev-eval&nbsp;(first&nbsp;evals))))))))
+                532&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;result
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                533&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all-zeros?&nbsp;(assoc&nbsp;first-rref-reversed-index&nbsp;(cond-&gt;&gt;&nbsp;default-val-counter
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                534&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;already-calculated?&nbsp;(-&nbsp;1.0)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                535&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;all-zeros?)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                536&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;first-rref-reversed-index
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                537&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*&nbsp;-1.0&nbsp;(reduce&nbsp;+&nbsp;(map
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                538&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[row-v&nbsp;i]&nbsp;(*&nbsp;row-v&nbsp;(get&nbsp;result&nbsp;i&nbsp;0)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                539&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-rref-reversed-row&nbsp;(range&nbsp;n)))))))))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                539&nbsp;&nbsp;
+                540&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                540&nbsp;&nbsp;(comment
+                541&nbsp;&nbsp;(defn&nbsp;eigen-vectors
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                541&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;row-echelon-form
+                542&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;the&nbsp;Eigenvectors&nbsp;of&nbsp;a&nbsp;matrix&nbsp;by&nbsp;using&nbsp;it&#x27;s&nbsp;Eigenvalues&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                542&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Calculates&nbsp;the&nbsp;Row&nbsp;Echelon&nbsp;Form&nbsp;(REF)&nbsp;of&nbsp;a&nbsp;matrix&quot;
+                543&nbsp;&nbsp;&nbsp;&nbsp;[matrix&nbsp;eigen-values]
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                544&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[evals&nbsp;eigen-values
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                543&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[matrix]
+                545&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prev-eval&nbsp;nil
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                546&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evecs&nbsp;[]]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                547&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;evals)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                548&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evecs
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                549&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;evals)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                544&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;(sort-by&nbsp;#(count&nbsp;(filter&nbsp;zero?&nbsp;%))&nbsp;matrix)
+                550&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;evals)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                545&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(sort-by&nbsp;gu&#x2F;first-n-zeros&nbsp;(:upper-triangular&nbsp;(upper-triangular-matrix&nbsp;matrix))))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                546&nbsp;&nbsp;&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                547&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;pivot-indicies
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                548&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;the&nbsp;indices&nbsp;of&nbsp;pivots&nbsp;in&nbsp;each&nbsp;row&nbsp;of&nbsp;an&nbsp;REF&nbsp;matrix&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                549&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ref-matrix]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                550&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[_&nbsp;n]&nbsp;(dimension&nbsp;ref-matrix)]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                551&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[row]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                552&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[pivot-index&nbsp;(gu&#x2F;first-n-zeros&nbsp;row)]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                553&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(&lt;&nbsp;pivot-index&nbsp;n)&nbsp;pivot-index)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                554&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref-matrix)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                555&nbsp;&nbsp;&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                556&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;adjust-element-at-pivot-indices
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                557&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Adjusts&nbsp;all&nbsp;the&nbsp;row&nbsp;elements&nbsp;at&nbsp;the&nbsp;pivot&nbsp;indices&nbsp;and&nbsp;makes&nbsp;them&nbsp;equal&nbsp;to&nbsp;`1`
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                558&nbsp;&nbsp;&nbsp;&nbsp;By&nbsp;diving&nbsp;all&nbsp;the&nbsp;row&nbsp;elements&nbsp;by&nbsp;the&nbsp;element&nbsp;at&nbsp;the&nbsp;pivot&nbsp;index&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                559&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ref-matrix]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                560&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[row]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                561&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[fnz&nbsp;(gu&#x2F;first-n-zeros&nbsp;row)]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                562&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(not=&nbsp;fnz&nbsp;(second&nbsp;(dimension&nbsp;ref-matrix)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                563&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[fnz-row-val&nbsp;(double&nbsp;(nth&nbsp;row&nbsp;fnz))]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                564&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(not=&nbsp;fnz-row-val&nbsp;1.0)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                565&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;#(double&nbsp;(&#x2F;&nbsp;%&nbsp;fnz-row-val))&nbsp;row)&nbsp;row))&nbsp;row)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                566&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref-matrix))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                567&nbsp;&nbsp;&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                568&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;adjust-elements-above-pivot-indices
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                569&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Adjusts&nbsp;all&nbsp;the&nbsp;row&nbsp;elements&nbsp;above&nbsp;pivot&nbsp;indices&nbsp;columns&nbsp;to&nbsp;zero&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                570&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ref-matrix&nbsp;pivot-indicies]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                571&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[refm&nbsp;(map-indexed&nbsp;vector&nbsp;ref-matrix)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                572&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pi&nbsp;(map-indexed&nbsp;vector&nbsp;pivot-indicies)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                573&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;{}]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                574&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;refm)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                575&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                576&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[first-refm&nbsp;(first&nbsp;refm)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                577&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-refm-index&nbsp;(first&nbsp;first-refm)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                578&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-refm-value&nbsp;(second&nbsp;first-refm)]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                579&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;refm)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                580&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(rest&nbsp;pi)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                581&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[intermediate-result&nbsp;(-&gt;&gt;&nbsp;(rest&nbsp;pi)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                582&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(remove&nbsp;#(nil?&nbsp;(second&nbsp;%)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                583&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reverse
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                584&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                585&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[acc&nbsp;[row-index&nbsp;pivot-index]]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                586&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge&nbsp;acc
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                587&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;(fn&nbsp;[acc2&nbsp;v2]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                588&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;acc2
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                589&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(contains?&nbsp;result&nbsp;v2))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                590&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;v2
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                591&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust-rref&nbsp;(get&nbsp;acc&nbsp;v2&nbsp;(nth&nbsp;ref-matrix&nbsp;v2))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                592&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(get&nbsp;acc&nbsp;row-index&nbsp;(nth&nbsp;ref-matrix&nbsp;row-index))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                593&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pivot-index))))&nbsp;{}&nbsp;(reverse&nbsp;(range&nbsp;row-index)))))&nbsp;{}))]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                594&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;result
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                595&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(every?&nbsp;zero?&nbsp;first-refm-value))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                596&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge&nbsp;(or&nbsp;(seq&nbsp;intermediate-result)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                597&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;{}&nbsp;first-refm-index&nbsp;(get&nbsp;result&nbsp;first-refm-index&nbsp;first-refm-value))))
+                551&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(conj&nbsp;evecs&nbsp;(eigen-vector-for-lamba&nbsp;matrix&nbsp;(first&nbsp;evals)&nbsp;(=&nbsp;prev-eval&nbsp;(first&nbsp;evals))))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                598&nbsp;&nbsp;
+                552&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                553&nbsp;&nbsp;(defn&nbsp;principal-components
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                599&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;zero?&nbsp;first-refm-value)
+                554&nbsp;&nbsp;&nbsp;&nbsp;&quot;Get&#x27;s&nbsp;the&nbsp;data&nbsp;as&nbsp;a&nbsp;list&nbsp;of&nbsp;lists&nbsp;where&nbsp;each&nbsp;list&nbsp;inside&nbsp;the&nbsp;bigger&nbsp;list&nbsp;represents&nbsp;a&nbsp;row&nbsp;of&nbsp;data
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                600&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;first-refm-index&nbsp;first-refm-value))))))))
+                555&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selects&nbsp;the&nbsp;`n`&nbsp;number&nbsp;of&nbsp;principal&nbsp;compoennts&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                601&nbsp;&nbsp;&nbsp;&nbsp;
+                556&nbsp;&nbsp;&nbsp;&nbsp;[data&nbsp;n]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                557&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[feature-data&nbsp;(map&nbsp;butlast&nbsp;data)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                558&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;label-data&nbsp;(map&nbsp;last&nbsp;data)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                559&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;covar-feature-data&nbsp;(covariance&nbsp;feature-data)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                560&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evals&nbsp;(eigen-values&nbsp;covar-feature-data)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                561&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evecs&nbsp;(eigen-vectors&nbsp;covar-feature-data&nbsp;evals)
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                562&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evals-evecs&nbsp;(sort-by&nbsp;first&nbsp;&gt;&nbsp;(map&nbsp;vector&nbsp;evals&nbsp;evecs))]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                563&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;(take&nbsp;n&nbsp;evals-evecs)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                564&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[[_&nbsp;evec]]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                565&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(matrix-multiply&nbsp;feature-data&nbsp;(transpose&nbsp;[evec]))))
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                566&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(apply&nbsp;map&nbsp;vector)
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                567&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[label&nbsp;row]
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                568&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(conj&nbsp;(vec&nbsp;(flatten&nbsp;row))&nbsp;label))&nbsp;label-data))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                569&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                570&nbsp;&nbsp;(comment
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                602&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;reduced-row-echelon-form-deprecated
+                571&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;row-echelon-form
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                603&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Calculates&nbsp;the&nbsp;Reduced&nbsp;Row&nbsp;Echelon&nbsp;Form&nbsp;(RREF)&nbsp;of&nbsp;a&nbsp;REF&nbsp;matrix&nbsp;(deprecated)&quot;
+                572&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Calculates&nbsp;the&nbsp;Row&nbsp;Echelon&nbsp;Form&nbsp;(REF)&nbsp;of&nbsp;a&nbsp;matrix&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                604&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ref-matrix]
+                573&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[matrix]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                605&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;(adjust-elements-above-pivot-indices&nbsp;(adjust-element-at-pivot-indices&nbsp;ref-matrix)
+                574&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;(sort-by&nbsp;#(count&nbsp;(filter&nbsp;zero?&nbsp;%))&nbsp;matrix)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                606&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pivot-indicies&nbsp;ref-matrix))
+                575&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(sort-by&nbsp;gu&#x2F;first-n-zeros&nbsp;(:upper-triangular&nbsp;(upper-triangular-matrix&nbsp;matrix))))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                607&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;(sorted-map))&nbsp;vals))
+                576&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                608&nbsp;&nbsp;&nbsp;&nbsp;
+                577&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;pivot-indicies
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                609&nbsp;&nbsp;&nbsp;&nbsp;(nth&nbsp;[1&nbsp;2&nbsp;3]&nbsp;(or&nbsp;nil&nbsp;0))
+                578&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;the&nbsp;indices&nbsp;of&nbsp;pivots&nbsp;in&nbsp;each&nbsp;row&nbsp;of&nbsp;an&nbsp;REF&nbsp;matrix&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                610&nbsp;&nbsp;&nbsp;&nbsp;(upper-triangular-matrix&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]])
+                579&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ref-matrix]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                611&nbsp;&nbsp;&nbsp;&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]])
+                580&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[_&nbsp;n]&nbsp;(dimension&nbsp;ref-matrix)]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                612&nbsp;&nbsp;&nbsp;&nbsp;(pivot-indicies&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]]))
+                581&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[row]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                613&nbsp;&nbsp;&nbsp;&nbsp;(adjust-element-at-pivot-indices&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]]))
+                582&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[pivot-index&nbsp;(gu&#x2F;first-n-zeros&nbsp;row)]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                614&nbsp;&nbsp;&nbsp;&nbsp;(adjust-elements-above-pivot-indices&nbsp;(adjust-element-at-pivot-indices&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]]))
+                583&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(&lt;&nbsp;pivot-index&nbsp;n)&nbsp;pivot-index)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                615&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pivot-indicies&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]])))
+                584&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref-matrix)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                616&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust-rref&nbsp;[0&nbsp;1&nbsp;2&nbsp;3]&nbsp;[0&nbsp;0&nbsp;0&nbsp;1]&nbsp;3)
+                585&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                617&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]]))
+                586&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;adjust-element-at-pivot-indices
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                618&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[-5&nbsp;-6&nbsp;3]&nbsp;[3&nbsp;4&nbsp;-3]&nbsp;[0&nbsp;0&nbsp;-2]]&nbsp;-2))
+                587&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Adjusts&nbsp;all&nbsp;the&nbsp;row&nbsp;elements&nbsp;at&nbsp;the&nbsp;pivot&nbsp;indices&nbsp;and&nbsp;makes&nbsp;them&nbsp;equal&nbsp;to&nbsp;`1`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                619&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;[[-2&nbsp;-2&nbsp;-2]&nbsp;[-2&nbsp;-5&nbsp;1]&nbsp;[-2&nbsp;1&nbsp;-5]])
+                588&nbsp;&nbsp;&nbsp;&nbsp;By&nbsp;diving&nbsp;all&nbsp;the&nbsp;row&nbsp;elements&nbsp;by&nbsp;the&nbsp;element&nbsp;at&nbsp;the&nbsp;pivot&nbsp;index&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                620&nbsp;&nbsp;&nbsp;&nbsp;(eigen-values&nbsp;[[-1,2,2],[2,2,-1],[2,-1,2]])
+                589&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ref-matrix]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                621&nbsp;&nbsp;&nbsp;&nbsp;(matrix-multiply&nbsp;[[-1,2,2],[2,2,-1],[2,-1,2]]&nbsp;[[1.5]&nbsp;[2]&nbsp;[1]])
+                590&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[row]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                622&nbsp;&nbsp;&nbsp;&nbsp;(eigen-vectors&nbsp;[[-1,2,2],[2,2,-1],[2,-1,2]]&nbsp;(eigen-values&nbsp;[[-1,2,2],[2,2,-1],[2,-1,2]]))
+                591&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[fnz&nbsp;(gu&#x2F;first-n-zeros&nbsp;row)]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                623&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[-16&nbsp;9&nbsp;0&nbsp;0]&nbsp;[12&nbsp;5&nbsp;0&nbsp;0]&nbsp;[0&nbsp;0&nbsp;6&nbsp;-2]&nbsp;[0&nbsp;0&nbsp;0&nbsp;4]]&nbsp;6)))
+                592&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(not=&nbsp;fnz&nbsp;(second&nbsp;(dimension&nbsp;ref-matrix)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                624&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[m&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]]
+                593&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[fnz-row-val&nbsp;(double&nbsp;(nth&nbsp;row&nbsp;fnz))]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                625&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(eigen-vectors&nbsp;m&nbsp;(eigen-values&nbsp;m)))
+                594&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(not=&nbsp;fnz-row-val&nbsp;1.0)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                626&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;&#x27;([1&nbsp;1.4140000000000001&nbsp;1]&nbsp;[0&nbsp;1&nbsp;1.4140000000000001]&nbsp;[1.4140000000000001&nbsp;1&nbsp;0]))
+                595&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;#(double&nbsp;(&#x2F;&nbsp;%&nbsp;fnz-row-val))&nbsp;row)&nbsp;row))&nbsp;row)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                627&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(sort-by&nbsp;#(count&nbsp;(filter&nbsp;zero?&nbsp;%))&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.586)))
+                596&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref-matrix))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                628&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.586)))
+                597&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                629&nbsp;&nbsp;&nbsp;&nbsp;(upper-triangular-matrix&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.586))
+                598&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;adjust-elements-above-pivot-indices
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                630&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust&nbsp;[1&nbsp;0&nbsp;1]&nbsp;[0&nbsp;1&nbsp;0]&nbsp;1)
+                599&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Adjusts&nbsp;all&nbsp;the&nbsp;row&nbsp;elements&nbsp;above&nbsp;pivot&nbsp;indices&nbsp;columns&nbsp;to&nbsp;zero&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                631&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust-rref&nbsp;[1.4140000000000001&nbsp;1&nbsp;0]&nbsp;[1&nbsp;1.4140000000000001&nbsp;1]&nbsp;0)
+                600&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ref-matrix&nbsp;pivot-indicies]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                632&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.5857864376269049))
+                601&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[refm&nbsp;(map-indexed&nbsp;vector&nbsp;ref-matrix)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                633&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;3.414213562373095))
+                602&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pi&nbsp;(map-indexed&nbsp;vector&nbsp;pivot-indicies)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                634&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;2))
+                603&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;{}]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                635&nbsp;&nbsp;&nbsp;&nbsp;(eigen-vector-for-lamba&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.5857864376269049)
+                604&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;refm)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                636&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[m&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]]
+                605&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                637&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(eigen-vectors&nbsp;m&nbsp;(eigen-values&nbsp;m)))
+                606&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[first-refm&nbsp;(first&nbsp;refm)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                638&nbsp;&nbsp;&nbsp;&nbsp;)
+                607&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-refm-index&nbsp;(first&nbsp;first-refm)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                608&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first-refm-value&nbsp;(second&nbsp;first-refm)]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                609&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(rest&nbsp;refm)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                610&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(rest&nbsp;pi)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                611&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[intermediate-result&nbsp;(-&gt;&gt;&nbsp;(rest&nbsp;pi)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                612&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(remove&nbsp;#(nil?&nbsp;(second&nbsp;%)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                613&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reverse
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                614&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                615&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[acc&nbsp;[row-index&nbsp;pivot-index]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                616&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge&nbsp;acc
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                617&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;(fn&nbsp;[acc2&nbsp;v2]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                618&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;acc2
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                619&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(contains?&nbsp;result&nbsp;v2))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                620&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;v2
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                621&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust-rref&nbsp;(get&nbsp;acc&nbsp;v2&nbsp;(nth&nbsp;ref-matrix&nbsp;v2))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                622&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(get&nbsp;acc&nbsp;row-index&nbsp;(nth&nbsp;ref-matrix&nbsp;row-index))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                623&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pivot-index))))&nbsp;{}&nbsp;(reverse&nbsp;(range&nbsp;row-index)))))&nbsp;{}))]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                624&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;result
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                625&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(every?&nbsp;zero?&nbsp;first-refm-value))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                626&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge&nbsp;(or&nbsp;(seq&nbsp;intermediate-result)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                627&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;{}&nbsp;first-refm-index&nbsp;(get&nbsp;result&nbsp;first-refm-index&nbsp;first-refm-value))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                628&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                629&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;zero?&nbsp;first-refm-value)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                630&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;first-refm-index&nbsp;first-refm-value))))))))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                631&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                632&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;reduced-row-echelon-form-deprecated
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                633&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Calculates&nbsp;the&nbsp;Reduced&nbsp;Row&nbsp;Echelon&nbsp;Form&nbsp;(RREF)&nbsp;of&nbsp;a&nbsp;REF&nbsp;matrix&nbsp;(deprecated)&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                634&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ref-matrix]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                635&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;(adjust-elements-above-pivot-indices&nbsp;(adjust-element-at-pivot-indices&nbsp;ref-matrix)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                636&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pivot-indicies&nbsp;ref-matrix))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                637&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;(sorted-map))&nbsp;vals))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                638&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                639&nbsp;&nbsp;&nbsp;&nbsp;(nth&nbsp;[1&nbsp;2&nbsp;3]&nbsp;(or&nbsp;nil&nbsp;0))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                640&nbsp;&nbsp;&nbsp;&nbsp;(upper-triangular-matrix&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                641&nbsp;&nbsp;&nbsp;&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                642&nbsp;&nbsp;&nbsp;&nbsp;(pivot-indicies&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]]))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                643&nbsp;&nbsp;&nbsp;&nbsp;(adjust-element-at-pivot-indices&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]]))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                644&nbsp;&nbsp;&nbsp;&nbsp;(adjust-elements-above-pivot-indices&nbsp;(adjust-element-at-pivot-indices&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]]))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                645&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pivot-indicies&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]])))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                646&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust-rref&nbsp;[0&nbsp;1&nbsp;2&nbsp;3]&nbsp;[0&nbsp;0&nbsp;0&nbsp;1]&nbsp;3)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                647&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(row-echelon-form&nbsp;[[2&nbsp;-2&nbsp;4&nbsp;-2]&nbsp;[2&nbsp;1&nbsp;10&nbsp;7]&nbsp;[-4&nbsp;4&nbsp;-8&nbsp;4]&nbsp;[4&nbsp;-1&nbsp;14&nbsp;6]]))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                648&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[-5&nbsp;-6&nbsp;3]&nbsp;[3&nbsp;4&nbsp;-3]&nbsp;[0&nbsp;0&nbsp;-2]]&nbsp;-2))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                649&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;[[-2&nbsp;-2&nbsp;-2]&nbsp;[-2&nbsp;-5&nbsp;1]&nbsp;[-2&nbsp;1&nbsp;-5]])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                650&nbsp;&nbsp;&nbsp;&nbsp;(eigen-values&nbsp;[[-1,2,2],[2,2,-1],[2,-1,2]])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                651&nbsp;&nbsp;&nbsp;&nbsp;(matrix-multiply&nbsp;[[-1,2,2],[2,2,-1],[2,-1,2]]&nbsp;[[1.5]&nbsp;[2]&nbsp;[1]])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                652&nbsp;&nbsp;&nbsp;&nbsp;(eigen-vectors&nbsp;[[-1,2,2],[2,2,-1],[2,-1,2]]&nbsp;(eigen-values&nbsp;[[-1,2,2],[2,2,-1],[2,-1,2]]))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                653&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[-16&nbsp;9&nbsp;0&nbsp;0]&nbsp;[12&nbsp;5&nbsp;0&nbsp;0]&nbsp;[0&nbsp;0&nbsp;6&nbsp;-2]&nbsp;[0&nbsp;0&nbsp;0&nbsp;4]]&nbsp;6)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                654&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[m&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                655&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(eigen-vectors&nbsp;m&nbsp;(eigen-values&nbsp;m)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                656&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;&#x27;([1&nbsp;1.4140000000000001&nbsp;1]&nbsp;[0&nbsp;1&nbsp;1.4140000000000001]&nbsp;[1.4140000000000001&nbsp;1&nbsp;0]))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                657&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(sort-by&nbsp;#(count&nbsp;(filter&nbsp;zero?&nbsp;%))&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.586)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                658&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.586)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                659&nbsp;&nbsp;&nbsp;&nbsp;(upper-triangular-matrix&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.586))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                660&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust&nbsp;[1&nbsp;0&nbsp;1]&nbsp;[0&nbsp;1&nbsp;0]&nbsp;1)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                661&nbsp;&nbsp;&nbsp;&nbsp;(row-adjust-rref&nbsp;[1.4140000000000001&nbsp;1&nbsp;0]&nbsp;[1&nbsp;1.4140000000000001&nbsp;1]&nbsp;0)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                662&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.5857864376269049))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                663&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;3.414213562373095))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                664&nbsp;&nbsp;&nbsp;&nbsp;(reduced-row-echelon-form&nbsp;(matrix-minus-lambda-i&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;2))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                665&nbsp;&nbsp;&nbsp;&nbsp;(eigen-vector-for-lamba&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]&nbsp;0.5857864376269049)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                666&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[m&nbsp;[[2&nbsp;1&nbsp;0]&nbsp;[1&nbsp;2&nbsp;1]&nbsp;[0&nbsp;1&nbsp;2]]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                667&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(eigen-vectors&nbsp;m&nbsp;(eigen-values&nbsp;m)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                668&nbsp;&nbsp;&nbsp;&nbsp;(transpose&nbsp;[[1&nbsp;1]])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                669&nbsp;&nbsp;&nbsp;&nbsp;(transpose&nbsp;(transpose&nbsp;[[1&nbsp;1]]))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                670&nbsp;&nbsp;&nbsp;&nbsp;(matrix-multiply&nbsp;[[1&nbsp;1]&nbsp;[2&nbsp;1]]&nbsp;[[1]&nbsp;[1]]))
                 </span><br/>
  </body>
 </html>
