@@ -276,3 +276,13 @@
     (is (= (mu/eigen-vectors eigen-vector-input-1 (mu/eigen-values eigen-vector-input-1)) ['(-2.0 1.0 1.0) '(0.5 1.0 0.0) '(0.5 0.0 1.0)]))
     (is (= (mu/eigen-vectors eigen-vector-input-2 (mu/eigen-values eigen-vector-input-2)) ['(1.0 -1.41422 1.0) '(-1.0 -0.0 1.0) '(1.0 1.4142100000000002 1.0)]))
     (is (= (mu/eigen-vectors covar-mat-out-2 (mu/eigen-values covar-mat-out-2)) [[1.0 -0.0] [0.3865832859579306 1.0]]))))
+
+(deftest principal-components-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vectors` correctly finds the principal components or not"
+    (is (= (mu/principal-components [[1 3 0 1.5] [2 5 0 2.3] [3 6 0 3.2] [4 7 0 4.1] [5 8 0 5] [6 9 0 6.7]] 2)
+           '([6.428571428571427 1.0 1.5]
+             [11.857142857142854 2.0 2.3]
+             [16.285714285714285 3.0 3.2]
+             [20.714285714285708 4.0 4.1]
+             [25.14285714285714 5.0 5]
+             [29.571428571428566 6.0 6.7])))))
