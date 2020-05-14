@@ -271,7 +271,7 @@
     (is (= (mu/adjust-rref-indices 4 [[0 0 0 1] [0 1 0 0] [1 0 0 0] [0 0 0 0]]) '([1 0 0 0] [0 1 0 0] [0 0 0 0] [0 0 0 1])))))
 
 (deftest eigen-vectors-test
-  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vectors` correctly find the eigen vectors of a matrix or not"
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vectors` correctly finds the eigen vectors of a matrix or not"
     (is (= (mu/eigen-vectors eigen-value-data-2 (mu/eigen-values eigen-value-data-2)) ['(135.0 -10.0 1.0) '(1.0 -0.0 -0.0) '(1.125 1.3333333333333333 1.0)]))
     (is (= (mu/eigen-vectors eigen-vector-input-1 (mu/eigen-values eigen-vector-input-1)) ['(-2.0 1.0 1.0) '(0.5 1.0 0.0) '(0.5 0.0 1.0)]))
     (is (= (mu/eigen-vectors eigen-vector-input-2 (mu/eigen-values eigen-vector-input-2)) ['(1.0 -1.41422 1.0) '(-1.0 -0.0 1.0) '(1.0 1.4142100000000002 1.0)]))
