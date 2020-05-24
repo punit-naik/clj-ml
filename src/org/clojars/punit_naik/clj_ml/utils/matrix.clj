@@ -550,23 +550,6 @@
              (first evals)
              (conj evecs (eigen-vector-for-lamba matrix (first evals) (= prev-eval (first evals))))))))
 
-(defn principal-components
-  "Get's the data as a list of lists where each list inside the bigger list represents a row of data
-   Selects the `n` number of principal compoennts"
-  [data n]
-    (let [feature-data (map butlast data)
-          label-data (map last data)
-          covar-feature-data (covariance feature-data)
-          evals (eigen-values covar-feature-data)
-          evecs (eigen-vectors covar-feature-data evals)
-          evals-evecs (sort-by first > (map vector evals evecs))]
-      (->> (take n evals-evecs)
-           (map (fn [[_ evec]]
-                  (matrix-multiply feature-data (transpose [evec]))))
-           (apply map vector)
-           (map (fn [label row]
-                  (conj (vec (flatten row)) label)) label-data))))
-
 (comment
   (defn row-echelon-form
     "Calculates the Row Echelon Form (REF) of a matrix"
