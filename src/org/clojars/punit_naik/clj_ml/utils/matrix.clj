@@ -225,12 +225,20 @@
           r-2
           (let [mth-row-1 (double (nth row-1 (first m)))
                 mth-r-2 (double (nth r-2 (first m)))
-                mth-row-1-multiplier (Math/abs (/ mth-r-2 mth-row-1))]
+                mth-row-1-multiplier (Math/abs (/ mth-r-2 (if (zero? mth-row-1)
+                                                            1 mth-row-1)))]
             (recur (rest m)
                    (if-not (and (zero? mth-r-2) (zero? mth-row-1))
                      (as-> [row-1] $
                        (perform-arithmetic-op $ (Math/abs mth-row-1-multiplier) *)
-                       (perform-arithmetic-op [r-2] $ (if (not= (/ mth-row-1 (Math/abs mth-row-1)) (/ mth-r-2 (Math/abs mth-r-2))) + -))
+                       (perform-arithmetic-op [r-2] $
+                                              (cond
+                                                (and (zero? mth-row-1)
+                                                     (zero? mth-r-2)) +
+                                                (zero? mth-row-1) +
+                                                (zero? mth-r-2) +
+                                                :else (if (not= (/ mth-row-1 (Math/abs mth-row-1))
+                                                                (/ mth-r-2 (Math/abs mth-r-2))) + -)))
                        (first $)
                        (map #(if (and (pos? %) (< % 0.0000001)) 0.0 %) $))
                      r-2)
