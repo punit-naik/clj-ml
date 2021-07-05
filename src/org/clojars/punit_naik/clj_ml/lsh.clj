@@ -2,7 +2,7 @@
   (:require [clojure.set :refer [subset?]]
             [clojure.string :refer [join]]
             [org.clojars.punit-naik.clj-ml.utils.generic :refer [shingles]]
-            [org.clojars.punit-naik.clj-ml.utils.string :refer [levenshtein-distance]]
+            [org.clojars.punit-naik.clj-ml.utils.string :refer [reversed-levenstein-distance]]
             [æsahættr :refer [murmur3-128 hash->long hash-string]]))
 
 (defn hash-n-times
@@ -36,7 +36,7 @@
 ;  (reduce (fn []) {} str-hash-pair-list))
 
 (defn compare-records
-  "Compares a list of records/string with each other using `org.clojars.punit-naik.clj-ml.utils.string/levenshtein-distance`"
+  "Compares a list of records/string with each other using `org.clojars.punit-naik.clj-ml.utils.stringequation/reversed-levenstein-distance`"
   [records]
   (loop [[s1-idx s1] (first records)
          s2-rest (rest records)
@@ -52,7 +52,7 @@
                        :original-data s1
                        :possible-duplicate-index s2-idx
                        :possible-duplicate-data s2
-                       :match-percentage (levenshtein-distance s1 s2)}) s2-rest))))))
+                       :match-percentage (reversed-levenstein-distance s1 s2)}) s2-rest))))))
 
 (defn merge-candidates
   [candidate-list]
