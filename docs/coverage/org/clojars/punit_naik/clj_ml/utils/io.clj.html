@@ -31,10 +31,10 @@
 <span class="covered" title="8 out of 8 forms covered">
                 009&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;#(-&gt;&nbsp;%&nbsp;clj-str&#x2F;lower-case&nbsp;keyword)
                 </span><br/>
-<span class="covered" title="9 out of 9 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;(io&#x2F;reader&nbsp;file-path)&nbsp;BufferedReader.&nbsp;line-seq
                 </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first&nbsp;clj-str&#x2F;trim-newline&nbsp;(clj-str&#x2F;split&nbsp;delimiter))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -181,10 +181,10 @@
 <span class="covered" title="7 out of 7 forms covered">
                 059&nbsp;&nbsp;&nbsp;&nbsp;(with-open&nbsp;[writer&nbsp;(io&#x2F;writer&nbsp;file)]
                 </span><br/>
-<span class="partial" title="35 out of 40 forms covered">
+<span class="partial" title="33 out of 38 forms covered">
                 060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(doseq&nbsp;[[i&nbsp;xd]&nbsp;(map&nbsp;vector&nbsp;(range&nbsp;(count&nbsp;xsv-data))&nbsp;xsv-data)]
                 </span><br/>
-<span class="partial" title="12 out of 24 forms covered">
+<span class="partial" title="11 out of 22 forms covered">
                 061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(.write&nbsp;writer&nbsp;(cond-&gt;&gt;&nbsp;xd&nbsp;(pos?&nbsp;i)&nbsp;(str&nbsp;&quot;\n&quot;))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">

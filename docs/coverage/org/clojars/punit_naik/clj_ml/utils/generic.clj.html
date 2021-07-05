@@ -40,7 +40,7 @@
 <span class="covered" title="1 out of 1 forms covered">
                 012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count
                 </span><br/>
-<span class="covered" title="6 out of 6 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[lez?&nbsp;(zero?&nbsp;(first&nbsp;c))]
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
@@ -58,7 +58,7 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 018&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
-<span class="covered" title="11 out of 11 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 019&nbsp;&nbsp;&nbsp;&nbsp;(double&nbsp;(&#x2F;&nbsp;(reduce&nbsp;+&nbsp;c)&nbsp;(count&nbsp;c))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -82,7 +82,7 @@
 <span class="covered" title="3 out of 3 forms covered">
                 026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list&nbsp;replacement)
                 </span><br/>
-<span class="covered" title="6 out of 6 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(drop&nbsp;(inc&nbsp;n)&nbsp;coll)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -106,7 +106,7 @@
 <span class="covered" title="11 out of 11 forms covered">
                 034&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(not&nbsp;(integer?&nbsp;n))
                 </span><br/>
-<span class="covered" title="9 out of 9 forms covered">
+<span class="covered" title="6 out of 6 forms covered">
                 035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(zero?&nbsp;(-&nbsp;n&nbsp;(int&nbsp;n)))))
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
@@ -115,7 +115,7 @@
 <span class="covered" title="4 out of 4 forms covered">
                 037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(split&nbsp;$&nbsp;#&quot;\.&quot;)
                 </span><br/>
-<span class="covered" title="6 out of 6 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(second&nbsp;$)&nbsp;(count&nbsp;$)
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
@@ -124,7 +124,7 @@
 <span class="covered" title="4 out of 4 forms covered">
                 040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(apply&nbsp;*&nbsp;$))]
                 </span><br/>
-<span class="covered" title="8 out of 8 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vector&nbsp;(Math&#x2F;round&nbsp;(*&nbsp;n&nbsp;d))&nbsp;d))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
@@ -151,13 +151,13 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 049&nbsp;&nbsp;&nbsp;&nbsp;[s&nbsp;n]
                 </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 050&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;n&nbsp;1)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
                 051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;str&nbsp;s)
                 </span><br/>
-<span class="covered" title="11 out of 11 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[idx-coll&nbsp;(range&nbsp;(-&nbsp;(count&nbsp;s)&nbsp;(dec&nbsp;n)))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
@@ -223,34 +223,34 @@
 <span class="covered" title="7 out of 7 forms covered">
                 073&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[l&nbsp;t]&nbsp;(split&nbsp;(str&nbsp;num)&nbsp;#&quot;\.&quot;)]
                 </span><br/>
-<span class="covered" title="12 out of 12 forms covered">
+<span class="covered" title="10 out of 10 forms covered">
                 074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(&gt;=&nbsp;(count&nbsp;t)&nbsp;5)&nbsp;;&nbsp;Choosing&nbsp;for&nbsp;precision&nbsp;of&nbsp;5&nbsp;digits&nbsp;after&nbsp;decimal&nbsp;for&nbsp;now
                 </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(zero?&nbsp;(Double&#x2F;parseDouble&nbsp;t))))
                 </span><br/>
-<span class="covered" title="12 out of 12 forms covered">
+<span class="covered" title="10 out of 10 forms covered">
                 076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[percentage&nbsp;(*&nbsp;(-&nbsp;1.0&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;t)))&nbsp;100.0)
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
                 077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;negative?&nbsp;(re-find&nbsp;#&quot;\-&quot;&nbsp;(str&nbsp;l))]
                 </span><br/>
-<span class="covered" title="27 out of 27 forms covered">
+<span class="covered" title="24 out of 24 forms covered">
                 078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond-&gt;&nbsp;(Double&#x2F;parseDouble&nbsp;(last&nbsp;(split&nbsp;(str&nbsp;l)&nbsp;#&quot;\-&quot;)))
                 </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&lt;=&nbsp;percentage&nbsp;0.2)&nbsp;inc
                 </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&gt;=&nbsp;percentage&nbsp;99.9)&nbsp;identity
                 </span><br/>
-<span class="covered" title="2 out of 2 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;negative?&nbsp;(*&nbsp;-1)
                 </span><br/>
-<span class="covered" title="11 out of 11 forms covered">
+<span class="covered" title="10 out of 10 forms covered">
                 082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and&nbsp;(not&nbsp;(&lt;=&nbsp;percentage&nbsp;0.2))
                 </span><br/>
-<span class="covered" title="15 out of 15 forms covered">
+<span class="covered" title="14 out of 14 forms covered">
                 083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(&gt;=&nbsp;percentage&nbsp;99.9)))&nbsp;((if&nbsp;negative?&nbsp;-&nbsp;+)&nbsp;(Double&#x2F;parseDouble&nbsp;(str&nbsp;&quot;0.&quot;&nbsp;t)))))&nbsp;num)))
                 </span><br/>
  </body>

@@ -11,88 +11,139 @@
                 002&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                003&nbsp;&nbsp;(defn&nbsp;levenshtein-distance
+                003&nbsp;&nbsp;(defn&nbsp;indexed-string
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;the&nbsp;percentage&nbsp;of&nbsp;match&nbsp;(reversed&nbsp;levenshtein&nbsp;distance&nbsp;&amp;&nbsp;normalised)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;between&nbsp;two&nbsp;strings&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;[s1&nbsp;s2]
+                004&nbsp;&nbsp;&nbsp;&nbsp;[string]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[similarity&nbsp;(atom&nbsp;0)
+                005&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed&nbsp;vector&nbsp;string))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                006&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                007&nbsp;&nbsp;(defn&nbsp;match-char-to-str
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                008&nbsp;&nbsp;&nbsp;&nbsp;&quot;Matches&nbsp;a&nbsp;characted&nbsp;`c`&nbsp;with&nbsp;all&nbsp;characters&nbsp;of&nbsp;`string`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also&nbsp;takes&nbsp;in&nbsp;the&nbsp;position&nbsp;of&nbsp;char&nbsp;`c`&nbsp;i.e.&nbsp;`c-pos`&nbsp;in&nbsp;it&#x27;s&nbsp;original&nbsp;string
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And&nbsp;an&nbsp;`edit-map`&nbsp;initial&nbsp;value&nbsp;from&nbsp;previous&nbsp;stages&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;[edit-map-init&nbsp;c-pos&nbsp;c&nbsp;string]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;edit-map&nbsp;(atom&nbsp;{})]
+                012&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[c-pos-zero?&nbsp;(zero?&nbsp;c-pos)]
                 </span><br/>
-<span class="partial" title="31 out of 36 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(doseq&nbsp;[i&nbsp;(range&nbsp;(count&nbsp;s1))]
+<span class="covered" title="3 out of 3 forms covered">
+                013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;(fn&nbsp;[[edit-distance&nbsp;edm]
                 </span><br/>
-<span class="partial" title="9 out of 18 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[edit&nbsp;(atom&nbsp;(if&nbsp;(zero?&nbsp;i)&nbsp;0&nbsp;i))]
+<span class="not-tracked" title="0 out of 0 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[string-char-pos&nbsp;string-char]]
                 </span><br/>
-<span class="partial" title="31 out of 72 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(doseq&nbsp;[j&nbsp;(range&nbsp;(count&nbsp;s2))]
+<span class="covered" title="7 out of 7 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[e&nbsp;(if&nbsp;(=&nbsp;c&nbsp;string-char)&nbsp;0&nbsp;1)
                 </span><br/>
-<span class="partial" title="10 out of 40 forms covered">
-                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[e&nbsp;(if&nbsp;(=&nbsp;(.charAt&nbsp;s1&nbsp;i)&nbsp;(.charAt&nbsp;s2&nbsp;j))&nbsp;0&nbsp;1)]
+<span class="covered" title="2 out of 2 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string-char-pos-zero?&nbsp;(zero?&nbsp;string-char-pos)
                 </span><br/>
-<span class="partial" title="3 out of 12 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;edit
+<span class="covered" title="2 out of 2 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new-edit-distance&nbsp;(min
                 </span><br/>
-<span class="partial" title="2 out of 8 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(min
+<span class="covered" title="2 out of 2 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;string-char-pos-zero?
                 </span><br/>
-<span class="partial" title="4 out of 16 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(zero?&nbsp;j)
+<span class="covered" title="3 out of 3 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(+&nbsp;c-pos&nbsp;2)
                 </span><br/>
-<span class="partial" title="4 out of 16 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(+&nbsp;i&nbsp;2)
+<span class="covered" title="2 out of 2 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(inc&nbsp;edit-distance))
                 </span><br/>
-<span class="partial" title="5 out of 20 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(inc&nbsp;@edit))
+<span class="covered" title="2 out of 2 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;c-pos-zero?
                 </span><br/>
-<span class="partial" title="4 out of 16 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(zero?&nbsp;i)
+<span class="covered" title="3 out of 3 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(+&nbsp;string-char-pos&nbsp;2)
                 </span><br/>
-<span class="partial" title="4 out of 16 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(+&nbsp;j&nbsp;2)
+<span class="covered" title="7 out of 7 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(inc&nbsp;(edm&nbsp;[(dec&nbsp;c-pos)&nbsp;string-char-pos])))
                 </span><br/>
-<span class="partial" title="13 out of 52 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(inc&nbsp;(@edit-map&nbsp;(str&nbsp;(dec&nbsp;i)&nbsp;&quot;,&quot;&nbsp;j))))
+<span class="covered" title="4 out of 4 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(+&nbsp;(cond
                 </span><br/>
-<span class="partial" title="5 out of 20 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(+&nbsp;(cond
+<span class="covered" title="2 out of 2 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c-pos-zero?&nbsp;string-char-pos
                 </span><br/>
-<span class="partial" title="4 out of 16 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(zero?&nbsp;i)&nbsp;j
+<span class="covered" title="2 out of 2 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string-char-pos-zero?&nbsp;c-pos
                 </span><br/>
-<span class="partial" title="4 out of 16 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(zero?&nbsp;j)&nbsp;i
+<span class="covered" title="7 out of 7 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:else&nbsp;(edm&nbsp;[(dec&nbsp;c-pos)&nbsp;(dec&nbsp;string-char-pos)]))
                 </span><br/>
-<span class="partial" title="13 out of 52 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:else&nbsp;(@edit-map&nbsp;(str&nbsp;(dec&nbsp;i)&nbsp;&quot;,&quot;&nbsp;(dec&nbsp;j))))
+<span class="covered" title="9 out of 9 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;c-pos-zero?&nbsp;string-char-pos-zero?)&nbsp;0&nbsp;e)))]
                 </span><br/>
-<span class="partial" title="13 out of 52 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(zero?&nbsp;i)&nbsp;(zero?&nbsp;j))&nbsp;0&nbsp;e))))
+<span class="covered" title="9 out of 9 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[new-edit-distance&nbsp;(assoc&nbsp;edm&nbsp;[c-pos&nbsp;string-char-pos]&nbsp;new-edit-distance)]))
                 </span><br/>
-<span class="partial" title="12 out of 48 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;edit-map&nbsp;assoc&nbsp;(str&nbsp;i&nbsp;&quot;,&quot;&nbsp;j)&nbsp;@edit)
+<span class="covered" title="7 out of 7 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(if&nbsp;(zero?&nbsp;c-pos)&nbsp;0&nbsp;c-pos)&nbsp;edit-map-init]
                 </span><br/>
-<span class="partial" title="22 out of 88 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(and&nbsp;(=&nbsp;i&nbsp;(dec&nbsp;(count&nbsp;s1)))&nbsp;(=&nbsp;j&nbsp;(dec&nbsp;(count&nbsp;s2))))
+<span class="covered" title="3 out of 3 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(indexed-string&nbsp;string))))
                 </span><br/>
-<span class="partial" title="4 out of 16 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;edit-map&nbsp;nil)
+<span class="blank" title="0 out of 0 forms covered">
+                032&nbsp;&nbsp;
                 </span><br/>
-<span class="partial" title="6 out of 24 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;similarity&nbsp;@edit))))))
+<span class="covered" title="1 out of 1 forms covered">
+                033&nbsp;&nbsp;(defn&nbsp;match-strings
                 </span><br/>
-<span class="covered" title="21 out of 21 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(double&nbsp;(-&nbsp;100&nbsp;(*&nbsp;100&nbsp;(&#x2F;&nbsp;@similarity&nbsp;(+&nbsp;(count&nbsp;s1)&nbsp;(count&nbsp;s2))))))))
+<span class="not-tracked" title="0 out of 0 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&quot;Matches&nbsp;two&nbsp;strings&nbsp;`s1`&nbsp;and&nbsp;`s2`&nbsp;and&nbsp;finds&nbsp;out&nbsp;their&nbsp;`edit&nbsp;distance`&nbsp;and&nbsp;`similarity`&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;[s1&nbsp;s2]
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;(fn&nbsp;[{:keys&nbsp;[edit-map]&nbsp;:as&nbsp;m}&nbsp;[string-char-pos&nbsp;string-char]]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[[edit-distance&nbsp;edit-distance-map]&nbsp;(match-char-to-str&nbsp;edit-map&nbsp;string-char-pos&nbsp;string-char&nbsp;s2)]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;:edit-map&nbsp;edit-distance-map&nbsp;:similarity&nbsp;edit-distance)))
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:edit-map&nbsp;{}}
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(indexed-string&nbsp;s1)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                041&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                042&nbsp;&nbsp;(defn&nbsp;reversed-levenstein-distance
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;&quot;Finds&nbsp;out&nbsp;the&nbsp;revered&nbsp;levenstein&nbsp;distance&nbsp;(percentage&nbsp;of&nbsp;match)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;between&nbsp;two&nbsp;strings&nbsp;`s1`&nbsp;and&nbsp;`s2`&nbsp;by&nbsp;normalising&nbsp;the&nbsp;edit&nbsp;distance&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;[s1&nbsp;s2]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                046&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{:keys&nbsp;[similarity]}&nbsp;(match-strings&nbsp;s1&nbsp;s2)]
+                </span><br/>
+<span class="covered" title="12 out of 12 forms covered">
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(double&nbsp;(-&nbsp;100&nbsp;(*&nbsp;100&nbsp;(&#x2F;&nbsp;similarity&nbsp;(+&nbsp;(count&nbsp;s1)&nbsp;(count&nbsp;s2))))))))
                 </span><br/>
  </body>
 </html>

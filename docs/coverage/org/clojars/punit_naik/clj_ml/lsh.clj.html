@@ -17,7 +17,7 @@
                 004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[org.clojars.punit-naik.clj-ml.utils.generic&nbsp;:refer&nbsp;[shingles]]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[org.clojars.punit-naik.clj-ml.utils.string&nbsp;:refer&nbsp;[levenshtein-distance]]
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[org.clojars.punit-naik.clj-ml.utils.string&nbsp;:refer&nbsp;[reversed-levenstein-distance]]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[æsahættr&nbsp;:refer&nbsp;[murmur3-128&nbsp;hash-&gt;long&nbsp;hash-string]]))
@@ -94,7 +94,7 @@
 <span class="covered" title="1 out of 1 forms covered">
                 030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;banded-minhash-list
                 </span><br/>
-<span class="covered" title="8 out of 8 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;murmur3-128&nbsp;(range&nbsp;(count&nbsp;banded-minhash-list))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -119,7 +119,7 @@
                 038&nbsp;&nbsp;(defn&nbsp;compare-records
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;&quot;Compares&nbsp;a&nbsp;list&nbsp;of&nbsp;records&#x2F;string&nbsp;with&nbsp;each&nbsp;other&nbsp;using&nbsp;`org.clojars.punit-naik.clj-ml.utils.string&#x2F;levenshtein-distance`&quot;
+                039&nbsp;&nbsp;&nbsp;&nbsp;&quot;Compares&nbsp;a&nbsp;list&nbsp;of&nbsp;records&#x2F;string&nbsp;with&nbsp;each&nbsp;other&nbsp;using&nbsp;`org.clojars.punit-naik.clj-ml.utils.stringequation&#x2F;reversed-levenstein-distance`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 040&nbsp;&nbsp;&nbsp;&nbsp;[records]
@@ -167,7 +167,7 @@
                 054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:possible-duplicate-data&nbsp;s2
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:match-percentage&nbsp;(levenshtein-distance&nbsp;s1&nbsp;s2)})&nbsp;s2-rest))))))
+                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:match-percentage&nbsp;(reversed-levenstein-distance&nbsp;s1&nbsp;s2)})&nbsp;s2-rest))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 056&nbsp;&nbsp;
@@ -220,7 +220,7 @@
 <span class="covered" title="9 out of 9 forms covered">
                 072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(or&nbsp;(empty?&nbsp;merged-result)
                 </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(=&nbsp;(count&nbsp;merged-result)&nbsp;(count&nbsp;current-result)))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
@@ -241,7 +241,7 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 079&nbsp;&nbsp;&nbsp;&nbsp;[shingle-size&nbsp;hash-count&nbsp;band-size&nbsp;match-threshold&nbsp;data]
                 </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
+<span class="covered" title="6 out of 6 forms covered">
                 080&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;(pmap&nbsp;#(-&gt;&nbsp;%
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
