@@ -1,5 +1,9 @@
 (ns org.clojars.punit-naik.clj-ml.utils.string)
 
+(defn indexed-string
+  [string]
+  (map-indexed vector string))
+
 (defn match-char-to-str
   "Matches a characted `c` with all characters of `string`
    Also takes in the position of char `c` i.e. `c-pos` in it's original string
@@ -24,7 +28,7 @@
                                           (if (and c-pos-zero? string-char-pos-zero?) 0 e)))]
                 [new-edit-distance (assoc edm [c-pos string-char-pos] new-edit-distance)]))
           [(if (zero? c-pos) 0 c-pos) edit-map-init]
-          (map-indexed #(conj [] %1 %2) string))))
+          (indexed-string string))))
 
 (defn match-strings
   "Matches two strings `s1` and `s2` and finds out their `edit distance` and `similarity`"
@@ -32,7 +36,8 @@
   (reduce (fn [{:keys [edit-map] :as m} [string-char-pos string-char]]
             (let [[edit-distance edit-distance-map] (match-char-to-str edit-map string-char-pos string-char s2)]
               (assoc m :edit-map edit-distance-map :similarity edit-distance)))
-          {:edit-map {}} (map-indexed #(conj [] %1 %2) s1)))
+          {:edit-map {}}
+          (indexed-string s1)))
 
 (defn reversed-levenstein-distance
   "Finds out the revered levenstein distance (percentage of match)

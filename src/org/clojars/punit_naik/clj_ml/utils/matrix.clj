@@ -176,7 +176,7 @@
                     (concat acc [(map #(get intermediate-result % 0.0) v)]))
                   (lazy-seq [])
                   (map (fn [i]
-                         (map (fn [j] [i j])
+                         (map (fn [j] (vector i j))
                               (range (count t))))
                        (range (count t)))))
         (let [{:keys [row value]} (first tm)
@@ -301,29 +301,6 @@
   "Caluclates the determinant of a square matrix by first calculating it's uper triangular matrix
    and then multiplying it's diagonal elements together while taking into account the number of row swaps made in the process"
   [matrix]
-  ;(let [{:keys [upper-triangular num-swaps]} (upper-triangular-matrix matrix)
-  ;      intermediate-result (reduce
-  ;                           (fn [{:keys [i] :as acc} v]
-  ;                             (-> (update acc :result
-  ;                                         (fn [r]
-  ;                                           (let [e (nth v (first i))]
-  ;                                             (if (coll? e)
-  ;                                               (if (coll? r)
-  ;                                                 (cross-product (cond-> r
-  ;                                                                  (not (map? r)) index-matrix-rows)
-  ;                                                                (cond-> e
-  ;                                                                  (not (map? e)) index-matrix-rows))
-  ;                                                 (map #(* r %) e))
-  ;                                               (if (coll? r)
-  ;                                                 (map #(* e %) r)
-  ;                                                 (* e r))))))
-  ;                                 (update :i rest)))
-  ;                           {:i (range (count upper-triangular)) :result 1} upper-triangular)
-  ;      intermediate-result-value (intermediate-result :result)]
-  ;  (cond-> intermediate-result-value
-  ;    (not (coll? intermediate-result-value)) (* (if (pos? num-swaps) -1.0 1.0))
-  ;    (not (coll? intermediate-result-value)) gu/round-decimal
-  ;    (coll? intermediate-result-value) vals))
   (let [{:keys [upper-triangular num-swaps]} (upper-triangular-matrix matrix)]
     (-> (reduce
          (fn [{:keys [i] :as acc} v]
