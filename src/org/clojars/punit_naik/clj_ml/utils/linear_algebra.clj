@@ -11,7 +11,7 @@
                            (* coeff (Math/pow x (- (dec (count eq)) idx)))) eq)))
 
 (defn solve-quadratic-equation
-  "Given the a,b and c terms of the quadratic euqation ax^2+bx+c=0
+  "Given the a,b and c terms of the quadratic equation ax^2+bx+c=0
    This returns a pair of solutions for x"
   [{:keys [a b c]}]
   (let [four-a-c (* 4 a c)
@@ -39,8 +39,8 @@
      (factors num))))
 
 (defn isa-solution?
-  "Given the a to z terms of the quadratic euqation ax^n+....+z=0 as a collection
-   And the root, this function checks if the same root is a solution for the euqation or not
+  "Given the a to z terms of the quadratic equation ax^n+....+z=0 as a collection
+   And the root, this function checks if the same root is a solution for the equation or not
    And returns the new reduced equation for finding the remaining roots using Synthetic Division"
   [coefficients root]
   (let [result (reduce (fn [{:keys [sum] :as acc} v]
@@ -54,7 +54,7 @@
       (:coeffs (update result :coeffs butlast)))))
 
 (defn find-all-possible-solutions
-  "Given the a to z terms of the euqation ax ^n+....+z=0 as a collection
+  "Given the a to z terms of the equation ax ^n+....+z=0 as a collection
    This function finds all the possible roots of this equation"
   [coefficients]
   (condp = (count coefficients)
@@ -78,7 +78,7 @@
            flatten distinct sort))))
 
 (defn solve-equation-synthetic-division
-  "Given the a to z terms of the euqation ax^n+....+z=0
+  "Given the a to z terms of the equation ax^n+....+z=0
    This returns all the roots for the equation using synthetic division"
   [coefficients]
   (loop [coeffs coefficients
@@ -117,7 +117,7 @@
         (recur new-root (Math/abs (- new-root testing-root))))))))
 
 (defn solve-equation-newtons-method
-  "Given the a to z terms of the euqation ax^n+....+z=0
+  "Given the a to z terms of the equation ax^n+....+z=0
    This returns all the roots for the equation using newton's method"
   [coefficients]
   (let [precision 5]
@@ -129,7 +129,7 @@
          distinct)))
 
 (defmulti solve-equation
-  "Given the a to z terms of the euqation ax^n+....+z=0
+  "Given the a to z terms of the equation ax^n+....+z=0
    This returns all the roots for the equation"
   (fn [method _] method))
 
