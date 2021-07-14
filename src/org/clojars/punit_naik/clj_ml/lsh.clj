@@ -36,7 +36,7 @@
 ;  (reduce (fn []) {} str-hash-pair-list))
 
 (defn compare-records
-  "Compares a list of records/string with each other using `org.clojars.punit-naik.clj-ml.utils.stringequation/reversed-levenstein-distance`"
+  "Compares a list of records/string with each other using `org.clojars.punit-naik.clj-ml.utils.string/reversed-levenstein-distance`"
   [records]
   (loop [[s1-idx s1] (first records)
          s2-rest (rest records)
