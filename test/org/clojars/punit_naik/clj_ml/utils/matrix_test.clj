@@ -216,7 +216,7 @@
     (is (= (mu/concat-matrix-rows sample-identity-matrix 3) concat-matrix-rows-output-1))
     (is (= (mu/concat-matrix-rows upper-triangular-matrix-data-1 3) concat-matrix-rows-output-2))))
 
-(defonce characteristic-equation-parts-test
+(deftest characteristic-equation-parts-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/characteristic-equation-parts` correctly works or not"
     (is (= (mu/characteristic-equation-parts (mu/concat-matrix-rows (mu/matrix-minus-lambda-i sample-identity-matrix) 3) 3)
            characteristic-equation-parts-output-1))
