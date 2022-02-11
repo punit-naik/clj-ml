@@ -56,6 +56,8 @@
 (defonce ^:private characteristic-equation-parts-output-1 [-1 3 -3 1])
 (defonce ^:private characteristic-equation-parts-output-2 [-1 6 -12 8])
 (defonce ^:private characteristic-equation-parts-output-3 [-1 36 -188 240])
+(defonce ^:private matrix-inverse-input-1 [[1 -2 3] [3 5 2] [-1 3 -4]])
+(defonce ^:private matrix-inverse-output-1 '((6.5 -0.25 4.75) (-2.5 0.25 -1.75) (-3.5 0.25 -2.75)))
 
 (deftest equal-dimensions?-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/equal-dimensions?` function"
@@ -276,3 +278,8 @@
     (is (= (mu/eigen-vectors eigen-vector-input-1 (mu/eigen-values eigen-vector-input-1)) ['(-2.0 1.0 1.0) '(0.5 1.0 0.0) '(0.5 0.0 1.0)]))
     (is (= (mu/eigen-vectors eigen-vector-input-2 (mu/eigen-values eigen-vector-input-2)) ['(1.0 -1.41422 1.0) '(-1.0 -0.0 1.0) '(1.0 1.4142100000000002 1.0)]))
     (is (= (mu/eigen-vectors covar-mat-out-2 (mu/eigen-values covar-mat-out-2)) [[1.0 -0.0] [0.3865832859579306 1.0]]))))
+
+(deftest inverse-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/inverse` correctly finds the inverse of a matrix or not"
+    (is (and (= (mu/inverse matrix-inverse-input-1) matrix-inverse-output-1)
+             (mu/identity-matrix? (mu/matrix-multiply matrix-inverse-input-1 matrix-inverse-output-1))))))

@@ -77,17 +77,26 @@
   [m]
   [(count m) (count (first m))])
 
+(defn square?
+  "Checks if a matrix is quare or not"
+  [matrix]
+  (let [[m n] (dimension matrix)]
+    (= m n)))
+
 (defn identity-matrix?
   "Checks if the matrix `m` is a 2-D identity matrix or not"
   [m]
-  (let [[p q] (dimension m)]
+  (let [[p] (dimension m)]
     (and (matrix? m)
-         (= p q)
+         (square? m)
          (every? true?
                  (flatten
                   (map (fn [i]
                          (map (fn [j]
-                                (let [ij (get-val m [i j])] (if (= i j) (= 1 ij) (zero? ij))))
+                                (let [ij (get-val m [i j])]
+                                  (if (= i j)
+                                    (= ij (if (double? ij) 1.0 1))
+                                    (zero? ij))))
                               (range p)))
                        (range p)))))))
 
@@ -537,4 +546,22 @@
 
 (defn invertible?
   "Checks if a matrix is invertible or not"
-  [])
+  [matrix]
+  (and (square? matrix)
+       (not (zero? (determinant matrix)))))
+
+(defn concat-identity-matrix
+  "Concatenates identity matrix of same size to the original matrix to generate [A|I]"
+  [matrix]
+  (map concat matrix (create-identity-matrix (first (dimension matrix)))))
+
+(defn inverse
+  [matrix]
+  (when (invertible? matrix)
+    (let [matrix-cat-i (concat-identity-matrix matrix)
+          matrix-cat-i-rref (reduced-row-echelon-form matrix-cat-i)
+          [m] (dimension matrix)
+          left-part (map #(take m %) matrix-cat-i-rref)
+          right-part (map #(drop m %) matrix-cat-i-rref)]
+      (when (identity-matrix? left-part)
+        right-part))))
