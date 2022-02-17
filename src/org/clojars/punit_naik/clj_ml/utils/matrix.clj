@@ -116,7 +116,8 @@
          (map
           operation
           row-1 row-2)) mat operand)
-      (throw (Exception. "Dimensions of matrices are not the same")))))
+      (throw
+       (AssertionError. "Dimensions of matrices are not the same")))))
 
 (defn matrix-multiply
   "Multiplies two matrices of MxN and NxP dimensions
@@ -127,8 +128,10 @@
       (map
        (fn [row-a]
          (map (fn [col-b] (reduce + (map * row-a col-b))) b-transpose)) a))
-    (throw (Exception. "The number of columns of the first matrix
-                        are not equal to the number of rows of the second matrix"))))
+    (throw
+     (AssertionError.
+      (str "The number of columns of the first matrix "
+           "are not equal to the number of rows of the second matrix")))))
 
 (defn reciprocal
   "Calculates the reciprocal of each and every element of a 2-D matrix"
