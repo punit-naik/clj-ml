@@ -1,0 +1,125 @@
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="../../../../coverage.css"/>  <title> org/clojars/punit_naik/clj_ml/linear_regression.clj </title>
+ </head>
+ <body>
+<span class="covered" title="1 out of 1 forms covered">
+                001&nbsp;&nbsp;(ns&nbsp;org.clojars.punit-naik.clj-ml.linear-regression
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[org.clojars.punit-naik.clj-ml.utils.matrix&nbsp;:as&nbsp;matrix]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                003&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                004&nbsp;&nbsp;(defn&nbsp;generate-input-matrix
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;&nbsp;&nbsp;&quot;Receives&nbsp;a&nbsp;data&nbsp;matrix&nbsp;like&nbsp;[[x-1a&nbsp;x-1b&nbsp;x-1c...x-1z&nbsp;y-1]...&nbsp;[x-na&nbsp;x-nb&nbsp;x-nc...x-nz&nbsp;y-n]]&nbsp;with&nbsp;features&nbsp;and&nbsp;outputs
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And&nbsp;generates&nbsp;an&nbsp;input&nbsp;matrix&nbsp;like&nbsp;[[1&nbsp;x-1a&nbsp;x-1b&nbsp;x-1c...x-1z]...&nbsp;[1&nbsp;x-na&nbsp;x-nb&nbsp;x-nc...x-nz]]&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;[data]
+                </span><br/>
+<span class="covered" title="10 out of 10 forms covered">
+                008&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(comp&nbsp;(partial&nbsp;cons&nbsp;1)&nbsp;drop-last)&nbsp;data))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                009&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                010&nbsp;&nbsp;(defn&nbsp;generate-output-matrix
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;&quot;Receives&nbsp;a&nbsp;data&nbsp;matrix&nbsp;like&nbsp;[[x-1a&nbsp;x-1b&nbsp;x-1c...x-1z&nbsp;y-1]...&nbsp;[x-na&nbsp;x-nb&nbsp;x-nc...x-nz&nbsp;y-n]]&nbsp;with&nbsp;features&nbsp;and&nbsp;outputs
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And&nbsp;generates&nbsp;an&nbsp;output&nbsp;matrix&nbsp;like&nbsp;[[y-1]...&nbsp;[y-n]]&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                013&nbsp;&nbsp;&nbsp;&nbsp;[data]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(comp&nbsp;list&nbsp;last)&nbsp;data))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                015&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                016&nbsp;&nbsp;(defmulti&nbsp;betas
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;&quot;Receives&nbsp;a&nbsp;dispath&nbsp;value&nbsp;`method`&nbsp;and&nbsp;data&nbsp;matrix&nbsp;like&nbsp;[[x-1a&nbsp;x-1b&nbsp;x-1c...x-1z&nbsp;y-1]...&nbsp;[x-na&nbsp;x-nb&nbsp;x-nc...x-nz&nbsp;y-n]]&nbsp;with&nbsp;features&nbsp;and&nbsp;outputs
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And&nbsp;generates&nbsp;betas&nbsp;list&nbsp;like&nbsp;[b-0&nbsp;b-a..b-z]&nbsp;using&nbsp;linear&nbsp;regression&nbsp;which&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;predict&nbsp;output&nbsp;for&nbsp;any&nbsp;input&nbsp;[x-a...x-z]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Like&nbsp;Y&nbsp;=&nbsp;b-0&nbsp;*&nbsp;1&nbsp;+&nbsp;b-a&nbsp;*&nbsp;x-a&nbsp;+&nbsp;....&nbsp;+&nbsp;b-z&nbsp;*&nbsp;x-z&quot;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[method&nbsp;_]
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                022&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                023&nbsp;&nbsp;(defmethod&nbsp;betas&nbsp;:matrix
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;[_&nbsp;data]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[input-matrix&nbsp;(generate-input-matrix&nbsp;data)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input-matrix-transposed&nbsp;(matrix&#x2F;transpose&nbsp;input-matrix)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output-matrix&nbsp;(generate-output-matrix&nbsp;data)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input-matrix-transposed-multiplied-by-input-matrix&nbsp;(matrix&#x2F;matrix-multiply&nbsp;input-matrix-transposed&nbsp;input-matrix)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input-matrix-transposed-multiplied-by-output-matrix&nbsp;(matrix&#x2F;matrix-multiply&nbsp;input-matrix-transposed&nbsp;output-matrix)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input-matrix-transposed-multiplied-by-input-matrix-inverse&nbsp;(matrix&#x2F;inverse&nbsp;input-matrix-transposed-multiplied-by-input-matrix)]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;first&nbsp;(matrix&#x2F;matrix-multiply&nbsp;input-matrix-transposed-multiplied-by-input-matrix-inverse&nbsp;input-matrix-transposed-multiplied-by-output-matrix))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                032&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                033&nbsp;&nbsp;(defn&nbsp;predict
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&quot;Predicts&nbsp;output&nbsp;value&nbsp;for&nbsp;a&nbsp;set&nbsp;of&nbsp;features&nbsp;[x-a...x-z]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Given&nbsp;the&nbsp;beta&nbsp;values&nbsp;[b-0&nbsp;b-a...b-z]&nbsp;for&nbsp;the&nbsp;training&nbsp;data&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;[betas&nbsp;inputs]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;(cons&nbsp;1&nbsp;inputs)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;*&nbsp;betas)
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;+)))
+                </span><br/>
+ </body>
+</html>
