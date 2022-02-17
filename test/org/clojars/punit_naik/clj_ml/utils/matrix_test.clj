@@ -1,7 +1,6 @@
 (ns org.clojars.punit-naik.clj-ml.utils.matrix-test
   (:require [clojure.test :refer [deftest testing is]]
-            [org.clojars.punit-naik.clj-ml.utils.matrix :as mu]
-            [clojure.string :as clj-str]))
+            [org.clojars.punit-naik.clj-ml.utils.matrix :as mu]))
 
 (defonce ^:private sample-identity-matrix [[1 0 0] [0 1 0] [0 0 1]])
 (defonce ^:private sample-identity-matrix-swapped-1 '([0 1 0] [1 0 0] [0 0 1]))
@@ -21,7 +20,8 @@
 (defonce ^:private valid-2d-matrix-each-elem-subtracted-by-2 [[-1 0 1] [2 3 4]])
 (defonce ^:private valid-2d-matrix-transposed [[1 4] [2 5] [3 6]])
 (defonce ^:private invalid-2d-matrix [[1 2 3] [4 6]])
-(defonce ^:private mat-mul-error-str "The number of columns of the first matrixare not equal to the number of rows of the second matrix")
+(defonce ^:private mat-mul-error-str "The number of columns of the first matrix are not equal to the number of rows of the second matrix")
+(defonce ^:private perform-arithmetic-op-error-str "Dimensions of matrices are not the same")
 (defonce ^:private covar-mat-in-1 [[1 1 1] [1 2 1] [1 3 2] [1 4 3]])
 (defonce ^:private covar-mat-out-1 '((0.0 0.0 0.0) (0.0 1.6666666666666667 1.1666666666666667) (0.0 0.0 0.9166666666666666)))
 (defonce ^:private covar-mat-in-2 [[2.1 8] [2.5 10] [3.6 12] [4 14]])
@@ -135,14 +135,17 @@
       (is (= (mu/perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 +) valid-2d-matrix-added-to-identity-matrix))
       (is (= (mu/perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 -) valid-2d-matrix-subtracted-from-identity-matrix))
       (is (= (mu/perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 *) valid-2d-matrix-multiplied-by-identity-matrix))
-      (is (= (mu/perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 /) valid-2d-matrix-divied-by-identity-matrix)))))
+      (is (= (mu/perform-arithmetic-op sample-identity-matrix valid-2d-matrix-2 /) valid-2d-matrix-divied-by-identity-matrix))
+      (try (mu/perform-arithmetic-op valid-2d-matrix-2 valid-2d-matrix -)
+           (catch AssertionError e
+             (is (= (.getMessage e) perform-arithmetic-op-error-str)))))))
 
 (deftest matrix-multiply-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/matrix-multiply` calculates the dot product of two matrices properly"
     (is (= (mu/matrix-multiply valid-2d-matrix-2 sample-identity-matrix) valid-2d-matrix-2))
     (try (mu/matrix-multiply valid-2d-matrix-2 valid-2d-matrix)
-      (catch Exception e
-        (is (= (clj-str/replace (.getMessage e) #"\n|\s\s+" "") mat-mul-error-str))))))
+      (catch AssertionError e
+        (is (= (.getMessage e) mat-mul-error-str))))))
 
 (deftest mean-matrix-test
   (testing "Checking if the `org.clojars.punit-naik.clj-ml.utils.matrix/mean` function calculates the mean of a 2D matrix properly"
