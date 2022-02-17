@@ -35,5 +35,5 @@
    Given the beta values [b-0 b-a...b-z] for the training data"
   [betas inputs]
   (->> (cons 1 inputs)
-       (map #(* %1 %2) betas)
+       (map * betas)
        (reduce +)))
