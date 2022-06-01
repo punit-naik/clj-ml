@@ -31,7 +31,7 @@
      (update m (assign-closest-cluster point clusters) conj point))
    (->> clusters
         keys
-        (map #(conj [] % []))
+        (map #(vector % []))
         (into {}))
    data-points))
 
@@ -71,13 +71,15 @@
                                              (map generic-utils/mean-coll))
                                         (make-array Double/TYPE (-> data-points first count)))])
                                    cluster-assignments)
-             clusterz-error-rates (->> old-new-clusterz
-                                       (map
-                                        (fn [[old-cluster new-cluster]]
-                                          (<= (Math/abs
-                                               (- (generic-utils/mean-coll old-cluster)
-                                                  (generic-utils/mean-coll new-cluster)))
-                                              error-rate))))
+             clusterz-error-rates (map
+                                   (fn [[old-cluster new-cluster]]
+                                     (<=
+                                      (Math/abs
+                                       (-
+                                        (generic-utils/mean-coll old-cluster)
+                                        (generic-utils/mean-coll new-cluster)))
+                                      error-rate))
+                                   old-new-clusterz)
              new-clusterz (->> old-new-clusterz
                                (map
                                 (fn [[old-cluster-key _] [_ new-cluster]]
@@ -128,8 +130,9 @@
 
 (defn data-with-assigned-clusters
   [clusters]
-  (->> clusters
-       (mapcat
-        (fn [{:keys [cluster assigned-data-points]}]
-          (map #(assoc {} :data-point % :cluster cluster)
-               assigned-data-points)))))
+  (mapcat
+   (fn [{:keys [cluster assigned-data-points]}]
+     (map
+      #(assoc {} :data-point % :cluster cluster)
+      assigned-data-points))
+   clusters))
