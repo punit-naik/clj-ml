@@ -1,0 +1,68 @@
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="../../../../../coverage.css"/>  <title> org/clojars/punit_naik/clj_ml/utils/geometry.clj </title>
+ </head>
+ <body>
+<span class="covered" title="1 out of 1 forms covered">
+                001&nbsp;&nbsp;(ns&nbsp;org.clojars.punit-naik.clj-ml.utils.geometry)
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                003&nbsp;&nbsp;(def&nbsp;distance-fn-assertion-error-string&nbsp;&quot;The&nbsp;number&nbsp;of&nbsp;coordinates&#x2F;dimensions&nbsp;of&nbsp;the&nbsp;two&nbsp;points&nbsp;are&nbsp;not&nbsp;equal&quot;)
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                005&nbsp;&nbsp;(defn&nbsp;distance
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                006&nbsp;&nbsp;&nbsp;&nbsp;&quot;Calculates&nbsp;distance&nbsp;between&nbsp;two&nbsp;points&nbsp;in&nbsp;space
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;point&nbsp;can&nbsp;be&nbsp;described&nbsp;as&nbsp;a&nbsp;vector&#x2F;list&nbsp;of&nbsp;[an,&nbsp;bn,&nbsp;cn,&nbsp;....&nbsp;,&nbsp;zn]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;distance&nbsp;between&nbsp;two&nbsp;points&nbsp;[a1,&nbsp;b1,&nbsp;c1,&nbsp;....&nbsp;,&nbsp;z1]&nbsp;and&nbsp;[a2,&nbsp;b2,&nbsp;c2,&nbsp;....&nbsp;,&nbsp;z2]&nbsp;will&nbsp;be:
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;square&nbsp;root&nbsp;of&nbsp;[(a2&nbsp;-&nbsp;a1)^2&nbsp;+&nbsp;(b2&nbsp;-&nbsp;b1)^2&nbsp;+&nbsp;(c2&nbsp;-&nbsp;c1)^2&nbsp;+&nbsp;....&nbsp;+&nbsp;(z2&nbsp;-&nbsp;z1)^2]&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;[point-1&nbsp;point-2]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;(count&nbsp;point-1)
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(count&nbsp;point-2))
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;point-1
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#(Math&#x2F;pow&nbsp;(-&nbsp;%1&nbsp;%2)&nbsp;2)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point-2)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;+)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Math&#x2F;sqrt)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(throw
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(AssertionError.&nbsp;distance-fn-assertion-error-string))))
+                </span><br/>
+ </body>
+</html>
