@@ -21,7 +21,7 @@ lein test
 ### Build
 
 ```
-lein with-profiles +uberjar uberjar
+lein uberjar
 ```
 
 ## Docs
