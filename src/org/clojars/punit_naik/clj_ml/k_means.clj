@@ -3,8 +3,6 @@
             [org.clojars.punit-naik.clj-ml.utils.geometry :as geometry-utils]
             [org.clojars.punit-naik.clj-ml.utils.matrix :as matrix-utils]))
 
-(declare find-optimal-clusters)
-
 (defn generate-initial-clusters
   [dimensions no-of-clusters]
   (->> (make-array Double/TYPE no-of-clusters dimensions)
@@ -44,8 +42,6 @@
        (reduce +)))
 
 (defn update-clusters
-  ([data-points]
-   (update-clusters data-points (find-optimal-clusters data-points)))
   ([data-points no-of-clusters]
    (update-clusters
     data-points
@@ -93,36 +89,47 @@
                 (every? true? clusterz-error-rates)))))))
 
 (defn rapidly-changing?
-  [ssd-mean]
-  (let [{ssd-mean-last :sum-squared-distance-mean} (last ssd-mean)
-        {ssd-mean-second-last :sum-squared-distance-mean} (-> ssd-mean butlast last)]
+  [wcss]
+  (let [{ssd-mean-last :sum-squared-distance-mean} (last wcss)
+        {ssd-mean-second-last :sum-squared-distance-mean} (-> wcss butlast last)]
     (> (Math/abs (- ssd-mean-last ssd-mean-second-last)) 0.1)))
 
 (defn elbow-method-data
   "Generates data for using elbow method"
   [data-points]
-  (loop [ssd-mean []
+  (loop [wcss []
          c 1]
-    (if (and (seq ssd-mean)
-             (> (count ssd-mean) 1)
-             (not (rapidly-changing? ssd-mean)))
-      ssd-mean
+    (if (and (seq wcss)
+             (or (->> wcss
+                      last
+                      :clusters
+                      (filter #(not (seq (:assigned-data-points %))))
+                      not-empty)
+                 (and (> (count wcss) 1)
+                      (not (rapidly-changing? wcss)))))
+      (butlast wcss)
       (let [clusters (update-clusters data-points c)]
-        (recur (conj ssd-mean
-                     {:sum-squared-distance-mean
-                      (->> clusters
-                           (map :sum-squared-distance)
-                           generic-utils/mean-coll)
-                      :clusters (map #(select-keys % [:cluster :assigned-data-points]) clusters)})
+        (recur (conj wcss
+                     (let [sum-squared-distance-mean (->> clusters
+                                                          (map :sum-squared-distance)
+                                                          generic-utils/mean-coll)]
+                       {:sum-squared-distance-mean sum-squared-distance-mean
+                        :distance-from-origin (geometry-utils/distance [(count clusters) sum-squared-distance-mean] [0 0])
+                        :clusters (map #(select-keys % [:cluster :assigned-data-points]) clusters)}))
                (inc c))))))
 
-(comment
-  (def p-2 [[0 0]
-            [0 1]
-            [1 0]
-            [1 1]
-            [4 4]
-            [4 5]
-            [5 4]
-            [5 5]])
-  (elbow-method-data p-2))
+(defn elbow
+  "Finds out the elbow point from the clusters,wcss points"
+  [wcss]
+  (->> wcss
+       (sort-by :distance-from-origin)
+       first
+       :clusters))
+
+(defn data-with-assigned-clusters
+  [clusters]
+  (->> clusters
+       (mapcat
+        (fn [{:keys [cluster assigned-data-points]}]
+          (map #(assoc {} :data-point % :cluster cluster)
+               assigned-data-points)))))
