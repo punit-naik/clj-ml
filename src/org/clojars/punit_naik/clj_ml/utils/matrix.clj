@@ -604,15 +604,15 @@
          (let [a-row (butlast c-row)
                b (last c-row)]
            (assoc solution i
-                  (->> (if (= i (dec (count eq-matrix)))
-                         (/ b (last a-row))
-                         (-> (->> (perform-arithmetic-op [(take-last i a-row)] [(take-last i solution)] *)
-                                  first
-                                  (apply +))
-                             (* -1)
-                             (+ b)
-                             (/ (nth a-row i))))
-                       float))))
+                  (float
+                   (if (= i (dec (count eq-matrix)))
+                     (/ b (last a-row))
+                     (-> (->> (perform-arithmetic-op [(take-last i a-row)] [(take-last i solution)] *)
+                              first
+                              (apply +))
+                         (* -1)
+                         (+ b)
+                         (/ (nth a-row i))))))))
        (->> (first a)
             count
             (make-array Float/TYPE)
