@@ -259,7 +259,13 @@
     (is (= (mu/reduced-row-echelon-form '([-3 -6 3] [3 6 -3] [0 0 0])) '((1.0 2.0 -1.0) (0.0 0.0 0.0) [0 0 0])))
     (is (= (mu/reduced-row-echelon-form '([-3 -6 3] [3 6 -3] [0 0 0])) '((1.0 2.0 -1.0) (0.0 0.0 0.0) [0 0 0])))
     (is (= (mu/reduced-row-echelon-form [[1 1.414 1] [1.414 1 0] [0 1 1.414]]) '((1.0 0.0 -1.0) (-0.0 1.0 1.414) (0.0 0.0 0.0))))
-    (is (= (mu/reduced-row-echelon-form [[1 -1.414 1] [-1.414 1 0] [0 1 -1.414]]) '((1.0 0.0 -1.0) (-0.0 1.0 -1.414) (0.0 0.0 0.0))))))
+    (is (= (mu/reduced-row-echelon-form [[1 -1.414 1] [-1.414 1 0] [0 1 -1.414]]) '((1.0 0.0 -1.0) (-0.0 1.0 -1.414) (0.0 0.0 0.0))))
+    (is (= (mu/reduced-row-echelon-form [[2 -3 7 5] [3 1 -3 13] [2 19 -47 22]])
+           '((1.0 0.0 -0.18181818181818166 0.0)
+             (0.0 1.0 -2.4545454545454546 0.0)
+             (-0.0 -0.0 -0.0 1.0))))
+    (is (= (mu/reduced-row-echelon-form [[1 1 1 6] [2 1 3 13] [5 2 1 12]])
+           '((1.0 0.0 0.0 1.0) (-0.0 1.0 0.0 2.0) (-0.0 -0.0 1.0 3.0))))))
 
 (deftest eigen-vector-for-lamba-test
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/eigen-vector-for-lamba` correctly works"
@@ -286,3 +292,15 @@
   (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/inverse` correctly finds the inverse of a matrix or not"
     (is (and (= (mu/inverse matrix-inverse-input-1) matrix-inverse-output-1)
              (mu/identity-matrix? (mu/matrix-multiply matrix-inverse-input-1 matrix-inverse-output-1))))))
+
+(deftest rank-test
+  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/rank` correctly finds the rank of a matrix or not"
+    (is (= 1 (mu/rank [[1] [0] [0]])))
+    (is (= 2 (mu/rank [[1] [1] [0]])))
+    (is (= 3 (mu/rank [[1] [1] [1]])))))
+
+(deftest solve-linear-equation-system-test
+  (testing (str "If the function `org.clojars.punit-naik.clj-ml.utils.matrix/solve-linear-equation-system` correctly finds the"
+                " solution of a system of linear euqations represented by a matrix")
+    (is (= (mu/solve-linear-equation-system [[1 1 1 6] [2 1 3 13] [5 2 1 12]]) [1.0 2.0 3.0]))
+    (is (nil? (mu/solve-linear-equation-system [[2 -3 7 5] [3 1 -3 13] [2 19 -47 22]])))))

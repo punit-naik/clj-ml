@@ -206,22 +206,30 @@
                                                 (dec n))))))
                           (range row (count t))))))))))
 
+(defn upper-triangular-matrix?
+  [m]
+  (->> m
+       (map-indexed
+        (fn [i row]
+          (if (zero? i)
+            true
+            (every? zero? (take i row)))))
+       (every? true?)))
+
+(defn lower-triangular-matrix?
+  [m]
+  (->> m
+       (map-indexed
+        (fn [i row]
+          (if (= i (dec (count m)))
+            true
+            (every? zero? (take (- (dec (count m)) i) row)))))
+       (every? true?)))
+
 (defn triangular-matrix?
   [m]
-  (or (every? true?
-              (map
-               (fn [i row]
-                 (if (zero? i)
-                   true
-                   (every? zero? (take i row))))
-               (range (count m)) m))
-      (every? true?
-              (map
-               (fn [i row]
-                 (if (= i (dec (count m)))
-                   true
-                   (every? zero? (take (- (dec (count m)) i) row))))
-               (range (count m)) m))))
+  (or (upper-triangular-matrix? m)
+      (lower-triangular-matrix? m)))
 
 (defn row-adjust
   "using `row-1` to adjust row elements of `row-2` so that their first `n` values are equal to zeros"
@@ -568,3 +576,47 @@
           right-part (map #(drop m %) matrix-cat-i-rref)]
       (when (identity-matrix? left-part)
         right-part))))
+
+(defn rank
+  "Finds the rank of a mtrix by counting the number of non zero rows"
+  [m]
+  (->> m
+       (keep #(when-not (every? zero? %) true))
+       count))
+
+(defn solve-linear-equation-system
+  "Given a set of linear equations where each equation is represented as:
+   ax + by + cz + ... = d
+   In a matrix for like:
+   [[a1 b1 c1 d1]
+    [a2 b2 c2 d2]
+    .
+    .
+    [an bn cn dn]]
+   Tries to find the solution for every unknown, x, y, z in this case"
+  [eq-matrix]
+  (let [rref-m (reduced-row-echelon-form eq-matrix)
+        a (map butlast rref-m)]
+    (when (= (rank rref-m)
+             (rank a))
+      (reduce
+       (fn [solution [i c-row]]
+         (let [a-row (butlast c-row)
+               b (last c-row)]
+           (assoc solution i
+                  (->> (if (= i (dec (count eq-matrix)))
+                         (/ b (last a-row))
+                         (-> (->> (perform-arithmetic-op [(take-last i a-row)] [(take-last i solution)] *)
+                                  first
+                                  (apply +))
+                             (* -1)
+                             (+ b)
+                             (/ (nth a-row i))))
+                       float))))
+       (->> (first a)
+            count
+            (make-array Float/TYPE)
+            (into []))
+       (->> rref-m
+            (map-indexed vector)
+            reverse)))))
