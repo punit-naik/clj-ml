@@ -98,7 +98,7 @@
                  next-eq (conj testing-root)))))))
 
 (defn newtons-method
-  "Uses Newton's method t find the root of an equation ax^n+bx^n-1+...+z
+  "Uses Newton's method to find the root of an equation ax^n+bx^n-1+...+z
    Represented as a collection of it's coefficients [a b ... z]
    It selects a root for precision upto the number set by the arg `precision`"
   [eq eq-deriv precision x-0]
