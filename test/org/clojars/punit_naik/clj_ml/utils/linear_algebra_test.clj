@@ -30,7 +30,8 @@
   (testing "if the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/find-all-possible-solutions` finds all possible solutions correctly"
     (is (= (lau/find-all-possible-solutions [1 0 -5]) [2.23606797749979 -2.23606797749979]))
     (is (= (lau/find-all-possible-solutions [1 0 -3 -2]) '(-2 -1 1 2)))
-    (is (= (lau/find-all-possible-solutions [1 1 -11 -5 30]) '(-30 -15 -10 -6 -5 -3 -2 -1 1 2 3 5 6 10 15 30)))))
+    (is (= (lau/find-all-possible-solutions [1 1 -11 -5 30]) '(-30 -15 -10 -6 -5 -3 -2 -1 1 2 3 5 6 10 15 30)))
+    (is (= (lau/find-all-possible-solutions [3 -16 23 -6]) '(-6 -3 -2 -1 -2/3 -1/3 1/3 2/3 1 2 3 6)))))
 
 (deftest isa-solution?-test
   (testing "if the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/isa-solution?` checks if a number is a solution of the equation or not"
@@ -63,4 +64,6 @@
     (is (= (lau/solve-equation :synthetic-division [1 1 -11 -5 30]) '(2.0 -3.0 -2.23606797749979 2.23606797749979)))
     (is (= (lau/solve-equation :synthetic-division [1 0 -3 -2]) '(2.0 -1.0 -1.0)))
     (is (= (lau/solve-equation nil [-1 5 3 -6]) '(-1.24889 0.8978 5.35109)))
+    (is (= (lau/solve-equation nil [2 -5 -14 8]) '(4.0 -2.0 0.5)))
+    (is (= (lau/solve-equation nil [3 -16 23 -6]) '(3.0 0.3333333333333333 2.0)))
     (is (every? #(Double/isNaN %) (lau/solve-equation nil [1 4 6])))))
