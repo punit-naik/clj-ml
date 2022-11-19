@@ -410,7 +410,7 @@
   [matrix]
   (let [solve-eq (fn [eq]
                    (->> (remove zero? eq)
-                        (lau/solve-equation :newton)
+                        lau/solve-equation
                         (concat (filter zero? (last (partition-by identity eq))))
                         (map (fn [ev]
                                (if (re-find #"\." (str ev))
