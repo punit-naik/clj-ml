@@ -9,13 +9,6 @@
     (is (= (lau/eval-fn [1 1 1] 2) 7.0))
     (is (= (lau/eval-fn [1 1 1] -1) 1.0))))
 
-(deftest solve-quadratic-equation-test
-  (testing "If the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-quadratic-equation` can solve quadratic equations properly or not"
-    (is (= (lau/solve-quadratic-equation {:a 1 :b -3 :c 2}) [2.0 1.0]))
-    (is (= (lau/solve-quadratic-equation {:a 1 :b 7 :c 12}) [-3.0 -4.0]))
-    (is (= (lau/solve-quadratic-equation {:a 1 :b 3 :c -10}) [2.0 -5.0]))
-    (is (= (lau/solve-quadratic-equation {:a 1 :b -1 :c -30}) [6.0 -5.0]))))
-
 (deftest factors-test
   (testing "if the function can `org.clojars.punit-naik.clj-ml.utils.linear-algebra/factors` function can correctly find the factors of"
     (testing "integers"
@@ -28,7 +21,7 @@
 
 (deftest find-all-possible-solutions-test
   (testing "if the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/find-all-possible-solutions` finds all possible solutions correctly"
-    (is (= (lau/find-all-possible-solutions [1 0 -5]) [2.23606797749979 -2.23606797749979]))
+    (is (nil? (lau/find-all-possible-solutions [1 0 -5])))
     (is (= (lau/find-all-possible-solutions [1 0 -3 -2]) '(-2 -1 1 2)))
     (is (= (lau/find-all-possible-solutions [1 1 -11 -5 30]) '(-30 -15 -10 -6 -5 -3 -2 -1 1 2 3 5 6 10 15 30)))
     (is (= (lau/find-all-possible-solutions [3 -16 23 -6]) '(-6 -3 -2 -1 -2/3 -1/3 1/3 2/3 1 2 3 6)))))
@@ -42,8 +35,7 @@
 
 (deftest solve-equation-synthetic-division-test
   (testing "if the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-equation-synthetic-division` correctly finds all the roots of the equation or not"
-    (is (= (lau/solve-equation-synthetic-division [1 0 -5]) '(-2.23606797749979 2.23606797749979)))
-    (is (= (lau/solve-equation-synthetic-division [1 1 -11 -5 30]) '(2.0 -3.0 -2.23606797749979 2.23606797749979)))
+    (is (= (lau/solve-equation-synthetic-division [1 1 -11 -5 30]) [2.0 -3.0 2.23606 -2.23606]))
     (is (= (lau/solve-equation-synthetic-division [1 0 -3 -2]) '(2.0 -1.0 -1.0)))))
 
 (deftest newtons-method-test
@@ -53,17 +45,24 @@
 
 (deftest solve-equation-newtons-method-test
   (testing "if the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-equation-newtons-method` correctly finds all the roots of the equation or not"
-    (is (= (lau/solve-equation-newtons-method [1 0 -5]) '(2.23606 -2.23606)))
     (is (= (lau/solve-equation-newtons-method [1 1 -11 -5 30]) '(-3.0 -2.23606 1.99999 2.0 2.23606)))
     (is (= (lau/solve-equation-newtons-method [1 0 -3 -2]) '(-1.0 2.0)))
     (is (= (lau/solve-equation-newtons-method [-1 5 3 -6]) '(-1.24889 0.8978 5.35109)))))
 
 (deftest solve-equation-test
   (testing "if the function `org.clojars.punit-naik.clj-ml.utils.linear-algebra/solve-equation` correctly finds all the roots of the equation or not"
-    (is (= (lau/solve-equation :synthetic-division [1 0 -5]) '(-2.23606797749979 2.23606797749979)))
-    (is (= (lau/solve-equation :synthetic-division [1 1 -11 -5 30]) '(2.0 -3.0 -2.23606797749979 2.23606797749979)))
-    (is (= (lau/solve-equation :synthetic-division [1 0 -3 -2]) '(2.0 -1.0 -1.0)))
-    (is (= (lau/solve-equation nil [-1 5 3 -6]) '(-1.24889 0.8978 5.35109)))
-    (is (= (lau/solve-equation nil [2 -5 -14 8]) '(4.0 -2.0 0.5)))
-    (is (= (lau/solve-equation nil [3 -16 23 -6]) '(3.0 0.3333333333333333 2.0)))
-    (is (every? #(Double/isNaN %) (lau/solve-equation nil [1 4 6])))))
+    (is (= (lau/solve-equation [1 1]) [-1.0]))
+    (is (= (lau/solve-equation [1 -1]) [1.0]))
+    (is (= (lau/solve-equation [2 1]) [-0.5]))
+    (is (= (lau/solve-equation [2 -1]) [0.5]))
+    (is (= (lau/solve-equation [1 -3 2]) [2.0 1.0]))
+    (is (= (lau/solve-equation [1 7 12]) [-3.0 -4.0]))
+    (is (= (lau/solve-equation [1 3 -10]) [2.0 -5.0]))
+    (is (= (lau/solve-equation [1 -1 -30]) [6.0 -5.0]))
+    (is (= (lau/solve-equation [1 0 -5]) [2.23606 -2.23606]))
+    (is (= (lau/solve-equation [1 1 -11 -5 30]) [2.0 -3.0 2.23606 -2.23606]))
+    (is (= (lau/solve-equation [1 0 -3 -2]) '(2.0 -1.0 -1.0)))
+    (is (= (lau/solve-equation [-1 5 3 -6]) '(-1.24889 0.8978 5.35109)))
+    (is (= (lau/solve-equation [2 -5 -14 8]) [4.0 0.5 -2.0]))
+    (is (= (lau/solve-equation [3 -16 23 -6]) [3.0 2.0 0.33333]))
+    (is (every? #(Double/isNaN %) (lau/solve-equation [1 4 6])))))
