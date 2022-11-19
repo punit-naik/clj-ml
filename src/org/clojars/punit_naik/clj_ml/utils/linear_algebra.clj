@@ -10,17 +10,6 @@
   (reduce + (map-indexed (fn [idx coeff]
                            (* coeff (Math/pow x (- (dec (count eq)) idx)))) eq)))
 
-(defn solve-quadratic-equation
-  "Given the a,b and c terms of the quadratic equation ax^2+bx+c=0
-   This returns a pair of solutions for x"
-  [{:keys [a b c]}]
-  (let [four-a-c (* 4 a c)
-        b-squared (* b b)
-        square-root-b-squared-minus-four-a-c (Math/sqrt (- b-squared four-a-c))
-        two-a (* 2 a)]
-    [(double (/ (+ (* b -1) square-root-b-squared-minus-four-a-c) two-a))
-     (double (/ (+ (* b -1) (* square-root-b-squared-minus-four-a-c -1)) two-a))]))
-
 (defn factors
   "Finds all the factors of a number"
   ([num]
@@ -57,12 +46,7 @@
   "Given the a to z terms of the equation ax ^n+....+z=0 as a collection
    This function finds all the possible roots of this equation"
   [coefficients]
-  (condp = (count coefficients)
-    2 [(/ (* (second coefficients) -1)
-          (first coefficients))]
-    3 (solve-quadratic-equation {:a (nth coefficients 0)
-                                 :b (nth coefficients 1)
-                                 :c (nth coefficients 2)})
+  (when (> (count coefficients) 3)
     (let [first-coefficient (first coefficients)
           last-coefficient (last coefficients)
           first-coeff-factors (sort (factors first-coefficient true))
@@ -77,30 +61,11 @@
                 first-coeff-factors)
            flatten distinct sort))))
 
-(defn solve-equation-synthetic-division
-  "Given the a to z terms of the equation ax^n+....+z=0
-   This returns all the roots for the equation using synthetic division"
-  [coefficients]
-  (loop [coeffs coefficients
-         all-possible (reverse (find-all-possible-solutions coeffs))
-         solutions []]
-    (if (or (= (count solutions)
-               (dec (count coefficients)))
-            (empty? all-possible))
-      (map #(* %1 1.0) solutions)
-      (let [testing-root (first all-possible)
-            next-eq (isa-solution? coeffs testing-root)]
-        (recur (or next-eq coeffs)
-               (if next-eq
-                 (reverse (find-all-possible-solutions next-eq))
-                 (rest all-possible))
-               (cond-> solutions
-                 next-eq (conj testing-root)))))))
-
 (defn newtons-method
   "Uses Newton's method to find the root of an equation ax^n+bx^n-1+...+z
    Represented as a collection of it's coefficients [a b ... z]
-   It selects a root for precision upto the number set by the arg `precision`"
+   It selects a root for precision upto the number set by the arg `precision`
+   x1 = x0 - ( f(x0) / f'(x0) )"
   [eq eq-deriv precision x-0]
   (loop [testing-root x-0
          error 1]
@@ -115,9 +80,46 @@
                        (- testing-root (/ f-x f-dash-x)))]
         (recur new-root (Math/abs (- new-root testing-root))))))))
 
-(defn solve-equation-newtons-method
+(defmulti solve-equation
   "Given the a to z terms of the equation ax^n+....+z=0
-   This returns all the roots for the equation using newton's method"
+   This returns all the roots for the equation"
+  (fn [coefficients]
+    (condp = (count coefficients)
+      2 :linear
+      3 :quadratic
+      :default)))
+
+(defmethod solve-equation :linear
+  [[a b]]
+  [(gu/approximate-decimal (/ (* -1 b) a))])
+
+(defmethod solve-equation :quadratic
+  [[a b c]]
+  (let [negative-b (* -1 b)
+        square-root-of-b-suared-minus-4-ac (Math/sqrt (- (Math/pow b 2) (* 4 a c)))
+        twice-a (* 2 a)]
+    [(gu/approximate-decimal (/ (+ negative-b square-root-of-b-suared-minus-4-ac) twice-a))
+     (gu/approximate-decimal (/ (- negative-b square-root-of-b-suared-minus-4-ac) twice-a))]))
+
+(defn solve-equation-synthetic-division
+  [coefficients]
+  (loop [coeffs coefficients
+         all-possible (reverse (find-all-possible-solutions coeffs))
+         solutions []]
+    (if (empty? all-possible)
+      (map #(gu/approximate-decimal (* %1 1.0))
+           (cond-> solutions
+             (= (count coeffs) 3) (into (solve-equation coeffs))))
+      (let [testing-root (first all-possible)
+            next-eq (isa-solution? coeffs testing-root)]
+        (recur (or next-eq coeffs)
+               (if next-eq
+                 (reverse (find-all-possible-solutions next-eq))
+                 (rest all-possible))
+               (cond-> solutions
+                 next-eq (conj testing-root)))))))
+
+(defn solve-equation-newtons-method
   [coefficients]
   (let [precision 5]
     (->> (find-all-possible-solutions coefficients)
@@ -128,20 +130,9 @@
                 precision))
          distinct)))
 
-(defmulti solve-equation
-  "Given the a to z terms of the equation ax^n+....+z=0
-   This returns all the roots for the equation"
-  (fn [method _] method))
-
-(defmethod solve-equation :synthetic-division
-  [_ coefficients]
-  (solve-equation-synthetic-division coefficients))
-
-(defmethod solve-equation :newton
-  [_ coefficients]
-  (solve-equation-newtons-method coefficients))
-
 (defmethod solve-equation :default
-  [_ coefficients]
+  [coefficients]
   (let [sesd (solve-equation-synthetic-division coefficients)]
-    (if (seq sesd) sesd (solve-equation-newtons-method coefficients))))
+    (if (seq sesd)
+      sesd
+      (solve-equation-newtons-method coefficients))))
