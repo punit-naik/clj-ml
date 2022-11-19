@@ -59,7 +59,8 @@
 (defn approximate-decimal
   "Given a decimal number `num`, this function approximates/selects it's value upto `n` decimal places."
   [num n]
-  (let [[f s] (split (str num) #"\.")]
+  (let [num (double num)
+        [f s] (split (str num) #"\.")]
     (Double/parseDouble (str f "." (join (take n s))))))
 
 (defn error-decimal
