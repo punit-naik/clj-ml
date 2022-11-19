@@ -110,10 +110,9 @@
       testing-root
       (let [f-dash-x (eval-fn eq-deriv testing-root)
             new-root (if (zero? f-dash-x)
-                       (if (zero? f-x)
-                         testing-root
-                         ((if (= (/ testing-root (Math/abs testing-root)) -1) + -)
-                          testing-root (gu/error-decimal precision))) (- testing-root (/ f-x f-dash-x)))]
+                       ((if (= (/ testing-root (Math/abs testing-root)) -1) + -)
+                        testing-root (gu/error-decimal precision))
+                       (- testing-root (/ f-x f-dash-x)))]
         (recur new-root (Math/abs (- new-root testing-root))))))))
 
 (defn solve-equation-newtons-method
@@ -122,10 +121,11 @@
   [coefficients]
   (let [precision 5]
     (->> (find-all-possible-solutions coefficients)
-         (map #(gu/approximate-decimal (newtons-method coefficients
-                                                       (cu/derivative coefficients)
-                                                       precision %)
-                                       precision))
+         (map #(gu/approximate-decimal
+                (newtons-method coefficients
+                                (cu/derivative coefficients)
+                                precision %)
+                precision))
          distinct)))
 
 (defmulti solve-equation
